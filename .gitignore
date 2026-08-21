@@ -1,0 +1,16 @@
+# Credenciais e segredos — nunca versionar (ver docs/RULES.md, seção 12.1)
+*.env
+.env*
+*recovery*
+*secret*
+*token*
+*credentials*
+.git-incompleto-*/
+
+# Dependências
+node_modules/
+
+# Build/cache
+.next/
+dist/
+build/
