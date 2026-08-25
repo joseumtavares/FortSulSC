@@ -13,18 +13,18 @@ Legenda:
 
 ## 1. Checklist essencial do site público
 
-- `[ ]` Página de erro 404.
+- `[x]` Página de erro 404 (validada por smoke test HTTP, inclusive em rota profunda).
 - `[x]` CTAs claros.
 - `[~]` Links personalizados e revisados.
 - `[ ]` Página de obrigado, se houver formulário no futuro.
-- `[ ]` Breadcrumbs para produtos e conteúdos.
+- `[x]` Breadcrumbs na página estática de produto.
 - `[ ]` Seção de cases ou provas reais, se o cliente fornecer material.
 - `[ ]` FAQ com pelo menos 5 perguntas.
 - `[ ]` Promessa de tempo de resposta para orçamento/atendimento.
 - `[x]` CTA fixo no mobile via WhatsApp.
-- `[ ]` `robots.txt`.
-- `[~]` Títulos únicos por página.
-- `[~]` Meta descriptions por página.
+- `[x]` `robots.txt`.
+- `[x]` Títulos únicos nas páginas estáticas existentes.
+- `[x]` Meta descriptions nas páginas estáticas existentes.
 - `[ ]` Imagens para compartilhamento social.
 - `[~]` Mapas e rotas.
 - `[ ]` Avaliações reais de clientes, se fornecidas.
@@ -66,7 +66,7 @@ Legenda:
 - `[x]` Respeito a `prefers-reduced-motion`.
 - `[x]` Link de pular para conteúdo.
 - `[ ]` Transformar em componentes React, quando a fase Next.js for aprovada.
-- `[ ]` Revisar Lighthouse.
+- `[~]` Lighthouse revisado: relatórios locais indicam performance 29 e acessibilidade 96 para home e produto; a meta de performance ≥ 90 permanece pendente.
 - `[ ]` Testar em navegadores principais.
 
 ## 5. Checklist de backend futuro
@@ -109,9 +109,9 @@ Não iniciar sem aprovação do Jose.
 
 ## 6.1 Checklist de segurança imediato (bloqueante)
 
-- `[ ]` Remover `recovery-codes-vercel-fortsul.txt` do repositório.
-- `[ ]` Purgar o arquivo do histórico do Git, se já commitado.
-- `[ ]` Revogar/regenerar os códigos de recuperação na Vercel.
+- `[x]` Verificar pelo Git apenas os metadados: o histórico publicado não contém `recovery-codes-vercel-fortsul.txt`.
+- `[x]` Purga de histórico não aplicável: não há commit publicado com o arquivo.
+- `[ ]` Confirmar com o Jose a revogação/regeneração dos códigos de recuperação na Vercel.
 - `[ ]` Adicionar padrão de credenciais ao `.gitignore` (`*recovery*`, `*secret*`, `*.env`, `*token*`).
 
 ## 7. Checklist antes de finalizar qualquer tarefa

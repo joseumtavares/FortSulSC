@@ -14,3 +14,13 @@ node_modules/
 .next/
 dist/
 build/
+
+# Testes e relatórios gerados localmente
+test-results/
+lighthouse-*.report.html
+lighthouse-*.report.json
+lighthouse-*_report.html
+lighthouse-*_report.json
+
+# Perfil temporário do Chrome usado pelo Lighthouse no WSL
+C:*lighthouse.*/

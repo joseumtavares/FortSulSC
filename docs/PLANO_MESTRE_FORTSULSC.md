@@ -7,6 +7,7 @@
 > **Estado atual do código:** frontend estático (`index.html`, `styles.css`, `script.js`), sem backend, sem banco, sem autenticação
 > **Abordagem:** modernização incremental de um site já existente, protótipo visual já aprovado pelo cliente, com implementação por portões de aprovação — design/frontend primeiro, backend somente após aprovação explícita do Jose
 > **Data de consolidação:** 21 de agosto de 2026
+> **Repositório:** https://github.com/joseumtavares/FortSulSC (público)
 
 > **Atualização vigente:** este documento substitui o controle informal que estava espalhado entre `PLANEJAMENTO_PROJETO.md`, `ARCHITECTURE.md`, `API.md`, `COMPONENTS.md`, `DESIGN-SYSTEM.md`, `RULES.md` e `CHECKLIST.md`. Esses arquivos continuam sendo a fonte de detalhe técnico de cada assunto; este Plano Mestre é a fonte de verdade sobre **em que fase o projeto está agora** e **o que pode ser feito em seguida**.
 
@@ -49,9 +50,9 @@ Status consolidado em 21 de agosto de 2026:
 
 | Status | Etapa | Situação atual | Próximo portão |
 |---|---|---|---|
-| 🟡 | Item de segurança — arquivo `recovery-codes-vercel-fortsul.txt` | Jose removeu o arquivo do repositório em 21/08/2026. | Confirmar ainda: (a) se o arquivo chegou a ser commitado antes da remoção — se sim, precisa ser purgado do histórico do Git, não só apagado no working tree; (b) se os códigos de recuperação foram revogados/regenerados na Vercel, já que um arquivo removido do diretório continua exposto se algum dia esteve em um commit publicado. Enquanto (a) e (b) não forem confirmados, tratar como parcialmente resolvido, não encerrado. |
-| 🟢 | Fase 0 — Planejamento e validação | `PLANEJAMENTO_PROJETO.md`, `ARCHITECTURE.md`, `API.md`, `COMPONENTS.md`, `DESIGN-SYSTEM.md`, `RULES.md` e `CHECKLIST.md` criados e revisados. Revisão técnica externa realizada. | Nenhum; etapa concluída, mantida como referência viva. |
-| 🟡 | Fase 1 — Design/frontend aprovado | Existe um frontend estático funcional (`index.html`, `styles.css`, `script.js`) cobrindo home, categorias, seção institucional, suporte, representantes (lista) e rodapé. Design tokens já documentados em `DESIGN-SYSTEM.md`. Ainda não migrado para componentes, ainda não passou por revisão visual final com o Jose, ainda não tem página de produto individual nem experiência de mapa. | Confirmar com o Jose: (a) modernizações visuais propostas, (b) decisão sobre Blog, (c) decisão sobre Revendas, antes de considerar a Fase 1 concluída. |
+| 🟢 | Item de segurança — arquivo `recovery-codes-vercel-fortsul.txt` | Confirmado via GitHub: o repositório publicado (`joseumtavares/FortSulSC`) tem histórico com **1 commit único**, sem o arquivo. Como não existe commit anterior à remoção, não há histórico de Git para purgar — o risco de exposição pelo repositório está encerrado. | Falta só confirmar se os códigos de recuperação foram revogados/regenerados na Vercel como precaução (o arquivo pode ter circulado fora do Git antes da remoção). Isso é uma confirmação operacional do Jose, não bloqueia mais o desenvolvimento. |
+| 🟢 | Fase 0 — Planejamento e validação | `PLANEJAMENTO_PROJETO.md`, `ARCHITECTURE.md`, `API.md`, `COMPONENTS.md`, `DESIGN-SYSTEM.md`, `RULES.md` e `CHECKLIST.md` criados e revisados. Revisão técnica externa realizada. Repositório publicado no GitHub (`joseumtavares/FortSulSC`), commit inicial aprovado pelo Jose. | Nenhum; etapa concluída, mantida como referência viva. |
+| 🟡 | Fase 1 — Design/frontend aprovado | Há frontend estático local com home, página de produto (`produto-alimentador.html`), página 404, `robots.txt`, meta descriptions e diálogo de WhatsApp. O servidor local recebeu smoke test de rotas e proteção contra traversal. Essas implementações ainda não equivalem a aprovação visual do Jose. | Revisão visual do Jose; decisão sobre Blog e Revendas; Lighthouse (relatórios locais: performance 29, acessibilidade 96 nas páginas home e produto); e teste cross-browser. |
 | 🔴 | Fase 2 — Estrutura Next.js | Não iniciada. Estrutura de pastas já esboçada em `ARCHITECTURE.md` como referência, não implementada. | Aprovação da Fase 1 (design/frontend) pelo Jose. |
 | 🔴 | Fase Docker — Fundação de conteinerização | Não iniciada. Ainda não há Dockerfile, `docker-compose.yaml` nem `.env.example` no repositório. | Aprovação da Fase 2. Deve rodar antes da Fase 3, para que a modelagem de banco já nasça testável em ambiente isolado (Postgres em container), seguindo o mesmo cuidado usado no projeto Nonna. |
 | 🔴 | Fase 3 — Modelagem e regras de negócio | Não iniciada. Entidades prováveis já listadas em `PLANEJAMENTO_PROJETO.md` (Product, Category, Representative, RepresentativePrivate, Reseller, Region, Banner, AdminUser, AuditLog) como hipótese, não como contrato. | **Só pode começar após consulta e aprovação explícita do Jose** — inclui aprovar regras de negócio, modelagem de banco e política de consentimento de dados de representantes. |
@@ -75,6 +76,8 @@ Antes de propor ou executar qualquer modificação, o agente deve:
 6. ler `docs/COMPONENTS.md` antes de criar ou renomear um componente;
 7. verificar o estado real do repositório (não presumir que os documentos estão 100% sincronizados com o código);
 8. verificar se o item de segurança 🛑 (arquivo de recovery codes) já foi resolvido antes de qualquer commit.
+9. consultar o SecondBrain e usar os skills aplicáveis de `addyosmani/agent-skills`, começando por `using-agent-skills`;
+10. consultar Context7 para a documentação atual de bibliotecas, frameworks, SDKs, APIs, CLIs ou serviços envolvidos.
 
 Caso exista divergência entre este documento, os docs de detalhe e o código real:
 
@@ -218,15 +221,16 @@ Entregáveis: os sete documentos em `docs/`, este Plano Mestre, e a revisão té
 
 Objetivo: transformar o protótipo aprovado em frontend moderno e responsivo, sem banco, sem autenticação, sem CRUD.
 
-Já existe:
-- home, categorias, seção institucional, suporte, representantes (lista), rodapé, menu mobile, CTA WhatsApp fixo.
+Já existe localmente:
+- home, categorias, seção institucional, suporte, representantes (lista), rodapé, menu mobile, CTA WhatsApp fixo;
+- página de produto para o alimentador, com breadcrumbs, galeria, aplicações, especificações e CTA;
+- página 404, `robots.txt` e meta descriptions nas páginas estáticas;
+- smoke test local do servidor para rotas públicas, 404 e tentativas de traversal.
 
 Falta para considerar concluída:
-- página de produto individual com estrutura comercial completa (imagens, aplicações, benefícios, especificações);
 - revisão visual final com o Jose das modernizações propostas (contraste, espaçamento, hierarquia);
 - decisão sobre Blog e Revendas refletida na navegação;
-- página 404, `robots.txt`, meta descriptions por página;
-- Lighthouse ≥ 90 em performance e acessibilidade;
+- revisão dos resultados locais do Lighthouse: performance 29 e acessibilidade 96 em home e produto, abaixo da meta de performance ≥ 90;
 - teste cross-browser (Chrome, Safari, Firefox).
 
 Não incluir nesta fase: banco, autenticação, CRUD, regras de negócio, mapa interativo com dados dinâmicos.
@@ -288,7 +292,7 @@ Um agente entendeu este Plano Mestre quando consegue:
 
 - explicar por que o projeto começa pelo frontend e não pelo banco, neste caso específico;
 - identificar em qual fase o projeto está agora (Fase 1, parcial) sem precisar perguntar;
-- citar o item de segurança do recovery codes e seu status atual (parcialmente resolvido) antes de qualquer commit;
+- citar o item de segurança do recovery codes e seu status atual (histórico publicado sem o arquivo; confirmação de revogação na Vercel ainda depende do Jose) antes de qualquer commit;
 - listar as perguntas pendentes do Jose que bloqueiam a Fase 3;
 - diferenciar o que já existe (frontend estático) do que é apenas planejado (Next.js, Prisma, painel admin, Docker);
 - não iniciar a Fase 2 sem a Fase 1 estar revisada, não iniciar a Fase Docker sem a Fase 2 aprovada, e não iniciar a Fase 3 sem aprovação explícita;
@@ -305,6 +309,7 @@ Um agente entendeu este Plano Mestre quando consegue:
 | 21/08/2026 | Criação do Plano Mestre, a partir da revisão técnica dos sete documentos existentes e da identificação do item de segurança do arquivo de recovery codes. |
 | 21/08/2026 | Jose removeu `recovery-codes-vercel-fortsul.txt` do repositório. Item rebaixado de 🛑 para 🟡 até confirmar purga de histórico e revogação na Vercel. Instrução de início da próxima etapa (conclusão da Fase 1) adicionada na Parte VII. |
 | 21/08/2026 | Incorporado o fluxo de aprovação em duas camadas (Jose + revisão do Claude) do projeto Nonna, adaptado ao contexto do FortSulSC (nova seção 4 da Parte I). Adicionada a Fase Docker ao roadmap, entre a Fase 2 e a Fase 3, e registrada como decisão aprovada a exigência de contrato de testes em código antes de implementar regra de negócio nova (equivalente à DEC-020 do Nonna). |
+| 21/08/2026 | Commit inicial aprovado pelo Jose e repositório publicado em https://github.com/joseumtavares/FortSulSC (público). Confirmado via GitHub que o histórico tem 1 commit único, sem `recovery-codes-vercel-fortsul.txt` — item de segurança rebaixado de 🟡 para 🟢, restando apenas a confirmação operacional de revogação dos códigos na Vercel. Nota de processo: este commit inicial foi aprovado só pelo Jose, sem registro de revisão do Claude — aceitável como commit de bootstrap do repositório (nenhuma regra de negócio ou dado sensível envolvido), mas o fluxo de aprovação em duas camadas da seção 4 passa a valer de forma estrita a partir do próximo commit. |
 
 ---
 
@@ -318,6 +323,10 @@ Um agente entendeu este Plano Mestre quando consegue:
 Leia integralmente PLANO_MESTRE_FORTSULSC.md antes de qualquer ação.
 Leia também docs/PLANEJAMENTO_PROJETO.md, docs/RULES.md, docs/CHECKLIST.md
 e docs/DESIGN-SYSTEM.md.
+
+Consulte o SecondBrain, use os skills aplicáveis de addyosmani/agent-skills
+(começando por using-agent-skills) e use Context7 para a documentação atual
+de bibliotecas, frameworks, SDKs, APIs, CLIs ou serviços envolvidos.
 
 Confirme o estado real do repositório (git status) antes de propor qualquer
 mudança.

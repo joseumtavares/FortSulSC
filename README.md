@@ -1,37 +1,40 @@
-# FortSul — conceito de frontend
+# FortSul — frontend estático
 
-Nova proposta visual para a home da FortSul Equipamentos Agrícolas. Esta etapa contém somente frontend estático e interações de interface.
+Frontend estático da FortSul Equipamentos Agrícolas. A etapa autorizada é a Fase 1: design e frontend, sem backend, banco de dados, autenticação, CRUD ou regras de negócio.
 
-## Visualizar
+## Fonte de verdade
+
+Consulte primeiro [docs/PLANO_MESTRE_FORTSULSC.md](docs/PLANO_MESTRE_FORTSULSC.md). Ele define a fase vigente, as regras de governança e os portões de aprovação.
+
+## Executar localmente
+
+Pré-requisito: Node.js 18 ou superior.
 
 ```powershell
 npm run dev
 ```
 
-Abra `http://127.0.0.1:4173` no navegador.
+Abra `http://127.0.0.1:4173`.
+
+## Testar
+
+```powershell
+npm test
+```
+
+O smoke test valida as rotas públicas principais, a resposta 404 e o bloqueio de tentativas de path traversal no servidor local.
 
 ## Escopo atual
 
-- Home responsiva para desktop, tablet e celular
-- Menu mobile, navegação por âncoras e filtros visuais de soluções
-- Conteúdo institucional e mídias locais
-- Acessibilidade básica e suporte a movimento reduzido
-- Nenhum formulário conectado, regra de negócio, backend ou banco de dados
+- Home responsiva, menu móvel, filtros visuais e diálogo de contato via WhatsApp.
+- Página estática do Alimentador de Cavaco, Briquete e Pellets.
+- Página 404, `robots.txt`, metadados e mídias locais.
+- Sem integração de formulário, backend, banco de dados ou painel administrativo.
 
 ## Documentação
 
-- `docs/PLANEJAMENTO_PROJETO.md` — visão do projeto, estado atual e mudanças previstas
-- `docs/ARCHITECTURE.md` — arquitetura atual e futura
-- `docs/API.md` — padrão para APIs futuras
-- `docs/COMPONENTS.md` — componentes visuais e mapeamento para React
-- `docs/DESIGN-SYSTEM.md` — cores, tipografia, espaçamentos e regras visuais
-- `docs/RULES.md` — regras obrigatórias do desenvolvimento
-- `docs/CHECKLIST.md` — checklist de UX, SEO, acessibilidade e segurança
-- `docs/PROMPT_CLAUDE_REVIEW.md` — prompt para revisão crítica no Claude
-
-## Direção visual
-
-- Azul profundo e laranja da marca, com maior presença de branco e cinzas neutros
-- Tipografia forte para traduzir robustez e tecnologia
-- Equipamento como protagonista, sem carrossel automático
-- Jornada orientada a soluções, atendimento e contato
+- [Plano Mestre](docs/PLANO_MESTRE_FORTSULSC.md) — fonte de verdade para governança e fase atual.
+- [Checklist](docs/CHECKLIST.md) — cobertura e validações pendentes.
+- [Design System](docs/DESIGN-SYSTEM.md) — tokens e regras visuais.
+- [Componentes](docs/COMPONENTS.md) — blocos visuais atuais e mapeamento futuro.
+- [Regras](docs/RULES.md) — limites técnicos e de segurança.

@@ -203,7 +203,20 @@ Exemplo futuro:
   - `message`;
   - `ariaLabel`.
 
-### 3.13 RepresentativeMap
+### 3.13 WhatsAppDialog
+
+- Status: implementado no frontend estático.
+- Objetivo: apresentar o telefone institucional e concentrar o link externo para iniciar uma conversa no WhatsApp.
+- Quando utilizar: CTAs comerciais e botão flutuante das páginas públicas.
+- Quando não utilizar: admin, login ou páginas em que contato comercial não seja relevante.
+- Comportamento de acessibilidade: usa `role="dialog"`, `aria-modal="true"`, título associado por `aria-labelledby`, foco preso enquanto aberto, retorno do foco ao CTA de origem e fechamento por botão, clique no overlay ou tecla `Esc`.
+- Props futuras:
+  - `phone`;
+  - `whatsappUrl`;
+  - `title`;
+  - `description`.
+
+### 3.14 RepresentativeMap
 
 - Status: planejado, não implementado.
 - Objetivo: exibir representantes/revendas em mapa interativo.
@@ -216,7 +229,7 @@ Exemplo futuro:
   - `onMarkerClick`.
 - Observação de segurança: representantes pessoa física devem usar localização pública aproximada.
 
-### 3.14 AdminShell
+### 3.15 AdminShell
 
 - Status: planejado, não implementado.
 - Objetivo: estrutura visual do painel administrativo.

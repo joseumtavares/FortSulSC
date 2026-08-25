@@ -143,7 +143,7 @@ docs: dividir documentação do projeto FortSulSC
 - URLs devem ser legíveis;
 - produtos devem ter slugs claros;
 - imagens importantes devem ter alt descritivo;
-- implementar `robots.txt` e sitemap na fase Next.js;
+- manter `robots.txt` no frontend estático e implementar sitemap na fase Next.js, se aprovado;
 - considerar dados estruturados para negócio local.
 
 ## 10. Regras de segurança futura
@@ -164,6 +164,9 @@ Quando backend for aprovado:
 
 ## 11. Boas práticas obrigatórias
 
+- consultar o SecondBrain antes de nova tarefa;
+- usar os skills aplicáveis de `addyosmani/agent-skills`, começando por `using-agent-skills`;
+- usar Context7 para documentação atual de bibliotecas, frameworks, SDKs, APIs, CLIs ou serviços envolvidos;
 - manter documentação sincronizada com decisões;
 - preferir solução simples e sustentável;
 - preservar o design aprovado;
@@ -184,15 +187,11 @@ Quando backend for aprovado:
 - não transformar documentação em contrato implementado sem validação;
 - não fazer commit ou push sem a aprovação dupla (Jose e Claude) descrita na seção 1.1.
 
-## 12.1. Item de segurança em aberto
+## 12.1. Registro de segurança dos recovery codes
 
-Há um arquivo `recovery-codes-vercel-fortsul.txt` versionado na raiz do repositório, contendo códigos de recuperação de conta Vercel — uma violação direta da regra acima ("não salvar segredos no repositório").
+O Git publicado possui um único commit e não lista `recovery-codes-vercel-fortsul.txt` no histórico. Portanto, não há histórico publicado a purgar. Essa verificação usa somente nome e metadados: nenhum agente deve ler, exibir ou reutilizar conteúdo de arquivo potencialmente secreto.
 
-Enquanto este item não for resolvido pelo Jose (remoção do arquivo, purga do histórico do Git se já commitado, e revogação/regeneração dos códigos na Vercel):
-
-- nenhum agente deve fazer commit ou push;
-- nenhum agente deve ler, exibir ou reutilizar o conteúdo desse arquivo;
-- o item permanece registrado como bloqueante em `PLANO_MESTRE_FORTSULSC.md`, seção 0.2.
+A confirmação de revogação/regeneração na Vercel ainda depende do Jose. Independentemente dela, commits e push continuam proibidos sem a aprovação dupla descrita na seção 1.1.
 
 ## 13. Checklist antes de finalizar tarefa
 

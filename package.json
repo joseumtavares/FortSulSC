@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node preview.mjs"
+    "dev": "node preview.mjs",
+    "test": "node --test test-preview.mjs"
   }
 }

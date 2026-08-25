@@ -16,6 +16,8 @@ Se uma solicitação exigir regra de negócio, parar e pedir validação.
 
 ## 3. Documentos principais
 
+Leia primeiro `docs/PLANO_MESTRE_FORTSULSC.md`. Ele é a fonte de verdade sobre a fase vigente, os limites de escopo e os portões de aprovação.
+
 - `docs/PLANEJAMENTO_PROJETO.md` — planejamento reformulado do projeto.
 - `docs/ARCHITECTURE.md` — arquitetura atual e futura.
 - `docs/API.md` — padrão para documentação de APIs futuras.
@@ -25,6 +27,18 @@ Se uma solicitação exigir regra de negócio, parar e pedir validação.
 - `docs/CHECKLIST.md` — checklist de qualidade, SEO, UX e segurança.
 - `docs/PROMPT_CLAUDE_REVIEW.md` — prompt para revisão crítica.
 - `README.md` — instruções rápidas do projeto.
+
+## 3.1. Workflow obrigatório de agentes e fontes
+
+Antes de qualquer nova tarefa:
+
+1. consultar o SecondBrain pelo protocolo global;
+2. usar os skills aplicáveis de `addyosmani/agent-skills`, começando por `using-agent-skills` para identificar o fluxo necessário;
+3. usar Context7 para documentação atual de qualquer biblioteca, framework, SDK, API, CLI ou serviço de nuvem envolvido;
+4. ler os documentos listados na seção 3 e verificar o estado real do Git;
+5. não abrir arquivos de recovery codes, `.env`, tokens, credenciais, chaves, senhas ou connection strings.
+
+O agente deve declarar os skills usados e manter as alterações pequenas, testáveis e dentro da fase autorizada.
 
 ## 4. Stack planejada
 
@@ -84,11 +98,12 @@ Na fase Next.js futura:
 
 Antes de criar qualquer funcionalidade:
 
-1. verificar `docs/PLANEJAMENTO_PROJETO.md`;
+1. verificar primeiro `docs/PLANO_MESTRE_FORTSULSC.md` e depois `docs/PLANEJAMENTO_PROJETO.md`;
 2. confirmar se está no escopo aprovado;
 3. identificar se envolve regra de negócio;
 4. se envolver backend, banco, autenticação ou CRUD, pedir aprovação ao Jose;
-5. atualizar documentação impactada.
+5. para decisão estrutural, seguir o fluxo: proposta técnica → aprovação do Jose → revisão do Claude → implementação e smoke tests → testes manuais do Jose → aprovação dupla antes de commit ou push;
+6. atualizar documentação impactada.
 
 ## 8. Como escrever componentes
 
@@ -112,7 +127,7 @@ Regras:
 
 ## 10. Como criar commits
 
-Jose conduz o fluxo Git. Não executar comandos Git sem pedido explícito.
+Jose conduz o fluxo Git. Não fazer commit nem push. Só podem ocorrer após a aprovação do Jose e do Claude.
 
 Quando necessário, sugerir mensagem no formato:
 
@@ -140,6 +155,7 @@ Se a dúvida for pequena e não alterar escopo, faça uma suposição conservado
 - Usar solução simples antes de adicionar complexidade.
 - Atualizar documentação quando houver decisão durável.
 - Não ler, copiar ou registrar segredos desnecessários.
+- A Fase 1 — frontend estático — é a única fase autorizada atualmente. Não iniciar a Fase 2/Next.js.
 
 ## 13. O que nunca deve ser feito
 
@@ -150,6 +166,7 @@ Se a dúvida for pequena e não alterar escopo, faça uma suposição conservado
 - Não expor dados privados de representantes ou revendas.
 - Não publicar coordenadas privadas de pessoa física.
 - Não salvar segredos no repositório.
+- Não abrir arquivos de recovery codes, `.env`, tokens, credenciais, chaves, senhas ou connection strings.
 - Não alterar radicalmente o design aprovado sem consultar o Jose.
 
 ## 14. Segurança

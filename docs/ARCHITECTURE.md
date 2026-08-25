@@ -36,7 +36,7 @@ FortSulSC/
 └── image/
 ```
 
-> Atenção: também existe hoje na raiz do repositório o arquivo `recovery-codes-vercel-fortsul.txt`, que **não deveria estar versionado** (contém segredo real). Ver pendência de segurança em `PLANO_MESTRE_FORTSULSC.md`, seção 0.2, antes de qualquer commit.
+> Atenção: o histórico publicado do Git não lista `recovery-codes-vercel-fortsul.txt`; portanto, não há histórico a purgar. Não abra arquivos potencialmente secretos. A confirmação de revogação/regeneração na Vercel continua pendente do Jose — ver `PLANO_MESTRE_FORTSULSC.md`, seção 0.2.
 
 O frontend atual contempla:
 
@@ -48,6 +48,7 @@ O frontend atual contempla:
 - seção de representantes;
 - CTA para WhatsApp;
 - rodapé.
+- página de produto estática, página 404 e `robots.txt`.
 
 Não existe ainda:
 

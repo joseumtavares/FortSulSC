@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A página solicitada não foi encontrada. Volte para o site da FortSul ou fale com nossa equipe." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#0a3478" />
+    <link rel="icon" href="/image/cropped-favicon.webp" type="image/webp" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Página não encontrada | FortSul</title>
+  </head>
+  <body>
+    <main class="not-found" id="conteudo">
+      <div class="container not-found-inner">
+        <a class="brand" href="/" aria-label="FortSul — início"><img src="/image/cropped-Logo.webp" alt="FortSul Equipamentos Agrícolas" /></a>
+        <p class="not-found-code" aria-hidden="true">404</p>
+        <span class="eyebrow eyebrow-light">Página não encontrada</span>
+        <h1>Esta página não está disponível.</h1>
+        <p>Volte para a página inicial ou fale com a equipe FortSul para encontrar o que precisa.</p>
+        <div class="not-found-actions">
+          <a class="button" href="/">Ir para o início</a>
+          <a class="text-link text-link-light whatsapp-trigger" href="#whatsapp-dialog" data-whatsapp-trigger aria-haspopup="dialog">Falar com a FortSul <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </main>
+
+    <dialog class="whatsapp-dialog" id="whatsapp-dialog" role="dialog" aria-modal="true" aria-labelledby="whatsapp-dialog-title" aria-describedby="whatsapp-dialog-description">
+      <div class="whatsapp-dialog-content">
+        <button class="whatsapp-dialog-close" type="button" data-whatsapp-close aria-label="Fechar opções de contato">×</button>
+        <span class="eyebrow">Atendimento FortSul</span>
+        <h2 id="whatsapp-dialog-title">Vamos conversar?</h2>
+        <p id="whatsapp-dialog-description">Fale com a equipe FortSul pelo WhatsApp ou salve nosso número para entrar em contato quando precisar.</p>
+        <a class="whatsapp-dialog-phone" href="tel:+554836600818">(48) 3660-0818</a>
+        <a class="button" href="https://wa.me/554836600818" target="_blank" rel="noopener noreferrer">Abrir conversa no WhatsApp</a>
+      </div>
+    </dialog>
+    <script src="/script.js"></script>
+  </body>
+</html>

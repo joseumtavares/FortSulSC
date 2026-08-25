@@ -2,30 +2,34 @@ const menuButton = document.querySelector('.menu-toggle');
 const mainNav = document.querySelector('.main-nav');
 const navWrap = document.querySelector('.nav-wrap');
 
-function closeMenu() {
-  menuButton.setAttribute('aria-expanded', 'false');
-  mainNav.classList.remove('is-open');
-  document.body.classList.remove('menu-open');
+if (menuButton && mainNav) {
+  function closeMenu() {
+    menuButton.setAttribute('aria-expanded', 'false');
+    mainNav.classList.remove('is-open');
+    document.body.classList.remove('menu-open');
+  }
+
+  menuButton.addEventListener('click', () => {
+    const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+    menuButton.setAttribute('aria-expanded', String(!isOpen));
+    mainNav.classList.toggle('is-open', !isOpen);
+    document.body.classList.toggle('menu-open', !isOpen);
+  });
+
+  mainNav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 820) closeMenu();
+  });
 }
 
-menuButton.addEventListener('click', () => {
-  const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-  menuButton.setAttribute('aria-expanded', String(!isOpen));
-  mainNav.classList.toggle('is-open', !isOpen);
-  document.body.classList.toggle('menu-open', !isOpen);
-});
-
-mainNav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-
-window.addEventListener('resize', () => {
-  if (window.innerWidth > 820) closeMenu();
-});
-
-let headerThreshold = navWrap.offsetTop + navWrap.offsetHeight;
-window.addEventListener('scroll', () => {
-  const shouldStick = window.scrollY > headerThreshold;
-  navWrap.classList.toggle('is-sticky', shouldStick);
-}, { passive: true });
+if (navWrap) {
+  const headerThreshold = navWrap.offsetTop + navWrap.offsetHeight;
+  window.addEventListener('scroll', () => {
+    const shouldStick = window.scrollY > headerThreshold;
+    navWrap.classList.toggle('is-sticky', shouldStick);
+  }, { passive: true });
+}
 
 const filters = document.querySelectorAll('.filter-button');
 const cards = document.querySelectorAll('.solution-card');
@@ -47,7 +51,7 @@ filters.forEach((button) => {
       card.classList.toggle('is-hidden', !visible);
       if (visible) visibleCards += 1;
     });
-    emptyMessage.hidden = visibleCards > 0;
+    if (emptyMessage) emptyMessage.hidden = visibleCards > 0;
   });
 });
 
@@ -66,4 +70,72 @@ if ('IntersectionObserver' in window) {
   revealItems.forEach((item) => item.classList.add('is-visible'));
 }
 
-document.getElementById('year').textContent = new Date().getFullYear();
+const year = document.getElementById('year');
+if (year) year.textContent = new Date().getFullYear();
+
+const whatsappDialog = document.getElementById('whatsapp-dialog');
+const whatsappTriggers = document.querySelectorAll('[data-whatsapp-trigger]');
+let whatsappTrigger = null;
+
+if (whatsappDialog instanceof HTMLDialogElement) {
+  const closeWhatsappDialog = whatsappDialog.querySelector('[data-whatsapp-close]');
+  const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function getFocusableElements() {
+    return [...whatsappDialog.querySelectorAll(focusableSelector)].filter((element) => !element.hasAttribute('hidden'));
+  }
+
+  function openWhatsappDialog(trigger) {
+    whatsappTrigger = trigger;
+    whatsappDialog.showModal();
+    document.body.classList.add('dialog-open');
+    closeWhatsappDialog.focus();
+  }
+
+  function closeDialog() {
+    whatsappDialog.close();
+  }
+
+  whatsappTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      openWhatsappDialog(trigger);
+    });
+  });
+
+  closeWhatsappDialog.addEventListener('click', closeDialog);
+
+  whatsappDialog.addEventListener('click', (event) => {
+    if (event.target === whatsappDialog) closeDialog();
+  });
+
+  whatsappDialog.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeDialog();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const focusableElements = getFocusableElements();
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements.at(-1);
+
+    if (!firstElement || !lastElement) return;
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  });
+
+  whatsappDialog.addEventListener('close', () => {
+    document.body.classList.remove('dialog-open');
+    whatsappTrigger?.focus();
+    whatsappTrigger = null;
+  });
+}
