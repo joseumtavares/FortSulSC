@@ -3,10 +3,17 @@ const mainNav = document.querySelector('.main-nav');
 const navWrap = document.querySelector('.nav-wrap');
 
 if (menuButton && mainNav) {
+  const menuLabel = menuButton.querySelector('.sr-only');
+
+  function setMenuLabel(isOpen) {
+    if (menuLabel) menuLabel.textContent = isOpen ? 'Fechar menu' : 'Abrir menu';
+  }
+
   function closeMenu() {
     menuButton.setAttribute('aria-expanded', 'false');
     mainNav.classList.remove('is-open');
     document.body.classList.remove('menu-open');
+    setMenuLabel(false);
   }
 
   menuButton.addEventListener('click', () => {
@@ -14,6 +21,7 @@ if (menuButton && mainNav) {
     menuButton.setAttribute('aria-expanded', String(!isOpen));
     mainNav.classList.toggle('is-open', !isOpen);
     document.body.classList.toggle('menu-open', !isOpen);
+    setMenuLabel(!isOpen);
   });
 
   mainNav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
@@ -24,7 +32,18 @@ if (menuButton && mainNav) {
 }
 
 if (navWrap) {
-  const headerThreshold = navWrap.offsetTop + navWrap.offsetHeight;
+  let headerThreshold = navWrap.offsetTop + navWrap.offsetHeight;
+
+  function updateHeaderThreshold() {
+    const wasSticky = navWrap.classList.contains('is-sticky');
+    if (wasSticky) navWrap.classList.remove('is-sticky');
+    headerThreshold = navWrap.offsetTop + navWrap.offsetHeight;
+    if (wasSticky) navWrap.classList.add('is-sticky');
+  }
+
+  window.addEventListener('resize', updateHeaderThreshold);
+  window.addEventListener('load', updateHeaderThreshold);
+
   window.addEventListener('scroll', () => {
     const shouldStick = window.scrollY > headerThreshold;
     navWrap.classList.toggle('is-sticky', shouldStick);
