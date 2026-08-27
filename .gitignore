@@ -10,6 +10,10 @@
 # Dependências
 node_modules/
 
+# Configuração local dos agentes e logs efêmeros do preview
+.claude/
+server-*.log
+
 # Build/cache
 .next/
 dist/
