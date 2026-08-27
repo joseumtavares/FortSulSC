@@ -27,7 +27,7 @@ Este documento reúne:
 
 Qualquer agente deverá conhecer todo o documento, mas **não deverá implementar todas as fases de uma vez**.
 
-A execução autorizada, nesta data, está na **Fase 1 — Design/frontend**, concluindo os itens ainda pendentes sobre o protótipo estático já existente. A Fase 2 (estrutura Next.js) segue não autorizada até a Fase 1 ser formalmente aprovada pelo Jose.
+A Fase 1 foi formalmente encerrada e seu baseline aprovado foi registrado no commit `88e7d6f`. A execução da **Fase 2 — Estrutura Next.js** está autorizada; o plano técnico revisado aguarda as sete decisões pendentes registradas no planejamento vigente antes dos incrementos que dependam delas.
 
 Ao final de qualquer etapa, o agente deve atualizar o marcador correspondente neste documento e parar para revisão do Jose antes de avançar de fase.
 
@@ -46,14 +46,14 @@ Ao final de qualquer etapa, o agente deve atualizar o marcador correspondente ne
 
 ## 0.2. Roadmap de execução atual
 
-Status consolidado em 21 de agosto de 2026:
+Status consolidado em 25 de agosto de 2026:
 
 | Status | Etapa | Situação atual | Próximo portão |
 |---|---|---|---|
 | 🟢 | Item de segurança — arquivo `recovery-codes-vercel-fortsul.txt` | Confirmado via GitHub: o repositório publicado (`joseumtavares/FortSulSC`) tem histórico com **1 commit único**, sem o arquivo. Como não existe commit anterior à remoção, não há histórico de Git para purgar — o risco de exposição pelo repositório está encerrado. | Falta só confirmar se os códigos de recuperação foram revogados/regenerados na Vercel como precaução (o arquivo pode ter circulado fora do Git antes da remoção). Isso é uma confirmação operacional do Jose, não bloqueia mais o desenvolvimento. |
 | 🟢 | Fase 0 — Planejamento e validação | `PLANEJAMENTO_PROJETO.md`, `ARCHITECTURE.md`, `API.md`, `COMPONENTS.md`, `DESIGN-SYSTEM.md`, `RULES.md` e `CHECKLIST.md` criados e revisados. Revisão técnica externa realizada. Repositório publicado no GitHub (`joseumtavares/FortSulSC`), commit inicial aprovado pelo Jose. | Nenhum; etapa concluída, mantida como referência viva. |
-| 🟡 | Fase 1 — Design/frontend aprovado | Há frontend estático local com home, página de produto (`produto-alimentador.html`), página 404, `robots.txt`, meta descriptions e diálogo de WhatsApp. O servidor local recebeu smoke test de rotas e proteção contra traversal. Essas implementações ainda não equivalem a aprovação visual do Jose. | Revisão visual do Jose; decisão sobre Blog e Revendas; Lighthouse (relatórios locais: performance 29, acessibilidade 96 nas páginas home e produto); e teste cross-browser. |
-| 🔴 | Fase 2 — Estrutura Next.js | Não iniciada. Estrutura de pastas já esboçada em `ARCHITECTURE.md` como referência, não implementada. | Aprovação da Fase 1 (design/frontend) pelo Jose. |
+| 🟢 | Fase 1 — Design/frontend | Formalmente encerrada; baseline aprovado no commit `88e7d6f`. | Nenhum; preservada como baseline e referência de rollback. |
+| 🟡 | Fase 2 — Estrutura Next.js | Autorizada por Jose; plano técnico revisado e aprovado. | Consolidar as sete decisões pendentes do planejamento vigente antes dos incrementos que dependam delas. |
 | 🔴 | Fase Docker — Fundação de conteinerização | Não iniciada. Ainda não há Dockerfile, `docker-compose.yaml` nem `.env.example` no repositório. | Aprovação da Fase 2. Deve rodar antes da Fase 3, para que a modelagem de banco já nasça testável em ambiente isolado (Postgres em container), seguindo o mesmo cuidado usado no projeto Nonna. |
 | 🔴 | Fase 3 — Modelagem e regras de negócio | Não iniciada. Entidades prováveis já listadas em `PLANEJAMENTO_PROJETO.md` (Product, Category, Representative, RepresentativePrivate, Reseller, Region, Banner, AdminUser, AuditLog) como hipótese, não como contrato. | **Só pode começar após consulta e aprovação explícita do Jose** — inclui aprovar regras de negócio, modelagem de banco e política de consentimento de dados de representantes. |
 | 🔴 | Fase 4 — Painel administrativo | Não iniciada. | Conclusão e aprovação da Fase 3. |
@@ -217,7 +217,7 @@ Objetivo: consolidar escopo, mapear o site atual, documentar o que será mantido
 
 Entregáveis: os sete documentos em `docs/`, este Plano Mestre, e a revisão técnica externa já realizada.
 
-## Fase 1 — Design/frontend aprovado 🟡
+## Fase 1 — Design/frontend 🟢
 
 Objetivo: transformar o protótipo aprovado em frontend moderno e responsivo, sem banco, sem autenticação, sem CRUD.
 
@@ -227,19 +227,19 @@ Já existe localmente:
 - página 404, `robots.txt` e meta descriptions nas páginas estáticas;
 - smoke test local do servidor para rotas públicas, 404 e tentativas de traversal.
 
-Falta para considerar concluída:
-- revisão visual final com o Jose das modernizações propostas (contraste, espaçamento, hierarquia);
-- decisão sobre Blog e Revendas refletida na navegação;
-- revisão dos resultados locais do Lighthouse: performance 29 e acessibilidade 96 em home e produto, abaixo da meta de performance ≥ 90;
-- teste cross-browser (Chrome, Safari, Firefox).
+Fase encerrada formalmente com o baseline `88e7d6f`. Resultados de Lighthouse e validações do frontend estático permanecem como evidência histórica do baseline; qualquer nova medição deve identificar ambiente, data e commit avaliado.
 
 Não incluir nesta fase: banco, autenticação, CRUD, regras de negócio, mapa interativo com dados dinâmicos.
 
-## Fase 2 — Estrutura Next.js 🔴
+## Fase 2 — Estrutura Next.js 🟡
 
-Objetivo: migrar o frontend aprovado para base Next.js + TypeScript, seguindo a estrutura de pastas de `ARCHITECTURE.md`.
+Objetivo: migrar o frontend aprovado para base Next.js + TypeScript, seguindo a estrutura de pastas de `ARCHITECTURE.md`. A fase está autorizada, com plano técnico revisado e aprovado; os incrementos que dependam das sete decisões pendentes devem aguardar sua consolidação.
 
 Importante: a pasta `app/api/` nasce vazia/placeholder nesta fase — não implica API funcional. Rotas de "Revendas" só devem ser criadas se a Parte III já tiver sido respondida.
+
+Pendência aberta: a seção “Novidades e dicas” utiliza conteúdo de teste
+aprovado exclusivamente para validação de layout. Os três cards devem ser
+substituídos por conteúdo de lançamento antes da publicação da seção.
 
 ## Fase Docker — Fundação de conteinerização 🔴
 
@@ -291,11 +291,11 @@ Deve incluir explicitamente: rate limiting/anti-scraping nas rotas públicas de 
 Um agente entendeu este Plano Mestre quando consegue:
 
 - explicar por que o projeto começa pelo frontend e não pelo banco, neste caso específico;
-- identificar em qual fase o projeto está agora (Fase 1, parcial) sem precisar perguntar;
+- identificar no roadmap a fase autorizada e suas dependências, sem assumir que instruções históricas continuam vigentes;
 - citar o item de segurança do recovery codes e seu status atual (histórico publicado sem o arquivo; confirmação de revogação na Vercel ainda depende do Jose) antes de qualquer commit;
 - listar as perguntas pendentes do Jose que bloqueiam a Fase 3;
 - diferenciar o que já existe (frontend estático) do que é apenas planejado (Next.js, Prisma, painel admin, Docker);
-- não iniciar a Fase 2 sem a Fase 1 estar revisada, não iniciar a Fase Docker sem a Fase 2 aprovada, e não iniciar a Fase 3 sem aprovação explícita;
+- não iniciar a Fase Docker antes do portão correspondente da Fase 2, nem a Fase 3 sem aprovação explícita e suas dependências;
 - explicar as seis etapas do fluxo de aprovação da seção 4 (modelagem → aprovação do Jose → revisão do Claude → implementação/testes smoke → lista de testes manuais → aprovação dupla → commit) e nunca pular etapa;
 - reconhecer que, a partir da Fase 3, toda regra de negócio nova exige contrato de testes em código antes da implementação;
 - atualizar a tabela da seção 0.2 sempre que uma etapa mudar de estado.
@@ -310,10 +310,14 @@ Um agente entendeu este Plano Mestre quando consegue:
 | 21/08/2026 | Jose removeu `recovery-codes-vercel-fortsul.txt` do repositório. Item rebaixado de 🛑 para 🟡 até confirmar purga de histórico e revogação na Vercel. Instrução de início da próxima etapa (conclusão da Fase 1) adicionada na Parte VII. |
 | 21/08/2026 | Incorporado o fluxo de aprovação em duas camadas (Jose + revisão do Claude) do projeto Nonna, adaptado ao contexto do FortSulSC (nova seção 4 da Parte I). Adicionada a Fase Docker ao roadmap, entre a Fase 2 e a Fase 3, e registrada como decisão aprovada a exigência de contrato de testes em código antes de implementar regra de negócio nova (equivalente à DEC-020 do Nonna). |
 | 21/08/2026 | Commit inicial aprovado pelo Jose e repositório publicado em https://github.com/joseumtavares/FortSulSC (público). Confirmado via GitHub que o histórico tem 1 commit único, sem `recovery-codes-vercel-fortsul.txt` — item de segurança rebaixado de 🟡 para 🟢, restando apenas a confirmação operacional de revogação dos códigos na Vercel. Nota de processo: este commit inicial foi aprovado só pelo Jose, sem registro de revisão do Claude — aceitável como commit de bootstrap do repositório (nenhuma regra de negócio ou dado sensível envolvido), mas o fluxo de aprovação em duas camadas da seção 4 passa a valer de forma estrita a partir do próximo commit. |
+| 25/08/2026 | Fase 1 formalmente encerrada e baseline aprovado no commit `88e7d6f`. Fase 2 autorizada; plano técnico revisado e aprovado, com sete decisões pendentes a consolidar antes dos incrementos dependentes. |
+| 27/08/2026 | José aprovou o incremento estático “Novidades e dicas” após revisão técnica do Claude. A pendência de substituir o conteúdo de teste antes da publicação permanece aberta; a aprovação não altera os status de Fase 1 ou Fase 2. Iniciado o planejamento do primeiro incremento da Fase 2, limitado à fundação Next.js sem banco, API, autenticação, painel ou rotas condicionadas a decisões pendentes. |
 
 ---
 
-# PARTE VII — INSTRUÇÃO DE INÍCIO PARA O AGENTE
+# PARTE VII — REGISTRO HISTÓRICO DE INSTRUÇÃO PARA O AGENTE
+
+> **Não copie o bloco histórico abaixo para novas sessões.** Ele foi criado antes do encerramento da Fase 1. Para onboarding atual, use `docs/PROMPT_COMUNICACAO_AGENTES.md`, o contrato operacional e o roadmap vigente deste Plano Mestre.
 
 ## Tarefa autorizada agora: concluir a Fase 1 — Design/frontend
 

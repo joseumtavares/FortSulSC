@@ -24,6 +24,8 @@ Leia primeiro `docs/PLANO_MESTRE_FORTSULSC.md`. Ele é a fonte de verdade sobre 
 - `docs/COMPONENTS.md` — componentes atuais e mapeamento futuro.
 - `docs/DESIGN-SYSTEM.md` — tokens e regras visuais.
 - `docs/RULES.md` — regras obrigatórias de desenvolvimento.
+- `docs/FortSulSC_instrucoes_Hermes_Codex.md` — contrato operacional para agentes principais e subagentes.
+- `docs/PROMPT_COMUNICACAO_AGENTES.md` — prompt reutilizável de handoff do estado, decisões e regras atuais.
 - `docs/CHECKLIST.md` — checklist de qualidade, SEO, UX e segurança.
 - `docs/PROMPT_CLAUDE_REVIEW.md` — prompt para revisão crítica.
 - `README.md` — instruções rápidas do projeto.
@@ -35,7 +37,7 @@ Antes de qualquer nova tarefa:
 1. consultar o SecondBrain pelo protocolo global;
 2. usar os skills aplicáveis de `addyosmani/agent-skills`, começando por `using-agent-skills` para identificar o fluxo necessário;
 3. usar Context7 para documentação atual de qualquer biblioteca, framework, SDK, API, CLI ou serviço de nuvem envolvido;
-4. ler os documentos listados na seção 3 e verificar o estado real do Git;
+4. ler os documentos listados na seção 3, incluindo o contrato operacional de agentes, e verificar o estado real do Git;
 5. não abrir arquivos de recovery codes, `.env`, tokens, credenciais, chaves, senhas ou connection strings.
 
 O agente deve declarar os skills usados e manter as alterações pequenas, testáveis e dentro da fase autorizada.
@@ -155,7 +157,7 @@ Se a dúvida for pequena e não alterar escopo, faça uma suposição conservado
 - Usar solução simples antes de adicionar complexidade.
 - Atualizar documentação quando houver decisão durável.
 - Não ler, copiar ou registrar segredos desnecessários.
-- A Fase 1 — frontend estático — é a única fase autorizada atualmente. Não iniciar a Fase 2/Next.js.
+- Confirmar no Plano Mestre e na decisão formal mais recente de Jose qual fase e escopo estão autorizados; não inferir isso deste arquivo.
 
 ## 13. O que nunca deve ser feito
 

@@ -1,496 +1,277 @@
-# Planejamento reformulado — FortSulSC
-
-Data: 2026-08-21
-Status: planejamento de produto, arquitetura e frontend
-Escopo desta etapa: organizar direção do projeto, design e roadmap. Não implementar regras de negócio, backend ou banco sem validação do Jose.
-
-> **Governança:** este documento é a referência de contexto e escopo. O status real de cada fase (o que já foi feito, o que está em andamento, o que está bloqueado) é controlado em `PLANO_MESTRE_FORTSULSC.md`, que deve ser lido antes de qualquer nova tarefa. A seção 7 abaixo descreve o roadmap conceitual; a tabela de status vigente está apenas no Plano Mestre, para evitar duas fontes divergentes.
-
-## 1. Contexto do projeto
-
-A FortSulSC possui hoje um site institucional em WordPress/Elementor. O cliente aprovou um protótipo apresentado previamente para a reestruturação visual do site. A orientação principal é manter o padrão de design aprovado, preservando a paleta alinhada ao logotipo, e apresentar apenas pequenas modernizações antes de implementar.
-
-A proposta do novo projeto é evoluir o site atual para uma aplicação moderna, responsiva, mais fácil de manter e preparada para crescer em duas frentes:
-
-- site público institucional e catalogável;
-- painel administrativo futuro para gerenciar produtos, representantes, revendas, banners, categorias e regiões.
-
-## 2. Resumo do que o sistema já possui hoje
-
-Levantamento feito a partir da versão pública atual do site da FortSulSC.
-
-### 2.1 Site público atual
-
-O site atual já possui:
-
-- Página inicial institucional;
-- Menu principal com:
-  - Início;
-  - Sobre a Empresa;
-  - Produtos;
-  - Representantes;
-  - Blog;
-  - Fale Conosco;
-  - botão de Solicitar Orçamento via WhatsApp.
-- Seção de categorias de produtos:
-  - Aviário;
-  - Equipamentos;
-  - Fumageiro;
-  - Piscicultura;
-  - Secadores;
-  - Download Catálogo.
-- Chamada institucional “Quem somos”;
-- Bloco de produtos em destaque;
-- Seção de instalação e suporte, com:
-  - Instalação;
-  - Suporte;
-  - Assistência;
-  - Pós-venda.
-- Rodapé com endereço, telefone e links sociais;
-- Contato principal por telefone/WhatsApp.
-
-### 2.2 Catálogo de produtos atual
-
-A página de produtos já oferece:
-
-- listagem de produtos;
-- filtro por categorias;
-- páginas individuais de produto;
-- CTA “Ver produto”;
-- categorias principais já organizadas.
-
-Exemplos de produtos já exibidos:
-
-- Queimador de Cavaco para Estufa de Tabaco;
-- Secadores de diferentes capacidades;
-- Extrusora para produção de ração de peixes;
-- Ventoinha;
-- Grelhas;
-- Motores elétricos;
-- Mancais e polias.
-
-### 2.3 Representantes e lojas parceiras
-
-A área atual de representantes já possui:
-
-- página dedicada de representantes;
-- filtro por estado;
-- representantes por região;
-- telefone/WhatsApp para contato;
-- indicação de região atendida.
-
-Estados observados no filtro atual:
-
-- Paraná;
-- Rio Grande do Sul;
-- Santa Catarina.
-
-A página também prevê “Lojas Parceiras”, porém no estado atual aparece sem lojas cadastradas.
-
-### 2.4 Conteúdo e limitações atuais
-
-O site já cumpre a função institucional básica, mas apresenta limitações para a nova fase:
-
-- visual com aparência mais antiga;
-- hierarquia visual pouco refinada;
-- catálogo com pouca força comercial;
-- navegação de representantes baseada em lista, sem mapa interativo;
-- blog sem conteúdo aparente no momento da análise;
-- experiência mobile e de conversão pode ser melhorada;
-- dependência do WordPress/Elementor para manutenção visual;
-- ausência, no escopo visível, de um painel administrativo sob medida para produtos, representantes, revendas e banners.
-
-## 3. O que vamos modificar
-
-### 3.1 Design e experiência visual
-
-Vamos manter o padrão aprovado no protótipo, com modernizações leves e apresentadas antes da implementação.
-
-Modificações previstas:
-
-- modernizar a home mantendo a identidade FortSulSC;
-- preservar a paleta baseada no logotipo, com azul, laranja, branco e tons neutros;
-- melhorar contraste, espaçamento e hierarquia tipográfica;
-- deixar o equipamento/produto mais protagonista;
-- substituir a sensação de “site montado em blocos” por uma experiência mais contínua e comercial;
-- melhorar a leitura no mobile;
-- criar componentes reutilizáveis para cards, botões, seções, filtros e CTAs.
-
-Importante: alterações visuais relevantes devem ser apresentadas ao Jose antes de implementar.
-
-### 3.2 Home
-
-O que existe hoje:
-
-- banners/chamadas;
-- categorias de produtos;
-- quem somos;
-- produtos em destaque;
-- suporte/assistência;
-- CTA final.
-
-O que será reformulado:
-
-- hero mais forte, com mensagem clara de valor;
-- CTA principal para orçamento;
-- CTA secundário para catálogo/produtos;
-- categorias com melhor presença visual;
-- seção institucional com prova de confiança;
-- destaque de soluções por segmento;
-- seção de suporte mais objetiva;
-- chamada para representantes/revendas;
-- rodapé mais organizado.
-
-### 3.3 Produtos
-
-O que existe hoje:
-
-- catálogo com categorias e páginas de produto;
-- filtros por categoria;
-- produto com CTA.
-
-O que será modificado:
-
-- cards de produto mais modernos;
-- filtros mais claros e responsivos;
-- páginas de produto com melhor estrutura comercial;
-- espaço para imagens, aplicações, benefícios, especificações e CTA;
-- base preparada para futuramente ser alimentada pelo painel administrativo.
-
-Sem implementar agora:
-
-- regras de cadastro;
-- regras de publicação;
-- modelagem final do banco;
-- CRUD administrativo.
-
-Essas decisões dependem de validação posterior.
-
-### 3.4 Representantes
-
-O que existe hoje:
-
-- lista de representantes;
-- filtro por estado;
-- telefone/WhatsApp;
-- descrição de região atendida.
-
-O que será modificado:
-
-- experiência com mapa interativo;
-- filtros por estado, cidade, região ou categoria, se aprovado;
-- cards laterais/listagem integrada ao mapa;
-- botão direto para WhatsApp;
-- distinção entre localização pública aproximada e dados privados;
-- design mais limpo para facilitar contato comercial.
-
-Cuidados de segurança:
-
-- não expor dados privados de representantes;
-- evitar coordenadas exatas de residência ou dados pessoais sensíveis;
-- usar somente dados explicitamente marcados como públicos.
-
-### 3.5 Revendas / Lojas parceiras
-
-O que existe hoje:
-
-- link para lojas parceiras;
-- no estado atual, sem lojas cadastradas publicamente.
-
-O que será modificado:
-
-- criar área dedicada de revendas, se o cliente confirmar essa necessidade;
-- permitir mapa/lista de revendas;
-- diferenciar revenda comercial pública de representante pessoa física;
-- preparar futura gestão via painel administrativo.
-
-### 3.6 Blog
-
-O que existe hoje:
-
-- menu de Blog;
-- seção de blog na home;
-- mensagem indicando ausência de dados na versão analisada.
-
-O que será decidido:
-
-- manter blog como notícias/novidades;
-- transformar em “Conteúdos” ou “Dicas técnicas”;
-- remover do menu inicial até existir estratégia editorial.
-
-Essa decisão deve ser validada com o cliente antes de implementação definitiva.
-
-### 3.7 Contato
-
-O que existe hoje:
-
-- telefone;
-- WhatsApp;
-- página Fale Conosco;
-- endereço no rodapé.
-
-O que será modificado:
-
-- CTAs mais claros ao longo do site;
-- WhatsApp como canal principal de conversão;
-- possível formulário de contato em fase futura;
-- dados de contato mais visíveis no mobile.
-
-Sem implementar agora:
-
-- envio de formulário;
-- automações;
-- regras de orçamento;
-- integração com CRM.
-
-## 4. Stack proposta
-
-Stack recomendada para a fase full stack futura:
-
-- Next.js;
-- React;
-- TypeScript;
-- Tailwind CSS;
-- shadcn/ui;
-- PostgreSQL;
-- Prisma ORM;
-- Auth.js;
-- Leaflet;
-- OpenStreetMap;
-- Cloudinary, Cloudflare R2 ou storage S3-compatible;
-- Vercel ou ambiente equivalente para deploy;
-- Docker e Docker Compose, para desenvolvimento local containerizado (aplicação + PostgreSQL) antes da modelagem de banco começar.
-
-Essa stack permite manter site público e dashboard administrativo em uma única aplicação, com boa performance, SEO, custo controlado e baixa complexidade operacional.
-
-## 5. Arquitetura planejada
-
-```text
-Internet
-   ↓
-HTTPS
-   ↓
-Next.js
-   ↓
-┌────────────────────────┬────────────────────────┐
-│ Site público           │ Área administrativa     │
-│ Home                   │ Login                   │
-│ Produtos               │ Produtos                │
-│ Representantes         │ Categorias              │
-│ Revendas               │ Representantes          │
-│ Contato                │ Revendas                │
-│ Conteúdos              │ Banners                 │
-└────────────────────────┴────────────────────────┘
-   ↓
-Data Access Layer
-   ↓
-Prisma
-   ↓
-PostgreSQL
-   ↓
-Dados públicos + dados privados separados
-```
-
-## 6. Segurança e privacidade
-
-A regra central será separar claramente dados públicos e privados.
-
-Exemplo:
-
-```text
-representatives
-├── display_name
-├── city
-├── state
-├── public_whatsapp
-├── latitude_public
-├── longitude_public
-└── active
-
-representative_private
-├── representative_id
-├── email
-├── private_phone
-├── document
-├── address
-└── internal_notes
-```
-
-Diretrizes:
-
-- o site público nunca deve consultar dados privados;
-- rotas públicas devem usar `select` explícito no Prisma;
-- variáveis sensíveis nunca devem usar prefixo `NEXT_PUBLIC_`;
-- uploads devem validar tipo, extensão e tamanho;
-- área administrativa deve ter autenticação, MFA e RBAC;
-- alterações sensíveis devem gerar auditoria;
-- logs não devem registrar dados pessoais desnecessários.
-
-## 7. Roadmap por fases
-
-> O status vigente de cada fase (concluída, parcial, bloqueada) está em `PLANO_MESTRE_FORTSULSC.md`, seção 0.2. As descrições abaixo são o escopo conceitual de cada fase e não devem ser editadas para registrar andamento — isso é papel do Plano Mestre.
-
-### Fase 0 — Planejamento e validação
-
-Objetivo:
-
-- consolidar escopo;
-- mapear o que existe hoje;
-- definir o que será mantido, removido e melhorado;
-- enviar planejamento para avaliação externa/Claude;
-- validar mudanças de design antes de implementar.
-
-Entregáveis:
-
-- este planejamento;
-- prompt de revisão para Claude;
-- lista de ajustes sugeridos;
-- decisão final sobre alterações visuais.
-
-### Fase 1 — Design/frontend aprovado
-
-Objetivo:
-
-- transformar o protótipo aprovado em frontend moderno e responsivo.
-
-Entregáveis:
-
-- home responsiva;
-- componentes visuais base;
-- páginas estáticas principais;
-- estados mobile/tablet/desktop;
-- revisão visual antes de qualquer backend.
-
-Não inclui:
-
-- banco;
-- autenticação;
-- CRUD;
-- regras de negócio.
-
-### Fase 2 — Estrutura Next.js
-
-Objetivo:
-
-- migrar o frontend aprovado para base Next.js + TypeScript.
-
-Entregáveis:
-
-- estrutura de rotas;
-- layout global;
-- componentes reutilizáveis;
-- organização inicial do projeto.
-
-### Fase Docker — Fundação de conteinerização
-
-Objetivo:
-
-- rodar o projeto em container antes da modelagem de banco começar, para que schema e migrations já nasçam testáveis em ambiente isolado.
-
-Entregáveis:
-
-- `Dockerfile` da aplicação Next.js;
-- `docker-compose.yaml` com aplicação e PostgreSQL local;
-- `.env.example` sem valores reais;
-- documentação de como subir o ambiente localmente.
-
-### Fase 3 — Modelagem e regras de negócio
-
-Objetivo:
-
-- definir banco, entidades, permissões e regras.
-
-Importante:
-
-- esta fase só começa depois de consulta e aprovação do Jose.
-
-Possíveis entidades:
-
-- Product;
-- Category;
-- Representative;
-- RepresentativePrivate;
-- RepresentativeCategory;
-- Reseller;
-- Region;
-- Banner;
-- AdminUser;
-- AuditLog.
-
-### Fase 4 — Painel administrativo
-
-Objetivo:
-
-- criar dashboard próprio para gestão interna.
-
-Módulos previstos:
-
-- produtos;
-- categorias;
-- representantes;
-- categorias de representantes;
-- revendas;
-- regiões;
-- banners;
-- configurações.
-
-### Fase 5 — Mapa e dados públicos
-
-Objetivo:
-
-- implementar mapa interativo com Leaflet e OpenStreetMap.
-
-Entregáveis:
-
-- marcadores;
-- filtros;
-- popups;
-- integração com WhatsApp;
-- proteção de dados privados.
-
-### Fase 6 — Segurança, testes e deploy
-
-Objetivo:
-
-- endurecer a aplicação para produção.
-
-Entregáveis:
-
-- validação de dados;
-- RBAC;
-- rate limiting;
-- logs seguros;
-- backups;
-- deploy;
-- revisão final.
-
-## 8. Pontos que precisam de decisão antes da implementação
-
-- O blog será mantido, removido ou reposicionado como conteúdo técnico?
-- Revendas terão página pública própria?
-- Representantes aparecerão em mapa com localização aproximada ou apenas por região?
-- Quais dados serão públicos para representantes?
-- Produtos terão especificações técnicas detalhadas?
-- O orçamento será apenas por WhatsApp ou também por formulário?
-- O painel administrativo será entregue na primeira versão ou em fase posterior?
-- Upload de imagens usará Cloudinary, R2 ou outro storage?
-- O cliente terá múltiplos perfis de usuário no admin?
-
-## 9. Restrições explícitas
-
-- Não criar regras de negócio sem consultar o Jose.
-- Não implementar banco de dados sem validação prévia.
-- Não criar CRUD administrativo antes de validar escopo.
-- Não alterar o padrão aprovado do protótipo sem apresentar as mudanças.
-- Não expor dados privados de representantes ou revendas.
-- Não armazenar segredos no repositório.
-- Não pular o fluxo de aprovação em duas camadas (Jose + revisão do Claude) descrito em `PLANO_MESTRE_FORTSULSC.md`, seção 4, antes de implementar ou fazer commit.
-
-**Pendência de segurança registrada no Plano Mestre:** o arquivo `recovery-codes-vercel-fortsul.txt` já foi removido do repositório pelo Jose; falta confirmar se ele chegou a ser commitado (e precisa de purga de histórico) e se os códigos foram revogados na Vercel — ver `PLANO_MESTRE_FORTSULSC.md`, seção 0.2.
-
-## 10. Fontes consultadas
-
-- Site atual: https://fortsulsc.com.br/
-- Produtos: https://fortsulsc.com.br/produtos/
-- Representantes: https://fortsulsc.com.br/representantes/
-- Instruções anexas do Jose: `C:\Users\Jose Tavares\.codex\attachments\cd40e9b2-db48-4d3e-b117-1d89b7ee13ad\pasted-text.txt`
+# Planejamento do Projeto — FortSulSC
+
+> **Nota de manutenção:** este documento registra escopo de produto e decisões
+> aprovadas. Ele **não substitui** `docs/PLANO_MESTRE_FORTSULSC.md`, que continua
+> sendo a fonte única de verdade para status de fase, gates e autorização de
+> implementação. Cada item abaixo traz uma tag de fase indicando **quando pode
+> ser implementado**, não apenas quando foi decidido.
+>
+> Tags usadas:
+> - `[FASE 1 — ENCERRADA]` já implementado no baseline estático.
+> - `[FASE 2 — AUTORIZADA]` migração Next.js em andamento, com gates próprios.
+> - `[FASE DOCKER — PLANEJADA]` entre Fase 2 e Fase 3, não autorizada.
+> - `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]` dados, backend, auth, admin — requer
+>   aprovação explícita e contrato de teste equivalente ao DEC-020 antes de
+>   qualquer Model, Service, Route Handler ou Server Action.
+> - `[TRANSVERSAL]` princípio válido em todas as fases, não é entregável único.
+> - `[OPERACIONAL]` regra de processo de agentes — ver ressalva no fim do documento.
+
+---
+
+## Resolução de conflitos — categorias e contrato de teste
+
+**Decisão do José:** as categorias oficiais são **Aviário, Equipamentos,
+Fumageiro, Piscicultura e Secadores**. Qualquer referência anterior a
+`biomassa | fumageiro | equipamentos` (incluindo o contrato de teste de
+`SolutionFilters` do Incremento 5) está **desatualizada** e deve ser corrigida
+para usar as cinco categorias oficiais antes da implementação.
+
+**Ação obrigatória para o Codex:** reescrever `SolutionFilterId` e os dados de
+exemplo do contrato de teste do Incremento 5 usando `aviario | equipamentos |
+fumageiro | piscicultura | secadores` (ou os identificadores equivalentes
+definidos em `docs/RULES.md` para slugs), mantendo a mesma estrutura de teste
+já aprovada (estado inicial, filtragem, restauração via "Todos", ordem
+preservada, estado vazio, exclusividade do filtro ativo). O contrato revisado
+deve voltar para nova aprovação técnica antes do ciclo RED–GREEN começar.
+
+---
+
+## 1. Diretriz geral do projeto `[TRANSVERSAL]`
+
+O FortSulSC apresenta a empresa, equipamentos, produtos, representantes e
+revendas, além de facilitar contato comercial e geração de leads.
+
+Prioridades do projeto: clareza, conversão, facilidade de navegação,
+apresentação profissional dos equipamentos, administração simples, segurança,
+privacidade, confidencialidade, desempenho, responsividade, acessibilidade e
+possibilidade de evolução futura.
+
+## 2. Padrão visual `[TRANSVERSAL]`
+
+Existe um protótipo visual aprovado pelo cliente. O padrão deve ser
+preservado em todas as fases. Pequenas modernizações de usabilidade,
+acessibilidade, responsividade ou performance podem ser sugeridas; alterações
+visuais relevantes exigem aprovação explícita antes de implementação. O
+executor não substitui componentes nem altera identidade visual por
+preferência pessoal.
+
+## 3. Home
+
+### 3.1 Seção "Encontre o equipamento ideal" `[FASE 2 — AUTORIZADA]`
+
+Sugestão aprovada. Objetivo: transformar a Home também em porta de entrada
+para o catálogo, priorizando descoberta de produtos, navegação simples,
+conversão e acesso rápido às categorias.
+
+**Resolução:** esta é a mesma funcionalidade já planejada no **Incremento 5
+("Soluções e filtros")** — não uma seção separada. "Encontre o equipamento
+ideal" é o nome/enquadramento de produto para a funcionalidade de descoberta
+via `SolutionFilters` + `SolutionCard`. Não criar uma segunda seção
+equivalente. Se o título visível na Home deve mudar de "Soluções" para
+"Encontre o equipamento ideal", isso é um ajuste de copy dentro do próprio
+Incremento 5, não um incremento novo.
+
+## 4. Produtos
+
+### 4.1 Quantidade inicial `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+~10 produtos no lançamento.
+
+### 4.2 Cadastro inicial `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+Cadastro inicial feito por José Tavares (via painel administrativo, quando
+existir; até lá, não há mecanismo de cadastro dinâmico).
+
+### 4.3 Categorias aprovadas `[FASE 2 — AUTORIZADA para uso em filtros/UI; FASE 3 — modelagem de dados]`
+**Aviário, Equipamentos, Fumageiro, Piscicultura, Secadores.** Esta é a lista
+oficial e vigente — substitui qualquer conjunto anterior usado em código,
+testes ou documentação. Não criar novas categorias sem necessidade ou
+aprovação explícita.
+
+## 5. Leads
+
+### 5.1 Destino dos leads `[FASE 1 — ENCERRADA, já implementado]`
+WhatsApp oficial: **(48) 3660-0818**. Já é o canal de conversão da Fase 1
+atual (estático), hardcoded no HTML/JS.
+
+### 5.2 Número não deve ficar hardcoded `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+Decisão registrada agora, implementação depende do painel administrativo.
+Até a Fase 3, o número permanece como está (hardcoded no estático/Next.js),
+o que é aceitável como estado transitório, não como violação da regra.
+
+## 6. E-mail institucional
+
+### 6.1 Estado atual `[TRANSVERSAL]`
+Não definido. Campo permanece vazio. **Não criar ou assumir** endereço
+(ex.: `comercial@fortsulsc.com.br`) em nenhuma fase até aprovação explícita.
+
+### 6.2 Configuração administrativa `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+Campo editável no painel para e-mail institucional.
+
+## 7. Configurações institucionais `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+WhatsApp/telefone e e-mail institucional centralizados no painel; frontend
+consome essas configurações. Princípio: dado administrativo configurável não
+fica hardcoded no frontend — aplicável a partir do momento em que o painel
+existir, não retroativamente à Fase 1/2.
+
+## 8. Representantes e revendas `[TRANSVERSAL — nomenclatura; FASE 3 — implementação]`
+
+- **Representante:** pessoa ou empresa que representa a FortSul e vende os
+  equipamentos.
+- **Revenda:** pessoa ou empresa que compra da FortSul para revender.
+
+Distinção não deve ser tratada como sinônimo em nenhuma fase, em nenhuma
+interface, cadastro, filtro ou marcador — mesmo antes da implementação
+completa (Fase 3), qualquer menção a esses termos em Fase 2 deve já respeitar
+a distinção conceitual.
+
+## 9. Autenticação `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+
+Perfis iniciais: Admin (acesso administrativo completo) e Editor (permissões
+editoriais definidas de forma segura e explícita, sem privilégio
+administrativo completo por padrão). Link "Login" no site redireciona ao
+painel de autenticação.
+
+## 10. Conteúdos / Artigos
+
+### 10.1 Informação pública `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+Artigos mostram apenas data de publicação; autor não é exibido publicamente.
+
+### 10.2 Registro interno `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+Sistema registra internamente quem publicou, mesmo sem exibição pública.
+
+**Confirmado pelo José — funcionalidades distintas, mantidas com nomes
+próprios:**
+- **"Novidades e dicas"** `[FASE 1/2]`: conteúdo estático do escopo atual,
+  com exatamente três cards fixos definidos manualmente via
+  `PROMPT_CODEX_SECAO_NOVIDADES_E_DICAS.md`, sem CMS, sem autor e sem data
+  dinâmica. Nesta implementação, o conteúdo é de teste para validação de
+  layout e permanece pendente de substituição antes do lançamento.
+- **"Artigos"** `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`: CMS editorial completo
+  descrito neste item 10, com autor registrado internamente, data pública e
+  log de auditoria.
+
+Não fundir as duas nem usar os nomes como sinônimos em nenhum documento ou
+commit.
+
+## 11. Log de auditoria `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+
+Histórico de ações administrativas relevantes: usuário responsável, ação,
+tipo de conteúdo, identificação do conteúdo, data, hora, resultado. Eventos
+recomendados: publicação/edição de artigo, criação/edição de produto,
+exclusão de conteúdo, alteração de categoria, alteração de telefone/e-mail,
+demais alterações administrativas relevantes.
+
+## 12. Privacidade `[TRANSVERSAL]`
+Dados pessoais, contato, localização, informações comerciais e de projetos
+dos clientes tratados com confidencialidade em todas as fases.
+
+## 13. Confidencialidade de projetos e equipamentos `[TRANSVERSAL]`
+Não expor desnecessariamente detalhes técnicos, projetos, informações
+internas ou dados que facilitem cópia/reprodução dos equipamentos —
+válido desde o conteúdo estático atual até o painel administrativo futuro.
+
+## 14. Publicações em redes sociais `[TRANSVERSAL]`
+Publicações envolvendo fotos, localização, instalações, projetos ou
+equipamentos identificáveis do cliente exigem autorização prévia do cliente.
+
+## 15. Painel administrativo `[FASE 3 — PLANEJADA, NÃO AUTORIZADA]`
+Escopo inicial: produtos, categorias, artigos, representantes, revendas,
+usuários, configurações institucionais, leads/contatos (quando previsto),
+logs de auditoria.
+
+## 16. Segurança `[TRANSVERSAL, com ênfase a partir da FASE 3]`
+Atenção especial a autenticação, autorização, permissões, dados de clientes,
+formulários, leads, configurações administrativas, logs, exclusões e
+exposição de dados. Não expor informação administrativa/privada no frontend
+sem necessidade — válido desde já, não só quando o painel existir.
+
+## 17. Performance `[TRANSVERSAL]`
+Otimização de imagens, formatos modernos (WebP), redução de JS e
+dependências desnecessárias, carregamento eficiente, boas práticas de Core
+Web Vitals. Lighthouse usado quando fizer parte dos critérios de validação
+do incremento — já se aplica à Fase 1/2 (Lighthouse segue como item
+rastreado no Plano Mestre, pendente de execução).
+
+## 18. Responsividade `[TRANSVERSAL]`
+Desktop, tablet, mobile — validada antes da aprovação de cada incremento
+relevante, em todas as fases.
+
+## 19. Acessibilidade `[TRANSVERSAL]`
+Estrutura semântica, navegação por teclado, labels, contraste, foco, textos
+alternativos, componentes acessíveis, mensagens de erro compreensíveis —
+aplicável desde a Fase 1.
+
+## 20. Itens que continuam em aberto `[TRANSVERSAL]`
+E-mail institucional; demais informações institucionais; detalhes completos
+das permissões do Editor; campos detalhados de produtos, representantes e
+revendas; regras comerciais específicas além da distinção já definida;
+demais integrações futuras. Não tratar como requisitos definidos até
+aprovação.
+
+## 21.1 Precedência entre decisão aprovada e contrato de teste existente `[TRANSVERSAL]`
+
+Quando houver conflito entre um contrato de teste já escrito e uma decisão
+posterior explicitamente aprovada pelo José, **prevalece a decisão aprovada
+mais recente**, e o teste deve ser atualizado para refletir o requisito
+vigente antes de qualquer implementação prosseguir.
+
+Um contrato de teste não aprovado como decisão de produto não tem status de
+decisão — ele é a especificação executável de uma decisão, e deve seguir a
+decisão, não o contrário. Um teste desatualizado nunca deve funcionar como
+uma "decisão oculta" que reintroduz um requisito já superado. Sempre que o
+Claude ou o Codex encontrarem essa divergência, o teste correspondente deve
+ser sinalizado explicitamente como **desatualizado** e corrigido antes do
+ciclo RED–GREEN, nunca implementado como estava.
+
+## 22. Princípio geral `[TRANSVERSAL]`
+Desenvolvimento incremental: cada incremento é planejado, delimitado,
+implementado, testado, revisado e aprovado. Objetivo: aplicação consistente
+com as decisões do cliente, com rastreabilidade e controle de escopo.
+
+---
+
+## 23. Decisões explicitamente aprovadas — tabela de referência `[TRANSVERSAL]`
+
+| Item | Decisão | Fase de implementação |
+|---|---|---|
+| WhatsApp dos leads | (48) 3660-0818 | Fase 1 (já ativo) |
+| E-mail institucional | Inicialmente vazio | — |
+| E-mail editável | Sim | Fase 3 |
+| Telefone editável | Sim | Fase 3 |
+| Produtos no lançamento | ~10 | Fase 3 |
+| Cadastro inicial | José Tavares | Fase 3 |
+| Categorias | Aviário, Equipamentos, Fumageiro, Piscicultura, Secadores | Fase 2 (UI/filtros) / Fase 3 (dados) |
+| "Encontre o equipamento ideal" | Aprovado — é o Incremento 5 (Soluções e filtros), não uma seção nova | Fase 2 |
+| "Novidades e dicas" vs. "Artigos" | Distintos — estático (Fase 1/2) vs. CMS editorial (Fase 3) | Fase 1/2 e Fase 3, respectivamente |
+| Representante | Representa a FortSul e vende equipamentos | Nomenclatura transversal / dados Fase 3 |
+| Revenda | Compra da FortSul para revender | Nomenclatura transversal / dados Fase 3 |
+| Login / Admin / Editor | Sim | Fase 3 |
+| Artigos — autor público | Não | Fase 3 |
+| Artigos — data pública | Sim | Fase 3 |
+| Registro interno do publicador | Sim | Fase 3 |
+| Log de auditoria | Sim | Fase 3 |
+| Privacidade dos clientes | Obrigatória | Transversal |
+| Localização dos clientes | Confidencial | Transversal |
+| Publicação em redes sociais | Somente com autorização quando aplicável | Transversal |
+| Confidencialidade de equipamentos/projetos | Obrigatória | Transversal |
+
+---
+
+## Nota sobre conteúdo operacional não incluído aqui
+
+O documento original também continha seções sobre: skills obrigatórias,
+Context7, configuração de modelo/orquestração do Hermes e Codex, papéis dos
+agentes, fluxo oficial de desenvolvimento, estados oficiais de incremento,
+regra de não expansão de escopo e critérios de aprovação.
+
+Esse conteúdo é **regra de processo de agentes**, não escopo de produto — já
+existe sobreposição parcial com `docs/RULES.md` e com o
+`PROMPT_COMUNICACAO_AGENTES.md` (em revisão). Não fundi esse conteúdo aqui
+para não criar uma terceira cópia da mesma regra em três arquivos diferentes,
+o que violaria o princípio de fonte única já adotado no projeto para status
+de fase.
+
+**Decisão pendente sua:** esse conteúdo operacional deveria residir só em
+`docs/RULES.md`, só no `PROMPT_COMUNICACAO_AGENTES.md`, ou você prefere
+mantê-lo duplicado propositalmente por serem lidos em momentos diferentes do
+fluxo? Recomendo escolher um dono único; posso preparar a consolidação assim
+que você decidir.

@@ -1,6 +1,6 @@
-# FortSul — frontend estático
+# FortSul
 
-Frontend estático da FortSul Equipamentos Agrícolas. A etapa autorizada é a Fase 1: design e frontend, sem backend, banco de dados, autenticação, CRUD ou regras de negócio.
+Reformulação do site institucional da FortSul Equipamentos Agrícolas. A base atual inclui frontend estático; a fase e o escopo autorizados devem ser confirmados no Plano Mestre antes de qualquer mudança.
 
 ## Fonte de verdade
 
@@ -38,3 +38,5 @@ O smoke test valida as rotas públicas principais, a resposta 404 e o bloqueio d
 - [Design System](docs/DESIGN-SYSTEM.md) — tokens e regras visuais.
 - [Componentes](docs/COMPONENTS.md) — blocos visuais atuais e mapeamento futuro.
 - [Regras](docs/RULES.md) — limites técnicos e de segurança.
+- [Contrato operacional de agentes](docs/FortSulSC_instrucoes_Hermes_Codex.md) — papéis, limites, delegação e processo obrigatório para agentes e subagentes.
+- [Prompt de comunicação para agentes](docs/PROMPT_COMUNICACAO_AGENTES.md) — handoff consolidado do estado, decisões e regras atuais.

@@ -22,5 +22,5 @@ lighthouse-*.report.json
 lighthouse-*_report.html
 lighthouse-*_report.json
 
-# Perfil temporário do Chrome usado pelo Lighthouse no WSL
-C:*lighthouse.*/
+# Perfis temporários do Chrome gerados pelo Lighthouse (inclusive caminhos WSL/Windows malformados)
+*lighthouse.[0-9]*/
