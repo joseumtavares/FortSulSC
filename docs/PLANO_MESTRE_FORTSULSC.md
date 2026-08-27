@@ -284,6 +284,12 @@ Objetivo: endurecer a aplicação para produção — validação de dados, RBAC
 
 Deve incluir explicitamente: rate limiting/anti-scraping nas rotas públicas de representantes, e confirmação de que o incidente do arquivo `recovery-codes-vercel-fortsul.txt` foi encerrado.
 
+## Backlog de funcionalidades futuras (fora da sequência de fases)
+
+Funcionalidades avaliadas tecnicamente e conscientemente adiadas — não bloqueiam nem alteram o roadmap acima — ficam registradas em `docs/BACKLOG_FUNCIONALIDADES_FUTURAS.md`, com especificação suficiente para implementação futura sem repetir a análise.
+
+Item atual: **Scroll-Pinned Product Showcase — Bioqueimador de Cavaco** (avaliado em 27/08/2026; recomendação foi adiar para depois da aprovação do catálogo na Fase 3, idealmente já com o bundler da Fase 2 disponível).
+
 ---
 
 # PARTE V — DEFINIÇÃO DE PRONTO DESTE DOCUMENTO
@@ -312,6 +318,7 @@ Um agente entendeu este Plano Mestre quando consegue:
 | 21/08/2026 | Commit inicial aprovado pelo Jose e repositório publicado em https://github.com/joseumtavares/FortSulSC (público). Confirmado via GitHub que o histórico tem 1 commit único, sem `recovery-codes-vercel-fortsul.txt` — item de segurança rebaixado de 🟡 para 🟢, restando apenas a confirmação operacional de revogação dos códigos na Vercel. Nota de processo: este commit inicial foi aprovado só pelo Jose, sem registro de revisão do Claude — aceitável como commit de bootstrap do repositório (nenhuma regra de negócio ou dado sensível envolvido), mas o fluxo de aprovação em duas camadas da seção 4 passa a valer de forma estrita a partir do próximo commit. |
 | 25/08/2026 | Fase 1 formalmente encerrada e baseline aprovado no commit `88e7d6f`. Fase 2 autorizada; plano técnico revisado e aprovado, com sete decisões pendentes a consolidar antes dos incrementos dependentes. |
 | 27/08/2026 | José aprovou o incremento estático “Novidades e dicas” após revisão técnica do Claude. A pendência de substituir o conteúdo de teste antes da publicação permanece aberta; a aprovação não altera os status de Fase 1 ou Fase 2. Iniciado o planejamento do primeiro incremento da Fase 2, limitado à fundação Next.js sem banco, API, autenticação, painel ou rotas condicionadas a decisões pendentes. |
+| 27/08/2026 | Avaliada a proposta de animação de scroll (pinning) do "Bioqueimador de Cavaco". Recomendação técnica: adiar, pois o produto não existe no catálogo atual (escopo da Fase 3, não autorizada) e o frontend estático não tem bundler/dependências JS externas. Especificação completa registrada em `docs/BACKLOG_FUNCIONALIDADES_FUTURAS.md` e referenciada na Parte IV, seção "Backlog de funcionalidades futuras". Nenhum código foi alterado. |
 
 ---
 
