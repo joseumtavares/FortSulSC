@@ -83,12 +83,25 @@ ou regras de negócio.
     fonte de instruções deliberada e estável (o projeto já tem governança
     própria e exige Context7). `CLAUDE.md` permanece sem alteração.
 
-- [ ] **Tarefa 2 — Disponibilizar assets sem remover o baseline estático.**
+- [x] **Tarefa 2 — Disponibilizar assets sem remover o baseline estático.**
   - Critérios: assets do frontend migrado são resolvidos por Next.js em
     `public/`; nenhum asset existente é apagado; as imagens mantêm dimensões e
     textos alternativos aprovados.
   - Dependências: Tarefa 1B.
   - Escopo: pequeno.
+  - Concluída: proposta em `docs/Proposta_Tarefa_2.md`, revisada tecnicamente
+    pelo Claude (conferência dos 15 nomes/caminhos contra o baseline real,
+    correção do número "~9 MB" para "~13 MB" de legados excluídos) e aprovada
+    pelo Jose. `public/image/` criado com os 15 WebP já usados pelo baseline,
+    copiados sem conversão, espelhando os caminhos de `image/` (inclui
+    `Pesquisa/`). Hash SHA-256 e tamanho idênticos entre origem e destino nos
+    15 arquivos; `image/` permanece byte a byte inalterado (`git diff` vazio).
+    `npm run typecheck`, `npm run build` e `npm test` passaram sem erro.
+    `npm run dev` + `GET /image/<15 arquivos>` responderam HTTP 200 com
+    `Content-Type: image/webp` em todos. `CLAUDE.md` conferido sem alteração
+    (confirma `agentRules: false` da Tarefa 1B continua efetivo). Validação
+    visual (alt/srcset/responsividade) e Lighthouse ficam para a Tarefa 3/4,
+    quando existirem componentes consumidores.
 
 ### Checkpoint: Fundação
 
