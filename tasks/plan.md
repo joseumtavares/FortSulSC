@@ -58,14 +58,30 @@ ou regras de negócio.
     com `"incremental": true` gera `tsconfig.tsbuildinfo` mesmo com
     `--noEmit`; adicionada a linha `*.tsbuildinfo` ao `.gitignore` (mesmo
     tratamento do `next-env.d.ts`, prática padrão do template do Next.js) e o
-    arquivo removido do working tree. Aguardando revisão do Claude antes do
-    commit.
+    arquivo removido do working tree. Revisada pelo Claude e committada em
+    `57a414f`.
 
-- [ ] **Tarefa 1B — Criar a estrutura mínima do App Router.**
+- [x] **Tarefa 1B — Criar a estrutura mínima do App Router.**
   - Critérios: `src/app/layout.tsx`, `src/app/page.tsx` e CSS global existem;
     `npm run dev`, build e verificação de tipos funcionam.
   - Dependências: Tarefa 1A aprovada.
   - Escopo: pequeno.
+  - Concluída: proposta em `docs/Proposta_Tarefa_1B.md`, ajustada conforme
+    parecer de revisão (checkpoints de `git status` separados para código e
+    governança, `npm test` como comprovação real de "preview idêntico",
+    fontes Context7 fixadas em `/vercel/next.js/v16.2.9`), aprovada pelo Jose
+    e revisada tecnicamente pelo Claude antes da implementação. `npm run
+    typecheck`, `npm run build` e `npm run dev` (GET / → 200, `<h1>FortSul —
+    fundação Next.js</h1>`, rota inexistente → 404) passaram sem erro.
+    `npm run preview` e `npm test` confirmaram que o preview estático segue
+    idêntico (suíte de rotas, cache, 404 e proteção contra traversal verde).
+    Desvio não previsto na proposta, corrigido antes do commit: `next dev`
+    (recurso `agentRules`, ligado por padrão desde o Next.js 16.1) injeta
+    automaticamente um bloco `<!-- BEGIN:nextjs-agent-rules -->` em
+    `CLAUDE.md` a cada execução. Decisão do Jose: desativar via
+    `agentRules: false` em `next.config.ts`, para preservar `CLAUDE.md` como
+    fonte de instruções deliberada e estável (o projeto já tem governança
+    própria e exige Context7). `CLAUDE.md` permanece sem alteração.
 
 - [ ] **Tarefa 2 — Disponibilizar assets sem remover o baseline estático.**
   - Critérios: assets do frontend migrado são resolvidos por Next.js em
