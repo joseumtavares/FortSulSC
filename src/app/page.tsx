@@ -1,11 +1,21 @@
+import { WhatsAppProvider } from '@/components/whatsapp/WhatsAppProvider'
+import { WhatsAppTrigger } from '@/components/whatsapp/WhatsAppTrigger'
+import { FloatingWhatsApp } from '@/components/whatsapp/FloatingWhatsApp'
+
 export default function Home() {
   return (
-    <main>
-      <h1>FortSul — fundação Next.js</h1>
-      <p>
-        Estrutura mínima do App Router (Tarefa 1B). A migração visual da
-        home segue os Incrementos 2–8 já aprovados na Tarefa 3.
-      </p>
-    </main>
+    <WhatsAppProvider>
+      <main>
+        <h1>FortSul — fundação Next.js</h1>
+        <p>
+          Fatia 1 da Tarefa 3 (migração visual da home): primitiva de WhatsApp (diálogo, provider,
+          gatilho, botão flutuante). As demais seções chegam nas próximas fatias.
+        </p>
+        <WhatsAppTrigger className="button" ariaLabel="Testar abertura do diálogo do WhatsApp">
+          Testar diálogo do WhatsApp
+        </WhatsAppTrigger>
+      </main>
+      <FloatingWhatsApp />
+    </WhatsAppProvider>
   )
 }

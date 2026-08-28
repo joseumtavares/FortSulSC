@@ -1,0 +1,3 @@
+export const WHATSAPP_PHONE_DISPLAY = '(48) 3660-0818'
+export const WHATSAPP_PHONE_TEL = '+554836600818'
+export const WHATSAPP_CHAT_URL = 'https://wa.me/554836600818'
