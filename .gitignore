@@ -18,6 +18,8 @@ server-*.log
 .next/
 dist/
 build/
+next-env.d.ts
+*.tsbuildinfo
 
 # Testes e relatórios gerados localmente
 test-results/

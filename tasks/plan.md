@@ -33,23 +33,33 @@ ou regras de negócio.
 
 ### Checkpoint: Savepoint pré-fundação
 
-- [ ] Todo o trabalho aprovado até aqui (seção "Novidades e dicas" e as
+- [x] Todo o trabalho aprovado até aqui (seção "Novidades e dicas" e as
   atualizações de governança e planejamento) está commitado e isolado de
   qualquer alteração de fundação Next.js.
-- [ ] Working tree limpo, exceto pelos itens intencionalmente não rastreados
+- [x] Working tree limpo, exceto pelos itens intencionalmente não rastreados
   `.agents/` e `skills-lock.json`.
-- [ ] `git status --short` apresentado como evidência antes de iniciar a
+- [x] `git status --short` apresentado como evidência antes de iniciar a
   Tarefa 1A.
 
 ### Fase 1: Base executável
 
-- [ ] **Tarefa 1A — Configurar a fundação Next.js e TypeScript.**
+- [x] **Tarefa 1A — Configurar a fundação Next.js e TypeScript.**
   - Critérios: `package.json`, `tsconfig.json`, `next.config.*` e os scripts de
     desenvolvimento, build e typecheck estão definidos com as dependências
     indispensáveis; o preview estático atual continua inalterado e executável.
   - Dependências: aprovação deste plano, revisão técnica do Claude e savepoint
     Git criado para o estado aprovado anterior.
   - Escopo: pequeno.
+  - Concluída: `npm install` gerou `package-lock.json` sem erro, `npm run
+    typecheck` passou sem erro, `npm run preview` seguiu servindo
+    `index.html` (HTTP 200, título inalterado). Versões resolvidas: Next.js
+    16.3.3 (dentro do range `^16.2.9`), TypeScript 5.9.3 (dentro do range
+    `^5`). Desvio pequeno e conservador em relação à proposta: `tsconfig.json`
+    com `"incremental": true` gera `tsconfig.tsbuildinfo` mesmo com
+    `--noEmit`; adicionada a linha `*.tsbuildinfo` ao `.gitignore` (mesmo
+    tratamento do `next-env.d.ts`, prática padrão do template do Next.js) e o
+    arquivo removido do working tree. Aguardando revisão do Claude antes do
+    commit.
 
 - [ ] **Tarefa 1B — Criar a estrutura mínima do App Router.**
   - Critérios: `src/app/layout.tsx`, `src/app/page.tsx` e CSS global existem;
