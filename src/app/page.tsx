@@ -2,6 +2,7 @@ import { AboutSection } from '@/components/sections/AboutSection'
 import { CategoryStrip } from '@/components/sections/CategoryStrip'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { SolutionsSection } from '@/components/sections/SolutionsSection'
+import { SupportSection } from '@/components/sections/SupportSection'
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <CategoryStrip />
       <AboutSection />
       <SolutionsSection />
+      <SupportSection />
     </main>
   )
 }
