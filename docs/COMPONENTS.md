@@ -222,12 +222,15 @@ Exemplo futuro:
 - Objetivo: exibir representantes/revendas em mapa interativo.
 - Quando utilizar: página de representantes e revendas.
 - Quando não utilizar: antes de aprovar dados públicos, privacidade e regras de localização.
+- Tecnologia prevista: Leaflet + OpenStreetMap, na Fase 5 do Plano Mestre.
+- Fluxo previsto: marcadores interativos com popup de dados públicos aprovados e, quando disponível, logotipo público do representante ou da revenda. Dados e logotipos de teste não podem ser promovidos a conteúdo público sem aprovação específica.
+- Regra temporária de CTA: até a página e o mapa interativo serem implementados e aprovados, o botão "Encontrar representante" da `PresenceSection` continua abrindo o diálogo do WhatsApp.
 - Props futuras:
   - `markers`;
   - `initialState`;
   - `filters`;
   - `onMarkerClick`.
-- Observação de segurança: representantes pessoa física devem usar localização pública aproximada.
+- Observação de segurança: representantes e revendas permanecem entidades distintas; representantes pessoa física devem usar localização pública aproximada.
 
 ### 3.15 AdminShell
 
