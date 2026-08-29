@@ -168,7 +168,29 @@ Exemplo futuro:
   - `RepresentativeMap`;
   - `RepresentativeList`.
 
-### 3.10 CtaSection
+### 3.10 ContentSection
+
+- Nome atual: `content-section`, `content-heading`, `content-grid`.
+- Objetivo: apresentar novidades e dicas estáticas da FortSul.
+- Quando utilizar: home e páginas institucionais com conteúdo editorial estático aprovado.
+- Quando não utilizar: antes de existir conteúdo aprovado ou para CMS/artigos dinâmicos sem a Fase 3 autorizada.
+- Observação: os três cards atuais são conteúdo de teste aprovado exclusivamente para validação de layout e devem ser substituídos antes do lançamento.
+- Componentes relacionados:
+  - `ContentCard`;
+  - `WhatsAppTrigger`.
+
+### 3.11 ContentCard
+
+- Nome atual: `content-card`, `content-card-media`, `content-card-body`.
+- Objetivo: apresentar imagem, título e descrição de uma novidade ou dica.
+- Quando utilizar: dentro de `ContentSection`.
+- Quando não utilizar: isolado sem a seção de conteúdo correspondente.
+- Props futuras:
+  - `image`;
+  - `title`;
+  - `description`.
+
+### 3.12 CtaSection
 
 - Nome atual: `cta-section`, `cta-inner`.
 - Objetivo: fechar a página com chamada para contato/orçamento.
@@ -180,7 +202,7 @@ Exemplo futuro:
   - `ctaLabel`;
   - `ctaHref`.
 
-### 3.11 SiteFooter
+### 3.13 SiteFooter
 
 - Nome atual: `site-footer`, `footer-grid`, `footer-bottom`.
 - Objetivo: exibir dados institucionais, contato e redes sociais.
@@ -192,7 +214,7 @@ Exemplo futuro:
   - `socialLinks`;
   - `legalLinks`.
 
-### 3.12 FloatingWhatsApp
+### 3.14 FloatingWhatsApp
 
 - Nome atual: `whatsapp-float`.
 - Objetivo: manter acesso rápido ao WhatsApp.
@@ -203,7 +225,7 @@ Exemplo futuro:
   - `message`;
   - `ariaLabel`.
 
-### 3.13 WhatsAppDialog
+### 3.15 WhatsAppDialog
 
 - Status: implementado no frontend estático.
 - Objetivo: apresentar o telefone institucional e concentrar o link externo para iniciar uma conversa no WhatsApp.
@@ -216,7 +238,7 @@ Exemplo futuro:
   - `title`;
   - `description`.
 
-### 3.14 RepresentativeMap
+### 3.16 RepresentativeMap
 
 - Status: planejado, não implementado.
 - Objetivo: exibir representantes/revendas em mapa interativo.
@@ -232,7 +254,7 @@ Exemplo futuro:
   - `onMarkerClick`.
 - Observação de segurança: representantes e revendas permanecem entidades distintas; representantes pessoa física devem usar localização pública aproximada.
 
-### 3.15 AdminShell
+### 3.17 AdminShell
 
 - Status: planejado, não implementado.
 - Objetivo: estrutura visual do painel administrativo.
