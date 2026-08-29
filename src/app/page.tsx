@@ -1,5 +1,6 @@
 import { AboutSection } from '@/components/sections/AboutSection'
 import { CategoryStrip } from '@/components/sections/CategoryStrip'
+import { ContentSection } from '@/components/sections/ContentSection'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { PresenceSection } from '@/components/sections/PresenceSection'
 import { SolutionsSection } from '@/components/sections/SolutionsSection'
@@ -14,6 +15,7 @@ export default function Home() {
       <SolutionsSection />
       <SupportSection />
       <PresenceSection />
+      <ContentSection />
     </main>
   )
 }

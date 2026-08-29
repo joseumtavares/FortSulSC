@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   // CLAUDE.md e a Parte I do Plano Mestre); desativa a injeção automática do
   // bloco de regras do Next.js para agentes de IA a cada `next dev`.
   agentRules: false,
+  // Permite que dispositivos na rede local recebam os scripts de desenvolvimento
+  // do Next.js e consigam hidratar os componentes interativos.
+  allowedDevOrigins: ['192.168.1.26'],
 }
 
 export default nextConfig

@@ -6,7 +6,7 @@ type RevealProps = {
   children: ReactNode
   className?: string
   delay?: boolean
-  as?: 'article' | 'div'
+  as?: 'article' | 'div' | 'li'
   dataCategory?: string
   ariaLabel?: string
 }

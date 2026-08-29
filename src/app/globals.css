@@ -130,7 +130,8 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 
 /* ===== Fatia 4 — Soluções e filtros ===== */
 .solutions { position: relative; overflow: hidden; background: var(--blue-900); color: var(--white); }
-.solutions::before { content: ""; position: absolute; width: 470px; aspect-ratio: 1; right: -100px; top: -190px; border: 90px solid rgba(255,255,255,.025); border-radius: 50%; }
+.solutions::before { content: ""; position: absolute; width: 470px; aspect-ratio: 1; right: -100px; top: -190px; border: 90px solid rgba(255,255,255,.025); border-radius: 50%; pointer-events: none; }
+.solutions .container { position: relative; z-index: 1; }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 50px; }
 .section-heading h2 { max-width: 720px; }
 .section-heading > p { width: 320px; margin: 0 0 6px; color: rgba(255,255,255,.62); font-size: 15px; }
@@ -181,6 +182,30 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 .map-wrap::before { content: ""; position: absolute; z-index: 0; width: 540px; max-width: 100%; aspect-ratio: 1; border-radius: 50%; background: #f0f3f7; }
 .map-wrap::after { content: ""; position: absolute; z-index: 0; width: 420px; max-width: 80%; aspect-ratio: 1; border: 1px dashed #cad3df; border-radius: 50%; }
 .map-wrap img { position: relative; z-index: 1; width: min(100%, 475px); height: auto; filter: drop-shadow(0 20px 25px rgba(6,27,66,.12)); }
+
+/* ===== Fatia 7 — Novidades e dicas ===== */
+.content-section { background: var(--surface); }
+.content-heading { display: flex; align-items: end; justify-content: space-between; gap: 50px; }
+.content-heading h2 { color: var(--blue-900); }
+.content-heading > p { width: 360px; margin: 0 0 7px; color: var(--muted); font-size: 15px; }
+.content-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 47px 0 30px; padding: 0; list-style: none; }
+.content-grid > li { min-width: 0; }
+.content-card { height: 100%; overflow: hidden; border-radius: var(--radius); background: var(--white); box-shadow: 0 16px 45px rgba(6,27,66,.08); }
+.content-card-media { height: 230px; overflow: hidden; background: #dfe5ed; }
+.content-card-media img { width: 100%; height: 100%; object-fit: cover; }
+.content-card-body { min-height: 175px; padding: 24px; }
+.content-card-body h3 { color: var(--blue-900); font-size: 20px; }
+.content-card-body p { margin: 12px 0 0; color: var(--muted); font-size: 15px; }
+.content-cta { margin-top: 0; }
+
+/* ===== Página 404 ===== */
+.not-found { display: grid; min-height: 620px; place-items: center; padding-block: 100px; background: var(--blue-950); color: var(--white); text-align: center; }
+.not-found-inner { max-width: 720px; }
+.not-found-code { margin: 0; color: rgba(255,255,255,.12); font-size: clamp(120px, 25vw, 250px); font-weight: 900; line-height: .8; letter-spacing: -.08em; }
+.not-found h1 { margin-top: 6px; }
+.not-found-inner > p:not(.not-found-code) { max-width: 530px; margin: 24px auto 0; color: rgba(255,255,255,.76); font-size: 18px; }
+.not-found-actions { display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 34px; }
+.not-found-actions .text-link { border: 0; background: transparent; cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -237,6 +262,9 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
   .presence-grid { grid-template-columns: 1fr; gap: 30px; }
   .presence-copy { max-width: 590px; }
   .map-wrap { min-height: 430px; }
+  .content-heading { align-items: flex-start; flex-direction: column; }
+  .content-heading > p { width: auto; max-width: 450px; }
+  .content-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* ===== Fatia 1 — WhatsApp (diálogo, provider, trigger, botão flutuante) ===== */
@@ -290,4 +318,11 @@ body.dialog-open { overflow: hidden; }
   .support-steps article::before { display: none; }
   .step-icon { box-shadow: none; background: #eef3fa; }
   .map-wrap { min-height: 340px; }
+  .content-grid { grid-template-columns: 1fr; margin-top: 36px; }
+  .content-card-media { height: 220px; }
+  .content-card-body { min-height: 0; padding: 19px; }
+  .content-card-body h3 { font-size: 18px; }
+  .not-found { min-height: 520px; padding-block: 80px; }
+  .not-found-actions { align-items: stretch; flex-direction: column; gap: 20px; }
+  .not-found-actions .button { width: 100%; }
 }
