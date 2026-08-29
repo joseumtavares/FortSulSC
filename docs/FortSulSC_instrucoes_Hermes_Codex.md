@@ -122,6 +122,29 @@ Se a tarefa revelar algo fora do escopo, registrar como **FORA DO ESCOPO —
 necessita decisão/aprovação**. Só alterar o extra se ele for indispensável para
 evitar quebra e Jose autorizar a mudança.
 
+### 6.3 Branch por agente e execução exclusiva de Git por Jose
+
+- Cada agente (Claude, Codex ou qualquer outro que entrar em produção) trabalha
+  em uma branch ou worktree próprio para a duração da tarefa, isolado da `main`
+  e dos demais agentes. Nomenclatura sugerida: `feature/<agente>-<descricao-curta>`
+  (ex.: `feature/claude-presence-section`).
+- Commits, merges e push são executados exclusivamente por Jose, diretamente no
+  terminal. Nenhum agente executa `git add`, `git commit`, `git merge` ou
+  `git push` por conta própria — mesmo tendo produzido o código, ainda que
+  trabalhando na própria branch.
+- O agente entrega: lista exata de arquivos alterados, mensagem de commit
+  sugerida (`tipo: descrição curta`) e evidências de validação (testes, build,
+  revisão visual, revisão de subagente quando aplicável).
+- Jose revisa o diff, executa o commit na branch do agente e, quando aprovado,
+  faz o merge para `main`.
+- Após cada merge para `main`, repetir a suíte de testes automatizados a partir
+  da `main` — uma branch isolada não detecta conflito semântico entre mudanças
+  de agentes diferentes que tocam o mesmo arquivo (ex.: dois agentes editando o
+  mesmo bloco de CSS em paralelo).
+- Exceção: autorização pontual e explícita de Jose para uma tarefa específica
+  pode permitir que o agente execute o commit diretamente. Isso não é o padrão
+  e não se estende a tarefas futuras sem nova autorização.
+
 ## 7. Delegação de subagentes
 
 Delegue somente subtarefas independentes e com benefício claro, como análise de
@@ -138,6 +161,19 @@ forneça ao subagente:
 O agente principal integra e verifica cada resultado. Workspace compartilhado não
 é autorização para editar os mesmos arquivos em paralelo. Subagentes não criam
 novos níveis de decisão e não substituem a revisão do Claude.
+
+### 7.1 Subagentes disponíveis no projeto
+
+Definidos em `.claude/agents/` (configuração local, não versionada — cada
+agente precisa tê-los configurados no próprio ambiente):
+
+| Subagente | Quando delegar |
+|---|---|
+| `scope-gate-reviewer` | Antes de implementar ou propor commit/push para qualquer mudança estrutural (seção 6.2): verifica se a mudança cabe na fase e no escopo autorizados. |
+| `ui-reviewer` | Depois de criar ou alterar componente visual em `src/app` ou `src/components`: verifica acessibilidade, responsividade e aderência ao design system antes da entrega para revisão do Claude. |
+
+Nenhum dos dois substitui a revisão do Claude nem a aprovação de Jose; ambos
+produzem insumo para essas decisões, conforme a seção 4.
 
 ## 8. Padrões de execução
 

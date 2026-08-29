@@ -18,6 +18,7 @@ Se uma solicitação exigir regra de negócio, parar e pedir validação.
 
 Leia primeiro `docs/PLANO_MESTRE_FORTSULSC.md`. Ele é a fonte de verdade sobre a fase vigente, os limites de escopo e os portões de aprovação.
 
+- `docs/CODEBASE_MAP.md` — mapa gerado do código: estrutura de diretórios, módulos, fluxos de dados e gotchas (não substitui os documentos de governança acima quanto a fase/escopo).
 - `docs/PLANEJAMENTO_PROJETO.md` — planejamento reformulado do projeto.
 - `docs/ARCHITECTURE.md` — arquitetura atual e futura.
 - `docs/API.md` — padrão para documentação de APIs futuras.
@@ -38,7 +39,11 @@ Antes de qualquer nova tarefa:
 2. usar os skills aplicáveis de `addyosmani/agent-skills`, começando por `using-agent-skills` para identificar o fluxo necessário;
 3. usar Context7 para documentação atual de qualquer biblioteca, framework, SDK, API, CLI ou serviço de nuvem envolvido;
 4. ler os documentos listados na seção 3, incluindo o contrato operacional de agentes, e verificar o estado real do Git;
-5. não abrir arquivos de recovery codes, `.env`, tokens, credenciais, chaves, senhas ou connection strings.
+5. não abrir arquivos de recovery codes, `.env`, tokens, credenciais, chaves, senhas ou connection strings;
+6. para mudança estrutural (ver seção 7), delegar ao subagente `scope-gate-reviewer` antes de implementar ou propor commit/push;
+7. depois de criar ou alterar componente visual, delegar ao subagente `ui-reviewer` antes de entregar para revisão do Claude.
+
+Os subagentes do projeto estão definidos em `.claude/agents/` (configuração local; ver `docs/FortSulSC_instrucoes_Hermes_Codex.md` seção 7.1) e não substituem a revisão do Claude nem a aprovação de Jose.
 
 O agente deve declarar os skills usados e manter as alterações pequenas, testáveis e dentro da fase autorizada.
 
@@ -129,7 +134,9 @@ Regras:
 
 ## 10. Como criar commits
 
-Jose conduz o fluxo Git. Não fazer commit nem push. Só podem ocorrer após a aprovação do Jose e do Claude.
+Jose conduz o fluxo Git. Não fazer commit, merge nem push. Só podem ocorrer após a aprovação do Jose e do Claude.
+
+Cada agente (Claude, Codex ou outro que entrar em produção) trabalha em branch ou worktree próprio, isolado da `main` e dos demais agentes; commits, merges e push são sempre executados por Jose diretamente no terminal, nunca pelo agente — mesmo trabalhando na própria branch. Exceção só com autorização pontual e explícita de Jose para uma tarefa específica, sem valer para tarefas futuras. Ver `docs/FortSulSC_instrucoes_Hermes_Codex.md` seção 6.3 para o fluxo completo, incluindo a exigência de repetir a suíte de testes a partir da `main` após cada merge.
 
 Quando necessário, sugerir mensagem no formato:
 
