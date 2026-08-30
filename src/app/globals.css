@@ -198,6 +198,13 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 .content-card-body p { margin: 12px 0 0; color: var(--muted); font-size: 15px; }
 .content-cta { margin-top: 0; }
 
+/* ===== Fatia 8 — CTA final ===== */
+.cta-section { padding-block: 90px; background: linear-gradient(115deg, var(--blue-900), #0b4496); color: var(--white); }
+.cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 60px; }
+.cta-inner h2 { max-width: 780px; font-size: clamp(38px, 4vw, 55px); }
+.button-light { flex: 0 0 auto; background: var(--white); color: var(--blue-900); }
+.button-light:hover { background: var(--orange); color: var(--white); }
+
 /* ===== Página 404 ===== */
 .not-found { display: grid; min-height: 620px; place-items: center; padding-block: 100px; background: var(--blue-950); color: var(--white); text-align: center; }
 .not-found-inner { max-width: 720px; }
@@ -255,7 +262,7 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
   .about-grid { grid-template-columns: 1fr; }
   .about-visual { min-height: 520px; }
   .about-copy { max-width: 610px; }
-  .section-heading { align-items: flex-start; flex-direction: column; }
+  .section-heading, .cta-inner { align-items: flex-start; flex-direction: column; }
   .section-heading > p { width: auto; max-width: 450px; }
   .support-heading { grid-template-columns: 1fr; }
   .support-heading p { margin-top: 24px; }
@@ -322,6 +329,8 @@ body.dialog-open { overflow: hidden; }
   .content-card-media { height: 220px; }
   .content-card-body { min-height: 0; padding: 19px; }
   .content-card-body h3 { font-size: 18px; }
+  .cta-section { padding-block: 70px; }
+  .button-light { width: 100%; }
   .not-found { min-height: 520px; padding-block: 80px; }
   .not-found-actions { align-items: stretch; flex-direction: column; gap: 20px; }
   .not-found-actions .button { width: 100%; }

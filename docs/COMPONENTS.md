@@ -192,6 +192,7 @@ Exemplo futuro:
 
 ### 3.12 CtaSection
 
+- Status: implementado no frontend Next.js.
 - Nome atual: `cta-section`, `cta-inner`.
 - Objetivo: fechar a página com chamada para contato/orçamento.
 - Quando utilizar: final de páginas públicas comerciais.
