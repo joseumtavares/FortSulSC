@@ -12,5 +12,6 @@ describe('AboutSection', () => {
     expect(screen.getByText('Solução completa')).toBeTruthy()
     expect(screen.getByRole('link', { name: /conheça nosso jeito/i }).getAttribute('href')).toBe('#atendimento')
     expect(screen.getByAltText('Alimentador FortSul em destaque')).toBeTruthy()
+    expect(screen.getByAltText('Selo de qualidade garantida FortSul')).toBeTruthy()
   })
 })

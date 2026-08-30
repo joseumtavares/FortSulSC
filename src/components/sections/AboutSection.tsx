@@ -16,12 +16,13 @@ export function AboutSection() {
             />
           </div>
           <div className="about-seal">
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4" />
-            </svg>
-            <span>
-              Engenharia<br />que trabalha
-            </span>
+            <Image
+              src="/image/selo_qualidade_fortsul.webp"
+              alt="Selo de qualidade garantida FortSul"
+              width={1280}
+              height={1280}
+              sizes="(max-width: 560px) 112px, 150px"
+            />
           </div>
         </Reveal>
 
