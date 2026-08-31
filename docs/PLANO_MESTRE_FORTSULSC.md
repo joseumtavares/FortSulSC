@@ -27,7 +27,7 @@ Este documento reúne:
 
 Qualquer agente deverá conhecer todo o documento, mas **não deverá implementar todas as fases de uma vez**.
 
-A Fase 1 foi formalmente encerrada e seu baseline aprovado foi registrado no commit `88e7d6f`. A execução da **Fase 2 — Estrutura Next.js** está autorizada; o plano técnico revisado aguarda as sete decisões pendentes registradas no planejamento vigente antes dos incrementos que dependam delas.
+A Fase 1 foi formalmente encerrada e seu baseline aprovado foi registrado no commit `88e7d6f`. A execução da **Fase 2 — Estrutura Next.js** está autorizada. As nove decisões que estavam pendentes no planejamento vigente foram todas respondidas pelo Jose em 30/08/2026 e registradas como aprovadas na Parte II, incluindo o ponto de storage de imagens (Cloudflare R2 servido apenas pelo Next.js, sem Spring Boot, preservando a ADR-001-Stack-Fortsul). Não há mais decisões pendentes na Parte III.
 
 Ao final de qualquer etapa, o agente deve atualizar o marcador correspondente neste documento e parar para revisão do Jose antes de avançar de fase.
 
@@ -46,14 +46,14 @@ Ao final de qualquer etapa, o agente deve atualizar o marcador correspondente ne
 
 ## 0.2. Roadmap de execução atual
 
-Status consolidado em 25 de agosto de 2026:
+Status consolidado em 30 de agosto de 2026:
 
 | Status | Etapa | Situação atual | Próximo portão |
 |---|---|---|---|
-| 🟢 | Item de segurança — arquivo `recovery-codes-vercel-fortsul.txt` | Confirmado via GitHub: o repositório publicado (`joseumtavares/FortSulSC`) tem histórico com **1 commit único**, sem o arquivo. Como não existe commit anterior à remoção, não há histórico de Git para purgar — o risco de exposição pelo repositório está encerrado. | Falta só confirmar se os códigos de recuperação foram revogados/regenerados na Vercel como precaução (o arquivo pode ter circulado fora do Git antes da remoção). Isso é uma confirmação operacional do Jose, não bloqueia mais o desenvolvimento. |
+| 🟢 | Item de segurança — arquivo `recovery-codes-vercel-fortsul.txt` | Confirmado via GitHub: o repositório publicado (`joseumtavares/FortSulSC`) tem histórico com **1 commit único**, sem o arquivo. Como não existe commit anterior à remoção, não há histórico de Git para purgar. O Jose confirmou em 30/08/2026 que os códigos de recuperação expostos não são mais válidos. | Nenhuma; item de segurança encerrado. |
 | 🟢 | Fase 0 — Planejamento e validação | `PLANEJAMENTO_PROJETO.md`, `ARCHITECTURE.md`, `API.md`, `COMPONENTS.md`, `DESIGN-SYSTEM.md`, `RULES.md` e `CHECKLIST.md` criados e revisados. Revisão técnica externa realizada. Repositório publicado no GitHub (`joseumtavares/FortSulSC`), commit inicial aprovado pelo Jose. | Nenhum; etapa concluída, mantida como referência viva. |
 | 🟢 | Fase 1 — Design/frontend | Formalmente encerrada; baseline aprovado no commit `88e7d6f`. | Nenhum; preservada como baseline e referência de rollback. |
-| 🟡 | Fase 2 — Estrutura Next.js | Tarefas 1A e 1B concluídas (`57a414f`, `160eb38`) e Tarefa 2 — assets em `public/` — concluída (`7883435`). Tarefa 3 (migração visual da home) em andamento: Fatias 3.1 a 3.5 commitadas (`3fc687c` … `b877e0e`), cobrindo Header/Footer, Hero, CategoryStrip, About/Solutions e Atendimento (SupportSection). Correção de responsividade do CategoryStrip commitada (`011cdbb`) e correção de referência de imagem do mapa de representantes commitada (`f78da05`). | Fatia 3.6 (Presença — `PresenceSection`) com proposta técnica registrada, aguardando aprovação do Jose e revisão técnica antes da implementação. As sete decisões pendentes do planejamento vigente continuam bloqueando os incrementos que dependam delas. |
+| 🟡 | Fase 2 — Estrutura Next.js | Tarefas 1A e 1B concluídas (`57a414f`, `160eb38`) e Tarefa 2 — assets em `public/` — concluída (`7883435`). Tarefa 3 (migração visual da home) concluída: Fatias 3.1 a 3.5 (`3fc687c` … `b877e0e`, Header/Footer, Hero, CategoryStrip, About/Solutions e Atendimento), correção de responsividade do CategoryStrip (`011cdbb`/`61e94cf`), correção de referência de imagem do mapa de representantes (`f78da05`), Fatia 3.6 — Presença (`8bf9069`/`ca15453`), Fatia 3.7 — Novidades e dicas + correções mobile (`63718fb`/`fdcc175`), Fatia 3.8 — CTA final (`0f1f1e0`/`8b1b6ab`) e correção visual da seção Empresa (`9a18eae`). Tarefa 3.9 — revisão de regressão completa da Home — concluída, sem regressões objetivamente confirmadas frente ao baseline. | Todas as validações automatizadas e visuais foram concluídas e aprovadas pelo Jose no site publicado. O próximo portão é a aprovação formal da Fase 2 para iniciar a Fase Docker; a Fase 3 continua exigindo esse portão e aprovação explícita do Jose. |
 | 🔴 | Fase Docker — Fundação de conteinerização | Não iniciada. Ainda não há Dockerfile, `docker-compose.yaml` nem `.env.example` no repositório. | Aprovação da Fase 2. Deve rodar antes da Fase 3, para que a modelagem de banco já nasça testável em ambiente isolado (Postgres em container), seguindo o mesmo cuidado usado no projeto Nonna. |
 | 🔴 | Fase 3 — Modelagem e regras de negócio | Não iniciada. Entidades prováveis já listadas em `PLANEJAMENTO_PROJETO.md` (Product, Category, Representative, RepresentativePrivate, Reseller, Region, Banner, AdminUser, AuditLog) como hipótese, não como contrato. | **Só pode começar após consulta e aprovação explícita do Jose** — inclui aprovar regras de negócio, modelagem de banco e política de consentimento de dados de representantes. |
 | 🔴 | Fase 4 — Painel administrativo | Não iniciada. | Conclusão e aprovação da Fase 3. |
@@ -188,24 +188,21 @@ Não implementar a próxima fase antes de o Jose confirmar a fase atual como con
 | Containerização do projeto com Docker | Aprovada como direção, não implementada — ver Fase Docker na Parte IV |
 | Fluxo de aprovação em duas camadas (Jose + revisão do Claude) obrigatório antes de qualquer implementação e antes de qualquer commit | Obrigatória |
 | Contrato de testes em código antes de implementar regra de negócio nova, a partir da Fase 3 (equivalente à DEC-020 do projeto Nonna) | Obrigatória |
+| Representantes/revendas já deram consentimento para publicação de nome, WhatsApp e localização aproximada (confirmado pelo Jose em 30/08/2026) | Aprovada — desbloqueia Fase 3 e Fase 5 quanto a este ponto |
+| Revendas/representantes terão página pública própria, acessada pelo botão "Encontrar representante" dentro da seção Presença: mapa Leaflet à esquerda (marcador aparece ao selecionar um representante) e, à direita, os dados do representante selecionado (nome, telefone, redes sociais, link e logotipo) | Aprovada como especificação de produto (Jose, 30/08/2026), implementação pertence à Fase 5 (`RepresentativeMap`) |
+| O "Blog" é mantido, mas com o nome "Novidades e dicas" | Aprovada e já implementada (`ContentSection`, Fatia 3.7) |
+| Orçamento apenas via WhatsApp, sem formulário próprio nesta fase | Aprovada e já implementada (CTA/WhatsApp em toda a Home) |
+| Admin terá dois perfis de usuário: Admin e Editor | Aprovada como especificação de produto (Jose, 30/08/2026), implementação pertence à Fase 3/4 |
+| Edição de conteúdo via painel administrativo está aprovada arquiteturalmente | Aprovada como direção (Jose, 30/08/2026): a Fase 3 define os pré-requisitos do painel (modelagem, permissões e contratos); a implementação do dashboard permanece na Fase 4 |
+| Política de privacidade já existe redigida pelo Jose (aguardando entrega do texto para publicação no rodapé) | Aprovada — desbloqueia o item de Fase 1 (link no rodapé); LGPD na Fase 3 segue dependendo do texto final |
+| Os recovery codes expostos no repositório (`recovery-codes-vercel-fortsul.txt`) não são mais válidos (confirmado pelo Jose em 30/08/2026) | Resolvida — item de segurança da seção 0.2 encerrado |
+| Storage de imagens: Cloudflare R2, servido por Route Handler/Server Action do próprio Next.js (sem serviço Spring Boot separado); PostgreSQL/Prisma guardam apenas `image_url`/`image_key`/`mime_type`/`size`, nunca a imagem em si (confirmado pelo Jose em 30/08/2026, opção (a)) | Aprovada — preserva a ADR-001-Stack-Fortsul (Next.js full-stack) sem introduzir Spring Boot; desbloqueia a modelagem de imagens na Fase 3 |
 
 ---
 
 # PARTE III — DECISÕES PENDENTES DO JOSE
 
-Estas decisões **bloqueiam** a conclusão da fase indicada e devem ser resolvidas antes de avançar:
-
-| Pergunta | Bloqueia o quê |
-|---|---|
-| Representantes/revendas já deram consentimento para nome, WhatsApp e localização aproximada publicados? | Fase 3 e Fase 5 (mapa) |
-| Revendas terão página pública própria ou o item sai do roadmap por ora? | Fase 1 (estrutura de páginas) e Fase 2 (rotas) |
-| Blog será mantido, virará "Conteúdos técnicos" ou sai do menu? | Fase 1 (menu final) |
-| Orçamento continua só via WhatsApp ou também por formulário? | Fase 3 (define se há entidade de contato/lead) |
-| Quantos perfis de usuário o admin terá (Admin, Editor, Comercial, Visualizador)? | Fase 3 e Fase 4 |
-| Qual storage de imagens será usado (Cloudinary, R2, S3)? | Fase 3 |
-| Painel administrativo é prioridade da v1 ou pode ficar para depois do lançamento comercial? | Ordem entre Fase 4 e o lançamento público |
-| Existe política de privacidade publicada ou precisa ser redigida? | Fase 1 (link no rodapé) e Fase 3 (LGPD) |
-| Os recovery codes expostos no repositório ainda são válidos? | Bloqueia qualquer commit/push imediatamente |
+Em 30/08/2026 o Jose respondeu a todas as nove perguntas que estavam nesta seção, incluindo o ponto de storage de imagens (confirmado sem Spring Boot, preservando a ADR-001). Todas as respostas foram movidas para a Parte II. Nenhuma decisão pendente no momento — esta seção fica registrada como referência de processo, para ser reaberta se novas perguntas estruturais surgirem.
 
 ---
 
@@ -233,9 +230,9 @@ Não incluir nesta fase: banco, autenticação, CRUD, regras de negócio, mapa i
 
 ## Fase 2 — Estrutura Next.js 🟡
 
-Objetivo: migrar o frontend aprovado para base Next.js + TypeScript, seguindo a estrutura de pastas de `ARCHITECTURE.md`. A fase está autorizada, com plano técnico revisado e aprovado; os incrementos que dependam das sete decisões pendentes devem aguardar sua consolidação.
+Objetivo: migrar o frontend aprovado para base Next.js + TypeScript, seguindo a estrutura de pastas de `ARCHITECTURE.md`. A fase está autorizada, com plano técnico revisado e aprovado; todas as nove decisões pendentes já foram respondidas pelo Jose e constam na Parte II.
 
-Importante: a pasta `app/api/` nasce vazia/placeholder nesta fase — não implica API funcional. Rotas de "Revendas" só devem ser criadas se a Parte III já tiver sido respondida.
+Importante: a pasta `app/api/` nasce vazia/placeholder nesta fase — não implica API funcional.
 
 Pendência aberta: a seção “Novidades e dicas” utiliza conteúdo de teste
 aprovado exclusivamente para validação de layout. Os três cards devem ser
@@ -260,7 +257,7 @@ Não incluir nesta fase: schema Prisma, migrations, dados reais, credenciais de 
 
 Objetivo: definir banco, entidades, permissões e regras de negócio.
 
-**Esta fase só começa depois de consulta e aprovação do Jose**, e depois de todas as perguntas da Parte III estarem respondidas — em especial consentimento de dados de representantes e política de retenção/exclusão (LGPD).
+**Esta fase só começa depois de consulta e aprovação do Jose.** O consentimento de dados de representantes já foi confirmado (Parte II) e a política de privacidade já existe redigida, aguardando entrega do texto final para a política de retenção/exclusão (LGPD). O storage de imagens já está definido (Parte II): Cloudflare R2, servido por Route Handler/Server Action do próprio Next.js, sem serviço Spring Boot, preservando a ADR-001 — as entidades que armazenam imagens devem seguir esse modelo (`image_url`/`image_key`/`mime_type`/`size` no Postgres, sem a imagem em si).
 
 Entregável esperado ao final: modelagem completa apresentada (entidades, modelo relacional, diagrama, plano de migrations) **sem criar nenhuma tabela ainda**, aguardando autorização expressa — mesmo protocolo usado no projeto Nonna.
 
@@ -270,13 +267,13 @@ A partir desta fase, toda proposta de regra de negócio deve seguir o fluxo comp
 
 Objetivo: dashboard interno para produtos, categorias, representantes, revendas, regiões, banners e configurações.
 
-Depende de: Fase 3 aprovada e resposta à pergunta "painel é prioridade da v1?" na Parte III.
+Depende de: Fase 3 aprovada. O Jose já aprovou arquiteturalmente a edição via painel (30/08/2026, Parte II). A Fase 3 entrega os pré-requisitos — modelagem, permissões e contratos —; esta Fase 4 implementa o dashboard administrativo sobre essa base.
 
 ## Fase 5 — Mapa e dados públicos 🔴
 
-Objetivo: implementar `RepresentativeMap` com Leaflet + OpenStreetMap.
+Objetivo: implementar `RepresentativeMap` com Leaflet + OpenStreetMap, na página dedicada acessada pelo botão "Encontrar representante" (mapa à esquerda, dados do representante selecionado à direita — nome, telefone, redes sociais, link e logotipo), conforme especificação aprovada pelo Jose em 30/08/2026 (Parte II).
 
-Pré-condição obrigatória: consentimento de representantes confirmado (Parte III) e regra de dados públicos vs privados já implementada e testada na Fase 3/4.
+Pré-condição obrigatória: consentimento de representantes já confirmado (Parte II); falta apenas a regra de dados públicos vs privados ser implementada e testada na Fase 3/4.
 
 ## Fase 6 — Segurança, testes e deploy 🔴
 
@@ -298,8 +295,8 @@ Um agente entendeu este Plano Mestre quando consegue:
 
 - explicar por que o projeto começa pelo frontend e não pelo banco, neste caso específico;
 - identificar no roadmap a fase autorizada e suas dependências, sem assumir que instruções históricas continuam vigentes;
-- citar o item de segurança do recovery codes e seu status atual (histórico publicado sem o arquivo; confirmação de revogação na Vercel ainda depende do Jose) antes de qualquer commit;
-- listar as perguntas pendentes do Jose que bloqueiam a Fase 3;
+- citar o item de segurança do recovery codes e seu status atual (histórico publicado sem o arquivo; Jose confirmou em 30/08/2026 que os códigos não são mais válidos — item encerrado) antes de qualquer commit;
+- reconhecer que não há mais perguntas pendentes do Jose na Parte III; todas as nove foram respondidas em 30/08/2026 e estão na Parte II, incluindo o storage de imagens (R2 via Next.js, sem Spring Boot, preservando a ADR-001);
 - diferenciar o que já existe (frontend estático) do que é apenas planejado (Next.js, Prisma, painel admin, Docker);
 - não iniciar a Fase Docker antes do portão correspondente da Fase 2, nem a Fase 3 sem aprovação explícita e suas dependências;
 - explicar as seis etapas do fluxo de aprovação da seção 4 (modelagem → aprovação do Jose → revisão do Claude → implementação/testes smoke → lista de testes manuais → aprovação dupla → commit) e nunca pular etapa;
@@ -321,12 +318,16 @@ Um agente entendeu este Plano Mestre quando consegue:
 | 27/08/2026 | Avaliada a proposta de animação de scroll (pinning) do "Bioqueimador de Cavaco". Recomendação técnica: adiar, pois o produto não existe no catálogo atual (escopo da Fase 3, não autorizada) e o frontend estático não tem bundler/dependências JS externas. Especificação completa registrada em `docs/BACKLOG_FUNCIONALIDADES_FUTURAS.md` e referenciada na Parte IV, seção "Backlog de funcionalidades futuras". Nenhum código foi alterado. |
 | 27/08/2026 | Tarefas 1A e 1B da Fase 2 concluídas e commitadas (`57a414f`, `160eb38`): fundação Next.js/TypeScript e estrutura mínima do App Router. Decisão registrada: `next.config.ts` define `agentRules: false` para impedir que o Next.js injete automaticamente um bloco de instruções em `CLAUDE.md` quando `next dev` detectar um agente de IA, preservando-o como fonte de governança deliberada. Próximo passo: Tarefa 2 (assets em `public/`). |
 | 29/08/2026 | Correção de defasagem entre este Plano Mestre e o estado real do Git (a `main` local estava 17 commits à frente de `origin/main`, sem push). Tarefa 2 (`7883435`) e Fatias 3.1 a 3.5 da Tarefa 3 (`3fc687c` … `b877e0e`) passam a constar como concluídas na tabela de status da Fase 2. Registradas também a correção de responsividade do CategoryStrip (`011cdbb`) e a correção da referência de imagem do mapa de representantes (`f78da05`). Proposta técnica da Fatia 3.6 (Presença — `PresenceSection`) apresentada ao Jose, aguardando aprovação e revisão técnica antes da implementação; identificado ainda um ajuste não commitado do CategoryStrip (refinamento dos divisores visuais via gradiente) pendente de decisão sobre commit separado. |
+| 29/08/2026 | Fatias 3.6 (Presença, `8bf9069`/`ca15453`), 3.7 (Novidades e dicas + correções mobile, `63718fb`/`fdcc175`) e 3.8 (CTA final, `0f1f1e0`/`8b1b6ab`) concluídas e mescladas, além da correção visual da seção Empresa (`9a18eae`) e do refinamento dos divisores do CategoryStrip (`61e94cf`). Tarefa 3.9 — revisão de regressão completa da Home nos breakpoints 1440×900, 1024×768, 800×1024 e 390×844 — concluída: estrutura, CSS, acessibilidade e o fluxo CTA/WhatsApp conferem com o baseline; `typecheck`, `test:static` e `next build` passaram sem erro. Nenhuma regressão objetivamente confirmada foi encontrada; as duas divergências identificadas (círculo/"F" da seção Empresa e responsividade do CategoryStrip) são mudanças já aprovadas e documentadas, não regressões. Pendência remanescente: validar manualmente os quatro breakpoints e o console no navegador Windows, pois o `next dev` não roda de forma estável no ambiente WSL usado nesta revisão (erro de lockfile do cache do Turbopack em `/mnt/c`). |
+| 30/08/2026 | Jose respondeu às nove perguntas da Parte III. Movidas para Parte II como decisões aprovadas: consentimento de representantes/revendas; especificação da página pública de representantes (mapa Leaflet à esquerda, dados à direita, acessada pelo botão "Encontrar representante"); manutenção do Blog como "Novidades e dicas" (já implementado); orçamento só por WhatsApp (já implementado); dois perfis de admin (Admin, Editor); edição via painel aprovada arquiteturalmente com implementação na Fase 3; política de privacidade já redigida (aguardando texto para o rodapé); confirmação de que os recovery codes expostos não são mais válidos (item de segurança encerrado). Mantido em Parte III, sem resolução: a resposta sobre storage de imagens propõe um serviço Spring Boot entre Next.js e Cloudflare R2, o que contradiz diretamente a ADR-001-Stack-Fortsul (que avaliou e rejeitou "Spring Boot + React separados" como overengineering). Aguardando confirmação do Jose sobre manter R2 servido só pelo Next.js (preservando a ADR-001) ou formalizar uma revisão da ADR-001 para incluir Spring Boot. Atualizadas as dependências das Fases 3, 4 e 5 e o item de segurança da tabela de status para refletir essas respostas. |
+| 30/08/2026 | Jose resolveu o conflito de storage de imagens: opção (a) — manter Cloudflare R2 como storage, servido exclusivamente por Route Handler/Server Action do próprio Next.js, sem serviço Spring Boot, preservando a ADR-001-Stack-Fortsul como aceita. Decisão movida da Parte III para a Parte II como aprovada. A Parte III fica sem itens pendentes. Atualizadas as referências correspondentes na introdução (seção 0), na tabela de status da Fase 2 (seção 0.2), no objetivo da Fase 2, na Fase 3 e na Parte V. |
+| 31/08/2026 | Jose concluiu e aprovou a validação visual da Tarefa 3.9 no site publicado, cobrindo as resoluções desktop, tablet e mobile informadas. Não foram encontradas regressões. Identificado e corrigido o espaçamento do título “A parceria continua depois da entrega.” em telas móveis, onde a ocultação do `<br>` unia as palavras. |
 
 ---
 
 # PARTE VII — REGISTRO HISTÓRICO DE INSTRUÇÃO PARA O AGENTE
 
-> **Não copie o bloco histórico abaixo para novas sessões.** Ele foi criado antes do encerramento da Fase 1. Para onboarding atual, use `docs/PROMPT_COMUNICACAO_AGENTES.md`, o contrato operacional e o roadmap vigente deste Plano Mestre.
+> **Não copie o bloco histórico abaixo para novas sessões.** Ele foi criado antes do encerramento da Fase 1 e antes de o Jose responder às questões então pendentes da Parte III, em 30/08/2026. As decisões foram tomadas pelo Jose — não por agentes — e estão registradas na Parte II. Para onboarding atual, use `docs/PROMPT_COMUNICACAO_AGENTES.md`, o contrato operacional e o roadmap vigente deste Plano Mestre.
 
 ## Tarefa autorizada agora: concluir a Fase 1 — Design/frontend
 

@@ -8,6 +8,7 @@ describe('SupportSection', () => {
 
     expect(screen.getByRole('region').id).toBe('atendimento')
     expect(screen.getByRole('heading', { level: 2, name: /a parceria continua/i })).toBeTruthy()
+    expect(screen.getByRole('heading', { level: 2 }).textContent).toBe('A parceria continua depois da entrega.')
 
     const steps = screen.getAllByRole('article')
     expect(steps.map((step) => step.querySelector('h3')?.textContent)).toEqual([

@@ -9,7 +9,7 @@ export function SupportSection() {
         <Reveal className="support-heading">
           <span className="eyebrow">Atendimento completo</span>
           <h2 id="support-title">
-            A parceria continua<br />depois da entrega.
+            A parceria continua{' '}<br />depois da entrega.
           </h2>
           <p>Um processo simples, próximo e transparente para colocar sua solução em funcionamento.</p>
         </Reveal>
