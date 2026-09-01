@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   // Permite que dispositivos na rede local recebam os scripts de desenvolvimento
   // do Next.js e consigam hidratar os componentes interativos.
   allowedDevOrigins: ['192.168.1.26'],
+  output: 'standalone',
 }
 
 export default nextConfig
