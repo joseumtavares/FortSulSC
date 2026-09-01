@@ -1,6 +1,7 @@
 # Credenciais e segredos — nunca versionar (ver docs/RULES.md, seção 12.1)
 *.env
 .env*
+!.env.example
 *recovery*
 *secret*
 *token*

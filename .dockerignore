@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.gitignore
+docs
+*.md
+.env
+.env.*
+test-results
+lighthouse-*.report.*
+lighthouse-*_report.*
+*.log
+.claude
+.agents

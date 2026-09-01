@@ -86,12 +86,12 @@ Não iniciar sem aprovação do Jose.
 
 ## 5.1 Checklist de conteinerização (Docker)
 
-- `[ ]` `Dockerfile` da aplicação Next.js.
-- `[ ]` `docker-compose.yaml` com aplicação e PostgreSQL local.
-- `[ ]` `.env.example` sem valores reais.
-- `[ ]` Aplicação sobe e responde dentro do container.
-- `[ ]` Documentação de como subir o ambiente localmente.
-- `[ ]` Concluído antes de iniciar a modelagem de banco (Fase 3).
+- `[x]` `Dockerfile` da aplicação Next.js.
+- `[x]` `docker-compose.yaml` com aplicação e PostgreSQL local.
+- `[x]` `.env.example` sem valores reais.
+- `[x]` Aplicação sobe e responde dentro do container.
+- `[x]` Documentação de como subir o ambiente localmente.
+- `[x]` Concluído antes de iniciar a modelagem de banco (Fase 3).
 
 ## 6. Checklist de segurança futuro
 

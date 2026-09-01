@@ -8,13 +8,51 @@ Consulte primeiro [docs/PLANO_MESTRE_FORTSULSC.md](docs/PLANO_MESTRE_FORTSULSC.m
 
 ## Executar localmente
 
-Pré-requisito: Node.js 18 ou superior.
+Pré-requisito: Node.js 20.9 ou superior.
 
 ```powershell
 npm run dev
 ```
 
-Abra `http://127.0.0.1:4173`.
+Abra `http://127.0.0.1:3000`.
+
+## Ambiente Docker local
+
+Pré-requisitos: Docker Desktop em execução, integração WSL habilitada quando
+aplicável e Docker Compose v2.
+
+Crie o arquivo local de variáveis e preencha uma senha de desenvolvimento para
+o PostgreSQL. O arquivo `.env` não deve ser versionado.
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Depois de preencher `POSTGRES_PASSWORD` no `.env`, valide e suba os serviços:
+
+```powershell
+docker compose config --quiet
+docker compose up --build -d
+docker compose ps
+curl.exe -fsS http://127.0.0.1:3000/
+```
+
+O PostgreSQL fica acessível somente à rede interna do Compose. Nesta fase a
+aplicação ainda não se conecta ao banco; a saúde de cada serviço é validada de
+forma independente. Para verificar o banco:
+
+```powershell
+docker compose exec -T db sh -c 'pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
+```
+
+Para encerrar preservando os dados locais:
+
+```powershell
+docker compose down
+```
+
+Use `docker compose down -v` somente quando quiser apagar também o volume local
+do PostgreSQL.
 
 ## Testar
 
