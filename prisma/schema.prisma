@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  order     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  products ProductCategory[]
+
+  @@map("categories")
+}
+
+model Product {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  eyebrow          String?
+  shortDescription String?  @map("short_description")
+  description      String?
+  catalogUrl       String?  @map("catalog_url")
+  active           Boolean  @default(false)
+  hasDetailPage    Boolean  @default(false) @map("has_detail_page")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  categories     ProductCategory[]
+  applications   ProductApplication[]
+  specifications ProductSpecification[]
+  images         ProductImage[]
+
+  @@map("products")
+}
+
+model ProductCategory {
+  productId  String @map("product_id")
+  categoryId String @map("category_id")
+
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@id([productId, categoryId])
+  @@map("product_categories")
+}
+
+model ProductApplication {
+  id        String @id @default(cuid())
+  productId String @map("product_id")
+  label     String
+  order     Int    @default(0)
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_applications")
+}
+
+model ProductSpecification {
+  id        String @id @default(cuid())
+  productId String @map("product_id")
+  label     String
+  value     String
+  order     Int    @default(0)
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_specifications")
+}
+
+enum ProductImageRole {
+  HERO
+  GALLERY
+}
+
+model ProductImage {
+  id        String           @id @default(cuid())
+  productId String           @map("product_id")
+  imageUrl  String           @map("image_url")
+  imageKey  String           @map("image_key")
+  mimeType  String           @map("mime_type")
+  size      Int
+  altText   String           @map("alt_text")
+  role      ProductImageRole @default(GALLERY)
+  order     Int              @default(0)
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_images")
+}

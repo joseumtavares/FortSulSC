@@ -21,6 +21,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./prisma:/app/prisma
+      - ./src:/app/src
+      - ./vitest.config.ts:/app/vitest.config.ts
+      - ./vitest.setup.ts:/app/vitest.setup.ts
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./next-env.d.ts:/app/next-env.d.ts
     networks:
       - fortsul-internal
 
