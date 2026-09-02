@@ -173,7 +173,18 @@ Regras:
 - CTA secundário pode usar azul ou link textual;
 - no mobile, CTAs principais podem ocupar largura total.
 
-## 10. Inputs
+## 10. Abas institucionais
+
+O padrão `AboutTabs` representa seções de conteúdo mutuamente exclusivo em formato de fichário.
+
+- a aba ativa usa fundo branco, borda superior laranja e sombra sutil para criar profundidade;
+- abas inativas usam `--surface` e preservam foco visível do navegador;
+- os painéis usam transição curta de opacidade e deslocamento, desativada para `prefers-reduced-motion`;
+- abaixo de `560px`, as seis abas formam uma grade de duas colunas, sem rolagem horizontal.
+
+Use esse padrão somente quando uma única seção de conteúdo deve estar ativa por vez. Filtros combináveis continuam usando botões com `aria-pressed`.
+
+## 11. Inputs
 
 Status: não implementado.
 
@@ -185,7 +196,7 @@ Quando formulários forem aprovados:
 - validação no servidor;
 - nunca depender apenas de placeholder.
 
-## 11. Cards
+## 12. Cards
 
 Cards atuais:
 
@@ -202,7 +213,7 @@ Regras:
 - CTA pequeno e consistente;
 - hover sutil, sem exagero.
 
-## 12. Modais
+## 13. Modais
 
 Status: não implementado.
 
@@ -215,7 +226,7 @@ Se aprovado:
 - botão de fechar acessível;
 - overlay discreto.
 
-## 13. Tabelas
+## 14. Tabelas
 
 Status: planejadas apenas para dashboard futuro.
 
@@ -227,7 +238,7 @@ Quando o admin for aprovado:
 - estados vazio/carregando/erro;
 - paginação quando houver volume.
 
-## 14. Estados
+## 15. Estados
 
 Estados atuais:
 
@@ -248,7 +259,7 @@ Estados obrigatórios futuros:
 - empty;
 - error.
 
-## 15. Ícones
+## 16. Ícones
 
 Ícones atuais são SVG inline.
 
@@ -259,7 +270,7 @@ Regras:
 - ícone funcional deve ter label acessível;
 - manter traço simples e consistente.
 
-## 16. Regras de responsividade
+## 17. Regras de responsividade
 
 - testar em desktop, tablet e celular;
 - menu mobile deve ser simples;
@@ -268,7 +279,7 @@ Regras:
 - imagens devem manter proporção e bom corte;
 - respeitar `prefers-reduced-motion`.
 
-## 17. Como criar novos componentes mantendo consistência
+## 18. Como criar novos componentes mantendo consistência
 
 1. usar tokens existentes antes de criar novos;
 2. verificar se já existe componente parecido;

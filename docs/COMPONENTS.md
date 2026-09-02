@@ -90,16 +90,14 @@ Exemplo futuro:
 
 ### 3.4 AboutSection
 
-- Nome atual: `about`, `about-grid`, `about-visual`, `about-copy`.
-- Objetivo: apresentar a empresa e reforçar confiança.
+- Status: implementado no frontend Next.js.
+- Nome atual: `about`, `about-fichario`, `AboutTabs`, `about-tablist`, `about-panel`.
+- Objetivo: apresentar os conteúdos institucionais da FortSul em seis abas mutuamente exclusivas.
 - Quando utilizar: home e página “Sobre”.
 - Quando não utilizar: em páginas transacionais do admin.
-- Props futuras:
-  - `title`;
-  - `description`;
-  - `features`;
-  - `image`;
-  - `sealText`.
+- Acessibilidade: usa o padrão ARIA de tabs (`tablist`, `tab` e `tabpanel`), com uma aba ativa, foco móvel e navegação por `ArrowLeft`/`ArrowRight`/`Home`/`End`.
+- Dados: o Server Component entrega o conteúdo estático de `about-tabs-data.ts` ao Client Component `AboutTabs`; não há CMS ou regra de negócio nesta etapa.
+- Observação: as imagens do alimentador e do selo de qualidade não fazem mais parte da Home e ficam reservadas ao futuro cadastro do produto.
 
 ### 3.5 SolutionFilters
 

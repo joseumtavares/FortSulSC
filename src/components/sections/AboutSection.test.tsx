@@ -3,15 +3,12 @@ import { render, screen } from '@testing-library/react'
 import { AboutSection } from './AboutSection'
 
 describe('AboutSection', () => {
-  it('preserva a seção Sobre, diferenciais e CTA do baseline', () => {
+  it('mantém a âncora da seção e inicia o fichário pela aba FortSul', () => {
     render(<AboutSection />)
 
     expect(screen.getByRole('region').id).toBe('empresa')
-    expect(screen.getByRole('heading', { level: 2, name: /tecnologia robusta/i })).toBeTruthy()
-    expect(screen.getByText('Produção própria')).toBeTruthy()
-    expect(screen.getByText('Solução completa')).toBeTruthy()
-    expect(screen.getByRole('link', { name: /conheça nosso jeito/i }).getAttribute('href')).toBe('#atendimento')
-    expect(screen.getByAltText('Alimentador FortSul em destaque')).toBeTruthy()
-    expect(screen.getByAltText('Selo de qualidade garantida FortSul')).toBeTruthy()
+    expect(screen.getByRole('tablist', { name: 'Seções sobre a FortSul' })).toBeTruthy()
+    expect(screen.getByRole('tab', { name: 'FortSul' }).getAttribute('aria-selected')).toBe('true')
+    expect(screen.getByRole('tabpanel', { name: 'FortSul' }).hidden).toBe(false)
   })
 })
