@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -9,20 +9,18 @@ datasource db {
 }
 
 model Category {
-  id        String   @id @default(cuid())
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name      String
   slug      String   @unique
   order     Int      @default(0)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-
-  products ProductCategory[]
-
+  products  ProductCategory[]
   @@map("categories")
 }
 
 model Product {
-  id               String   @id @default(cuid())
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   slug             String   @unique
   name             String
   eyebrow          String?
@@ -33,46 +31,38 @@ model Product {
   hasDetailPage    Boolean  @default(false) @map("has_detail_page")
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
-
-  categories     ProductCategory[]
-  applications   ProductApplication[]
-  specifications ProductSpecification[]
-  images         ProductImage[]
-
+  categories       ProductCategory[]
+  applications    ProductApplication[]
+  specifications  ProductSpecification[]
+  images          ProductImage[]
   @@map("products")
 }
 
 model ProductCategory {
-  productId  String @map("product_id")
-  categoryId String @map("category_id")
-
-  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-
+  productId  String @map("product_id") @db.Uuid
+  categoryId String @map("category_id") @db.Uuid
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   @@id([productId, categoryId])
   @@map("product_categories")
 }
 
 model ProductApplication {
-  id        String @id @default(cuid())
-  productId String @map("product_id")
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId String  @map("product_id") @db.Uuid
   label     String
-  order     Int    @default(0)
-
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
+  order     Int     @default(0)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   @@map("product_applications")
 }
 
 model ProductSpecification {
-  id        String @id @default(cuid())
-  productId String @map("product_id")
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId String  @map("product_id") @db.Uuid
   label     String
   value     String
-  order     Int    @default(0)
-
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
+  order     Int     @default(0)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   @@map("product_specifications")
 }
 
@@ -82,8 +72,8 @@ enum ProductImageRole {
 }
 
 model ProductImage {
-  id        String           @id @default(cuid())
-  productId String           @map("product_id")
+  id        String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId String           @map("product_id") @db.Uuid
   imageUrl  String           @map("image_url")
   imageKey  String           @map("image_key")
   mimeType  String           @map("mime_type")
@@ -92,8 +82,114 @@ model ProductImage {
   role      ProductImageRole @default(GALLERY)
   order     Int              @default(0)
   createdAt DateTime         @default(now()) @map("created_at")
-
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
+  product   Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
   @@map("product_images")
+}
+
+model Region {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  slug      String   @unique
+  ibgeCode  String   @unique @map("ibge_code")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  states    State[]
+  @@map("regions")
+}
+
+model State {
+  id            String         @id @default(uuid()) @db.Uuid
+  regionId      String         @map("region_id") @db.Uuid
+  name          String
+  uf            String         @unique @db.VarChar(2)
+  slug          String         @unique
+  ibgeCode      String         @unique @map("ibge_code")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  region        Region         @relation(fields: [regionId], references: [id], onDelete: Restrict)
+  municipalities Municipality[]
+  @@index([regionId])
+  @@map("states")
+}
+
+model Municipality {
+  id              String                        @id @default(uuid()) @db.Uuid
+  stateId         String                        @map("state_id") @db.Uuid
+  name            String
+  slug            String
+  ibgeCode        String                        @unique @map("ibge_code")
+  createdAt       DateTime                      @default(now()) @map("created_at")
+  updatedAt       DateTime                      @updatedAt @map("updated_at")
+  state           State                         @relation(fields: [stateId], references: [id], onDelete: Restrict)
+  commercialAreas CommercialAreaMunicipality[]
+  @@unique([stateId, slug])
+  @@index([stateId])
+  @@map("municipalities")
+}
+
+model CommercialArea {
+  id            String                        @id @default(uuid()) @db.Uuid
+  name          String
+  slug          String                        @unique
+  createdAt     DateTime                      @default(now()) @map("created_at")
+  updatedAt     DateTime                      @updatedAt @map("updated_at")
+  municipalities CommercialAreaMunicipality[]
+  partners      PartnerCommercialArea[]
+  @@map("commercial_areas")
+}
+
+model CommercialAreaMunicipality {
+  commercialAreaId String         @map("commercial_area_id") @db.Uuid
+  municipalityId   String         @map("municipality_id") @db.Uuid
+  commercialArea   CommercialArea @relation(fields: [commercialAreaId], references: [id], onDelete: Cascade)
+  municipality     Municipality   @relation(fields: [municipalityId], references: [id], onDelete: Restrict)
+  @@id([commercialAreaId, municipalityId])
+  @@map("commercial_area_municipalities")
+}
+
+enum PartnerType {
+  REPRESENTATIVE
+  RESELLER
+}
+
+model Partner {
+  id             String                  @id @default(uuid()) @db.Uuid
+  type           PartnerType
+  name           String
+  description    String?
+  whatsapp       String
+  socialLinks    Json?                   @map("social_links")
+  websiteUrl     String?                 @map("website_url")
+  logoUrl        String?                 @map("logo_url")
+  active         Boolean                 @default(false)
+  approximateLat Float?                  @map("approximate_lat")
+  approximateLng Float?                  @map("approximate_lng")
+  createdAt      DateTime                @default(now()) @map("created_at")
+  updatedAt      DateTime                @updatedAt @map("updated_at")
+  private        PartnerPrivate?
+  commercialAreas PartnerCommercialArea[]
+  @@index([type])
+  @@map("partners")
+}
+
+model PartnerPrivate {
+  id               String   @id @default(uuid()) @db.Uuid
+  partnerId        String   @unique @map("partner_id") @db.Uuid
+  document         String?
+  consentGivenAt   DateTime @map("consent_given_at")
+  consentRevokedAt DateTime? @map("consent_revoked_at")
+  consentNotes     String?  @map("consent_notes")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  partner          Partner  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  @@map("partner_private")
+}
+
+model PartnerCommercialArea {
+  partnerId        String         @map("partner_id") @db.Uuid
+  commercialAreaId String         @map("commercial_area_id") @db.Uuid
+  partner          Partner        @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  commercialArea   CommercialArea @relation(fields: [commercialAreaId], references: [id], onDelete: Restrict)
+  @@id([partnerId, commercialAreaId])
+  @@map("partner_commercial_areas")
 }
