@@ -30,6 +30,7 @@ COPY package.json package-lock.json ./
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder --chown=node:node /app/prisma ./prisma
+COPY --from=builder --chown=node:node /app/scripts ./scripts
 
 USER node
 EXPOSE 3000
