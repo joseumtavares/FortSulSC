@@ -12,10 +12,13 @@
     "test:unit": "vitest run",
     "test:db": "vitest run src/lib/db",
     "test": "npm run test:static && npm run test:unit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:types": "eslint --config eslint.typed.config.mjs .",
     "dev": "next dev",
     "build": "prisma generate && next build --webpack",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "prisma generate && tsc --noEmit"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
@@ -27,6 +30,7 @@
     "tsx": "^4.20.6"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.6",
@@ -34,8 +38,12 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.1.0",
+    "eslint": "^9.39.5",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-import-x": "^4.17.1",
     "jsdom": "^30.0.1",
     "typescript": "^5",
+    "typescript-eslint": "^8.69.0",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.11"
   },

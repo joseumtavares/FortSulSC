@@ -1,7 +1,7 @@
 # Checklist — FortSulSC
 
 Status: checklist de planejamento e qualidade
-Última revisão: 2026-08-21
+Última revisão: 2026-09-04
 
 > **Governança:** este checklist mede qualidade e cobertura por área. O status de fase (o que está autorizado a avançar agora) está em `PLANO_MESTRE_FORTSULSC.md`.
 
@@ -126,3 +126,8 @@ Não iniciar sem aprovação do Jose.
 - `[ ]` Nenhum segredo foi lido, copiado ou salvo?
 - `[ ]` Para decisões estruturais: passou pelas 6 etapas do fluxo de aprovação (proposta → Jose → Claude → implementação/testes smoke → testes manuais → aprovação dupla)?
 - `[ ]` Commit/push só ocorreu após aprovação do Jose **e** do Claude?
+- `[ ]` `npm run lint` passou sem erros ou avisos?
+- `[ ]` `npm run typecheck` passou após preparar qualquer cliente gerado?
+- `[ ]` `npm test` passou com a variável de conexão local configurada quando
+  houver testes de integração com banco?
+- `[ ]` `npm run build` passou?

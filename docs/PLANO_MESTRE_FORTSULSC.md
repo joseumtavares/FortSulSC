@@ -3,10 +3,10 @@
 > Documento de contexto, governança técnica e execução por fases para qualquer agente (Claude, Codex ou outro) que trabalhar neste projeto.
 >
 > **Projeto:** FortSulSC — reformulação do site institucional/catálogo da FortSul Equipamentos Agrícolas
-> **Stack esperada (fase full stack futura):** Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, PostgreSQL, Prisma, Auth.js, Leaflet + OpenStreetMap
-> **Estado atual do código:** frontend estático (`index.html`, `styles.css`, `script.js`), sem backend, sem banco, sem autenticação
-> **Abordagem:** modernização incremental de um site já existente, protótipo visual já aprovado pelo cliente, com implementação por portões de aprovação — design/frontend primeiro, backend somente após aprovação explícita do Jose
-> **Data de consolidação:** 21 de agosto de 2026
+> **Stack atual:** Next.js, React, TypeScript, Prisma e PostgreSQL local via Docker; Tailwind CSS, shadcn/ui, Auth.js e Leaflet + OpenStreetMap continuam planejados por fase
+> **Estado atual do código:** app Next.js em `src/`, frontend legado preservado, schema/migrations Prisma e testes de integração; não há autenticação, painel administrativo ou API de negócio aprovada
+> **Abordagem:** modernização incremental por portões de aprovação; a fundação técnica existente não autoriza novas regras de negócio, rotas ou módulos fora da fatia aprovada por Jose
+> **Data de consolidação:** 04 de setembro de 2026
 > **Repositório:** https://github.com/joseumtavares/FortSulSC (público)
 
 > **Atualização vigente:** este documento substitui o controle informal que estava espalhado entre `PLANEJAMENTO_PROJETO.md`, `ARCHITECTURE.md`, `API.md`, `COMPONENTS.md`, `DESIGN-SYSTEM.md`, `RULES.md` e `CHECKLIST.md`. Esses arquivos continuam sendo a fonte de detalhe técnico de cada assunto; este Plano Mestre é a fonte de verdade sobre **em que fase o projeto está agora** e **o que pode ser feito em seguida**.
@@ -27,7 +27,7 @@ Este documento reúne:
 
 Qualquer agente deverá conhecer todo o documento, mas **não deverá implementar todas as fases de uma vez**.
 
-A Fase 1 foi formalmente encerrada e seu baseline aprovado foi registrado no commit `88e7d6f`. A execução da **Fase 2 — Estrutura Next.js** está autorizada. As nove decisões que estavam pendentes no planejamento vigente foram todas respondidas pelo Jose em 30/08/2026 e registradas como aprovadas na Parte II, incluindo o ponto de storage de imagens (Cloudflare R2 servido apenas pelo Next.js, sem Spring Boot, preservando a ADR-001-Stack-Fortsul). Não há mais decisões pendentes na Parte III.
+A Fase 1 foi formalmente encerrada e seu baseline aprovado foi registrado no commit `88e7d6f`. A **Fase 2 — Estrutura Next.js** e a Fase Docker foram concluídas; a fundação Prisma (schema, migrations e testes de integração) já existe no repositório. As próximas mudanças continuam sujeitas à fatia aprovada e ao fluxo de revisão. As decisões consolidadas do planejamento, incluindo storage R2 servido pelo Next.js sem Spring Boot, permanecem registradas na Parte II.
 
 Ao final de qualquer etapa, o agente deve atualizar o marcador correspondente neste documento e parar para revisão do Jose antes de avançar de fase.
 
@@ -46,16 +46,16 @@ Ao final de qualquer etapa, o agente deve atualizar o marcador correspondente ne
 
 ## 0.2. Roadmap de execução atual
 
-Status consolidado em 31 de agosto de 2026:
+Status consolidado em 04 de setembro de 2026:
 
 | Status | Etapa | Situação atual | Próximo portão |
 |---|---|---|---|
 | 🟢 | Item de segurança — arquivo `recovery-codes-vercel-fortsul.txt` | Confirmado via GitHub: o repositório publicado (`joseumtavares/FortSulSC`) tem histórico com **1 commit único**, sem o arquivo. Como não existe commit anterior à remoção, não há histórico de Git para purgar. O Jose confirmou em 30/08/2026 que os códigos de recuperação expostos não são mais válidos. | Nenhuma; item de segurança encerrado. |
 | 🟢 | Fase 0 — Planejamento e validação | `PLANEJAMENTO_PROJETO.md`, `ARCHITECTURE.md`, `API.md`, `COMPONENTS.md`, `DESIGN-SYSTEM.md`, `RULES.md` e `CHECKLIST.md` criados e revisados. Revisão técnica externa realizada. Repositório publicado no GitHub (`joseumtavares/FortSulSC`), commit inicial aprovado pelo Jose. | Nenhum; etapa concluída, mantida como referência viva. |
 | 🟢 | Fase 1 — Design/frontend | Formalmente encerrada; baseline aprovado no commit `88e7d6f`. | Nenhum; preservada como baseline e referência de rollback. |
-| 🟡 | Fase 2 — Estrutura Next.js | Tarefas 1A e 1B concluídas (`57a414f`, `160eb38`) e Tarefa 2 — assets em `public/` — concluída (`7883435`). Tarefa 3 (migração visual da home) concluída: Fatias 3.1 a 3.5 (`3fc687c` … `b877e0e`, Header/Footer, Hero, CategoryStrip, About/Solutions e Atendimento), correção de responsividade do CategoryStrip (`011cdbb`/`61e94cf`), correção de referência de imagem do mapa de representantes (`f78da05`), Fatia 3.6 — Presença (`8bf9069`/`ca15453`), Fatia 3.7 — Novidades e dicas + correções mobile (`63718fb`/`fdcc175`), Fatia 3.8 — CTA final (`0f1f1e0`/`8b1b6ab`) e correção visual da seção Empresa (`9a18eae`). Tarefa 3.9 — revisão de regressão completa da Home — concluída, sem regressões objetivamente confirmadas frente ao baseline. | Todas as validações automatizadas e visuais foram concluídas e aprovadas pelo Jose no site publicado. A Fase 2 está formalmente aprovada; a Fase Docker encontra-se em implementação e validação (ver linha abaixo). A Fase 3 continua exigindo conclusão formal da Fase Docker e aprovação explícita do Jose. |
+| 🟢 | Fase 2 — Estrutura Next.js | Tarefas 1A/1B, assets, migração visual da Home e revisão de regressão concluídas e aprovadas; a aplicação Next.js/TypeScript em `src/` é a base vigente. | Novas rotas ou módulos seguem a fatia e as aprovações aplicáveis. |
 | 🟢 | Fase Docker — Fundação de conteinerização | Concluída e aprovada para commit: Dockerfile Next.js standalone, Compose com PostgreSQL vazio sem porta publicada no host, `.env.example`, `.dockerignore` e documentação local. `docker compose config --quiet`, build, saúde do PostgreSQL e resposta HTTP 200 da Home passaram. | A Fase 3 continua bloqueada até nova aprovação explícita do Jose, incluindo modelagem de dados e regras de negócio. |
-| 🔴 | Fase 3 — Modelagem e regras de negócio | Não iniciada. Entidades prováveis já listadas em `PLANEJAMENTO_PROJETO.md` (Product, Category, Representative, RepresentativePrivate, Reseller, Region, Banner, AdminUser, AuditLog) como hipótese, não como contrato. | **Só pode começar após consulta e aprovação explícita do Jose** — inclui aprovar regras de negócio, modelagem de banco e política de consentimento de dados de representantes. |
+| 🟡 | Fase 3 — Modelagem e regras de negócio | Schema Prisma, migrations e testes de integração já estão presentes para as fatias aprovadas de catálogo e geografia/parceiros. Isso não implica autenticação, API de negócio, painel ou avanço automático das demais fatias. | Implementar somente a próxima fatia formalmente aprovada por Jose, com revisão técnica e contrato de testes quando aplicável. |
 | 🔴 | Fase 4 — Painel administrativo | Não iniciada. | Conclusão e aprovação da Fase 3. |
 | 🔴 | Fase 5 — Mapa e dados públicos | Não iniciada. Componente `RepresentativeMap` já documentado em `COMPONENTS.md` como planejado. | Conclusão e aprovação da Fase 4, e definição prévia de quais dados de representantes são públicos. |
 | 🔴 | Fase 6 — Segurança, testes e deploy | Não iniciada. | Conclusão e aprovação da Fase 5. |
@@ -179,13 +179,13 @@ Não implementar a próxima fase antes de o Jose confirmar a fase atual como con
 | Decisão | Estado |
 |---|---|
 | Manter o padrão visual aprovado no protótipo, com modernizações leves apresentadas antes | Aprovada |
-| Stack full stack: Next.js + TypeScript + PostgreSQL + Prisma + Tailwind + shadcn/ui + Leaflet/OSM | Aprovada como direção, não implementada |
+| Stack full stack: Next.js + TypeScript + PostgreSQL + Prisma + Tailwind + shadcn/ui + Leaflet/OSM | Next.js, TypeScript, PostgreSQL local e Prisma implementados; Tailwind, shadcn/ui e Leaflet/OSM permanecem planejados por fase |
 | Frontend antes de backend | Aprovada |
 | Backend/banco/regras de negócio só após aprovação explícita do Jose | Obrigatória |
 | Separação entre dados públicos e privados de representantes (`representatives` vs `representative_private`) | Aprovada como modelo de referência, não implementada |
 | Nenhum commit/push automático sem autorização do Jose | Aprovada |
 | WhatsApp como canal principal de conversão nesta fase | Aprovada |
-| Containerização do projeto com Docker | Aprovada como direção, não implementada — ver Fase Docker na Parte IV |
+| Containerização do projeto com Docker | Implementada para ambiente local — ver Fase Docker na Parte IV |
 | Fluxo de aprovação em duas camadas (Jose + revisão do Claude) obrigatório antes de qualquer implementação e antes de qualquer commit | Obrigatória |
 | Contrato de testes em código antes de implementar regra de negócio nova, a partir da Fase 3 (equivalente à DEC-020 do projeto Nonna) | Obrigatória |
 | Representantes/revendas já deram consentimento para publicação de nome, WhatsApp e localização aproximada (confirmado pelo Jose em 30/08/2026) | Aprovada — desbloqueia Fase 3 e Fase 5 quanto a este ponto |
@@ -229,9 +229,11 @@ Fase encerrada formalmente com o baseline `88e7d6f`. Resultados de Lighthouse e 
 
 Não incluir nesta fase: banco, autenticação, CRUD, regras de negócio, mapa interativo com dados dinâmicos.
 
-## Fase 2 — Estrutura Next.js 🟡
+## Fase 2 — Estrutura Next.js 🟢
 
-Objetivo: migrar o frontend aprovado para base Next.js + TypeScript, seguindo a estrutura de pastas de `ARCHITECTURE.md`. A fase está autorizada, com plano técnico revisado e aprovado; todas as nove decisões pendentes já foram respondidas pelo Jose e constam na Parte II.
+Objetivo concluído: migrar o frontend aprovado para a base Next.js + TypeScript,
+seguindo a estrutura de pastas de `ARCHITECTURE.md`. A aplicação em `src/` é a
+base vigente para as próximas fatias.
 
 Importante: a pasta `app/api/` nasce vazia/placeholder nesta fase — não implica API funcional.
 
@@ -245,7 +247,10 @@ Iniciativa aprovada em 03/09/2026, aguardando implementação: redesign de `#sol
 
 Objetivo: rodar o projeto em container antes de a modelagem de banco (Fase 3) começar, para que schema e migrations já nasçam testáveis em ambiente isolado — mesmo cuidado adotado no projeto Nonna com a "Fase Docker 0".
 
-Estado atual: implementação, revisão do Claude e validação manual do Jose concluídas em `feature/codex-docker`; aprovada para commit. O PostgreSQL ainda está vazio e a aplicação ainda não possui Prisma ou conexão real com o banco.
+Estado atual: implementação, revisão do Claude e validação manual do Jose
+concluídas. A restrição original desta fase — não configurar Prisma nem conexão
+real antes da modelagem — é histórica; o repositório atual já possui Prisma,
+migrations e testes de integração nas fatias posteriores aprovadas.
 
 Entregáveis esperados:
 - `Dockerfile` para a aplicação Next.js;
@@ -258,13 +263,22 @@ Segue o mesmo fluxo de aprovação da seção 4 do Plano Mestre: proposta da est
 
 Não incluir nesta fase: schema Prisma, migrations, dados reais, credenciais de produção dentro do container ou do `docker-compose.yaml`.
 
-## Fase 3 — Modelagem e regras de negócio 🔴
+## Fase 3 — Modelagem e regras de negócio 🟡
 
-Objetivo: definir banco, entidades, permissões e regras de negócio.
+Objetivo: evoluir banco, entidades, permissões e regras de negócio somente nas
+fatias aprovadas. A fundação de catálogo e geografia/parceiros já está presente
+em schema, migrations e testes de integração.
 
-**Esta fase só começa depois de consulta e aprovação do Jose.** O consentimento de dados de representantes já foi confirmado (Parte II) e a política de privacidade já existe redigida, aguardando entrega do texto final para a política de retenção/exclusão (LGPD). O storage de imagens já está definido (Parte II): Cloudflare R2, servido por Route Handler/Server Action do próprio Next.js, sem serviço Spring Boot, preservando a ADR-001 — as entidades que armazenam imagens devem seguir esse modelo (`image_url`/`image_key`/`mime_type`/`size` no Postgres, sem a imagem em si).
+**Nenhuma próxima fatia começa sem consulta e aprovação do Jose.** O
+consentimento de dados de representantes já foi confirmado (Parte II) e a
+política de privacidade já existe redigida, aguardando entrega do texto final
+para a política de retenção/exclusão (LGPD). O storage de imagens já está
+definido (Parte II): Cloudflare R2, servido por Route Handler/Server Action do
+próprio Next.js, sem serviço Spring Boot, preservando a ADR-001.
 
-Entregável esperado ao final: modelagem completa apresentada (entidades, modelo relacional, diagrama, plano de migrations) **sem criar nenhuma tabela ainda**, aguardando autorização expressa — mesmo protocolo usado no projeto Nonna.
+Entregável esperado de cada próxima fatia: proposta aprovada, alteração de schema
+e migration quando aplicável, contrato de testes em código e evidência de
+validação. O código existente não autoriza antecipar as fatias restantes.
 
 A partir desta fase, toda proposta de regra de negócio deve seguir o fluxo completo da seção 4 e vir acompanhada do contrato de testes em código (não em prosa), antes de qualquer Model, Service, Route Handler ou Server Action ser escrito.
 
@@ -302,8 +316,10 @@ Um agente entendeu este Plano Mestre quando consegue:
 - identificar no roadmap a fase autorizada e suas dependências, sem assumir que instruções históricas continuam vigentes;
 - citar o item de segurança do recovery codes e seu status atual (histórico publicado sem o arquivo; Jose confirmou em 30/08/2026 que os códigos não são mais válidos — item encerrado) antes de qualquer commit;
 - reconhecer que não há mais perguntas pendentes do Jose na Parte III; todas as nove foram respondidas em 30/08/2026 e estão na Parte II, incluindo o storage de imagens (R2 via Next.js, sem Spring Boot, preservando a ADR-001);
-- diferenciar o que já existe (frontend estático) do que é apenas planejado (Next.js, Prisma, painel admin, Docker);
-- não iniciar a Fase Docker antes do portão correspondente da Fase 2, nem a Fase 3 sem aprovação explícita e suas dependências;
+- diferenciar o legado estático preservado da fundação já existente (Next.js,
+  Prisma e Docker) e dos módulos ainda planejados (painel, autenticação, mapa e
+  APIs de negócio);
+- não iniciar uma nova fatia da Fase 3 sem aprovação explícita e suas dependências;
 - explicar as seis etapas do fluxo de aprovação da seção 4 (modelagem → aprovação do Jose → revisão do Claude → implementação/testes smoke → lista de testes manuais → aprovação dupla → commit) e nunca pular etapa;
 - reconhecer que, a partir da Fase 3, toda regra de negócio nova exige contrato de testes em código antes da implementação;
 - atualizar a tabela da seção 0.2 sempre que uma etapa mudar de estado.
@@ -329,6 +345,7 @@ Um agente entendeu este Plano Mestre quando consegue:
 | 31/08/2026 | Jose concluiu e aprovou a validação visual da Tarefa 3.9 no site publicado, cobrindo as resoluções desktop, tablet e mobile informadas. Não foram encontradas regressões. Identificado e corrigido o espaçamento do título “A parceria continua depois da entrega.” em telas móveis, onde a ocultação do `<br>` unia as palavras. |
 | 31/08/2026 | Fase Docker implementada no worktree `feature/codex-docker`: Dockerfile Next.js standalone com usuário não-root, Compose com PostgreSQL vazio restrito à rede interna, `.env.example` sem senha, `.dockerignore` e instruções locais. Validações aprovadas: `docker compose config --quiet`, build, PostgreSQL healthy/`pg_isready` e Home HTTP 200. Sem Prisma, migrations, `DATABASE_URL`, `depends_on` no app ou conexão real app→banco. Aguarda revisão do Claude e validação manual do Jose antes de commit. |
 | 01/09/2026 | Jose aprovou formalmente a Fase 2 — Estrutura Next.js — após a conclusão e validação da Tarefa 3.9. O portão para iniciar a Fase Docker foi atendido. A Fase Docker recebeu revisão aprovada do Claude e validação manual aprovada do Jose, ficando autorizada para commit; a Fase 3 permanece bloqueada até nova aprovação explícita do Jose. |
+| 04/09/2026 | Corrigido descompasso documental: RULES, ARCHITECTURE e o estado vigente deste Plano Mestre passam a reconhecer a fundação Next.js/Prisma/Docker e as migrations/testes de integração presentes no repositório. Mantido o bloqueio de novas fatias, rotas, autenticação, painel e regras fora do escopo aprovado. |
 
 ---
 

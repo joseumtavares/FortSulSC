@@ -1,39 +1,44 @@
 # Arquitetura — FortSulSC
 
-Status: arquitetura planejada, com frontend estático em andamento
-Última revisão: 2026-08-21
+Status: fundação Next.js/Prisma implementada; módulos de produto seguem por fases
+Última revisão: 2026-09-04
 
 > **Governança:** o status de execução de cada fase (concluída/parcial/bloqueada) é controlado em `PLANO_MESTRE_FORTSULSC.md`. Este documento descreve a arquitetura técnica; não deve ser usado para acompanhar andamento de fase.
 
+
 ## 1. Visão geral
 
-A FortSulSC está sendo reformulada a partir de um site WordPress/Elementor para uma experiência moderna, responsiva e preparada para evoluir para uma aplicação full stack.
+A FortSulSC está sendo reformulada a partir de um site WordPress/Elementor para
+uma aplicação Next.js responsiva, com fundação local de dados em Prisma/PostgreSQL.
 
-A arquitetura será conduzida em fases:
+A arquitetura é conduzida em fases:
 
 1. planejamento e documentação;
-2. design/frontend;
-3. estrutura Next.js;
-4. Docker — fundação de conteinerização, antes da modelagem de banco;
-5. backend, banco e regras de negócio somente após aprovação;
-6. painel administrativo;
-7. mapa, segurança, testes e deploy.
+2. design/frontend e migração para Next.js;
+3. Docker e PostgreSQL local;
+4. fundação de dados Prisma e catálogo/geografia aprovados por fatia;
+5. rotas, regras de negócio e painel administrativo somente após aprovação;
+6. mapa, segurança, testes e deploy.
 
 ## 2. Estado atual da aplicação
 
-Atualmente o projeto possui uma proposta frontend estática:
+Atualmente o repositório preserva os arquivos estáticos legados e contém a
+aplicação Next.js/TypeScript em `src/`, o schema e as migrations Prisma em
+`prisma/`, testes Vitest — inclusive de integração — e a configuração ESLint.
 
 ```text
 FortSulSC/
-├── index.html
-├── styles.css
-├── script.js
+├── src/
+├── prisma/
+├── public/
+├── eslint.config.mjs
 ├── package.json
-├── preview.mjs
 ├── README.md
-├── CLAUDE.md
 ├── docs/
-└── image/
+├── image/                 # legado
+├── index.html             # legado
+├── styles.css             # legado
+└── script.js              # legado
 ```
 
 > Atenção: o histórico publicado do Git não lista `recovery-codes-vercel-fortsul.txt`; portanto, não há histórico a purgar. Não abra arquivos potencialmente secretos. A confirmação de revogação/regeneração na Vercel continua pendente do Jose — ver `PLANO_MESTRE_FORTSULSC.md`, seção 0.2.
@@ -50,16 +55,16 @@ O frontend atual contempla:
 - rodapé.
 - página de produto estática, página 404 e `robots.txt`.
 
-Não existe ainda:
+Ainda não existem módulos aprovados de:
 
 - backend;
-- banco de dados;
+- API/Route Handler de negócio;
 - autenticação;
 - CRUD;
 - API;
 - regras de negócio.
 
-## 3. Arquitetura futura planejada
+## 3. Arquitetura-alvo para módulos ainda não implementados
 
 ```text
 Internet
@@ -87,25 +92,25 @@ PostgreSQL
 Dados públicos e privados separados
 ```
 
-## 4. Stack planejada
+## 4. Stack atual e planejada
 
 | Camada | Tecnologia | Status |
 |---|---|---|
-| Framework | Next.js | Planejado |
-| Linguagem | TypeScript | Planejado |
+| Framework | Next.js | Implementado |
+| Linguagem | TypeScript | Implementado |
 | UI | Tailwind CSS + shadcn/ui | Planejado |
-| Frontend | React | Planejado |
-| ORM | Prisma | Planejado |
-| Banco | PostgreSQL | Planejado |
+| Frontend | React | Implementado |
+| ORM | Prisma | Implementado |
+| Banco | PostgreSQL | Ambiente local e migrations implementados |
 | Autenticação | Auth.js | Planejado |
 | Mapa | Leaflet + OpenStreetMap | Planejado |
 | Storage | Cloudinary, R2 ou S3-compatible | A decidir |
 | Deploy | Vercel ou equivalente | A decidir |
-| Conteinerização | Docker + Docker Compose | Planejado — ver Fase Docker no Plano Mestre |
+| Conteinerização | Docker + Docker Compose | Implementado para ambiente local |
 
-## 5. Organização de pastas futura
+## 5. Organização de pastas alvo
 
-Estrutura desejada para a fase Next.js:
+Estrutura desejada para as próximas fatias Next.js:
 
 ```text
 src/
@@ -251,6 +256,7 @@ Direção futura:
 - camada de dados usa Prisma;
 - componentes não acessam Prisma diretamente;
 - módulos administrativos validam permissão antes de qualquer mutação.
+- dependências externas e fronteiras entre módulos seguem `ABSTRACTION_POLICY.md`; seus exemplos não são prescrições de implementação.
 
 ## 12. Como adicionar novas páginas
 

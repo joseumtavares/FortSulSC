@@ -21,6 +21,7 @@ Leia primeiro `docs/PLANO_MESTRE_FORTSULSC.md`. Ele é a fonte de verdade sobre 
 - `docs/CODEBASE_MAP.md` — mapa gerado do código: estrutura de diretórios, módulos, fluxos de dados e gotchas (não substitui os documentos de governança acima quanto a fase/escopo).
 - `docs/PLANEJAMENTO_PROJETO.md` — planejamento reformulado do projeto.
 - `docs/ARCHITECTURE.md` — arquitetura atual e futura.
+- `docs/ABSTRACTION_POLICY.md` — critérios preventivos para abstrações e integrações externas; exemplos não autorizam implementação.
 - `docs/API.md` — padrão para documentação de APIs futuras.
 - `docs/COMPONENTS.md` — componentes atuais e mapeamento futuro.
 - `docs/DESIGN-SYSTEM.md` — tokens e regras visuais.

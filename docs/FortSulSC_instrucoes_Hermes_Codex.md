@@ -1,7 +1,7 @@
 # Contrato operacional de agentes — FortSulSC
 
 Status: obrigatório para agentes principais e subagentes
-Última revisão: 2026-08-25
+Última revisão: 2026-09-04
 
 Este documento define como qualquer agente entra, trabalha, delega, valida e
 entrega mudanças no FortSulSC. Ele não autoriza funcionalidades por si só e não
@@ -32,6 +32,7 @@ Todo agente deve conhecer estes documentos antes de alterar o projeto:
 | [Plano Mestre](PLANO_MESTRE_FORTSULSC.md) | fase atual, bloqueios, escopo e gates de aprovação |
 | [Regras](RULES.md) | limites técnicos, segurança, Git, acessibilidade e SEO |
 | [Arquitetura](ARCHITECTURE.md) | estado atual e arquitetura futura planejada |
+| [Política de abstrações](ABSTRACTION_POLICY.md) | critérios preventivos para fronteiras com infraestrutura, fornecedores e SDKs |
 | [Planejamento](PLANEJAMENTO_PROJETO.md) | contexto de produto e roadmap |
 | [Design System](DESIGN-SYSTEM.md) e [Componentes](COMPONENTS.md) | identidade visual e responsabilidades dos blocos de UI |
 | [Checklist](CHECKLIST.md) | verificações de qualidade e pendências conhecidas |
@@ -78,7 +79,7 @@ recomendação em requisito nem ampliar a tarefa por conta própria.
 
 Antes de qualquer edição, o agente principal deve:
 
-1. ler integralmente o Plano Mestre e os documentos relevantes à tarefa;
+1. ler integralmente o Plano Mestre e os documentos relevantes à tarefa; em mudanças estruturais ou integrações, incluir `ABSTRACTION_POLICY.md`;
 2. consultar o Second Brain conforme o protocolo global e recuperar decisões,
    padrões e execuções relacionadas;
 3. verificar o estado real do repositório com `git status`, preservando alterações
@@ -206,6 +207,14 @@ O executor deve escolher verificações proporcionais à mudança e informar o
 resultado real: testes automatizados, smoke test, build, inspeção visual,
 acessibilidade, responsividade, Lighthouse ou revisão documental. Não declarar
 sucesso sem evidência.
+
+Para toda mudança de código, configuração de execução ou dependência, os gates
+mínimos são `npm run lint`, `npm run typecheck`, `npm test` e `npm run build`,
+salvo quando um deles não for aplicável e isso for declarado. Quando a stack
+usar cliente de tipos gerado, o `typecheck` deve prepará-lo antes da compilação.
+Testes de integração com banco requerem a variável de conexão local aplicável
+na worktree. Nunca copiar, exibir ou versionar credenciais para satisfazer esse
+pré-requisito: registrar o bloqueio de ambiente quando ele não estiver pronto.
 
 Toda entrega deve conter:
 
