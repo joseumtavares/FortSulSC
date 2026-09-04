@@ -57,8 +57,15 @@ do PostgreSQL.
 ## Testar
 
 ```powershell
+npm run lint
+npm run typecheck
 npm test
+npm run build
 ```
+
+`npm run typecheck` gera o Prisma Client antes da checagem TypeScript. Os testes
+de integração Prisma também exigem `DATABASE_URL` no `.env` local da worktree;
+esse arquivo não deve ser versionado nem copiado de outro ambiente.
 
 O smoke test valida as rotas públicas principais, a resposta 404 e o bloqueio de tentativas de path traversal no servidor local.
 
@@ -67,7 +74,9 @@ O smoke test valida as rotas públicas principais, a resposta 404 e o bloqueio d
 - Home responsiva, menu móvel, filtros visuais e diálogo de contato via WhatsApp.
 - Página estática do Alimentador de Cavaco, Briquete e Pellets.
 - Página 404, `robots.txt`, metadados e mídias locais.
-- Sem integração de formulário, backend, banco de dados ou painel administrativo.
+- Sem integração de formulário, autenticação, painel administrativo ou API de
+  negócio aprovada. A fundação Prisma/PostgreSQL (schema, migrations e testes
+  de integração) já existe e só pode avançar nas fatias autorizadas.
 
 ## Documentação
 

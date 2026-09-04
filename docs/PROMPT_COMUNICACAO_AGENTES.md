@@ -36,6 +36,7 @@ vigente nas fontes de verdade abaixo.
   relevantes antes de implementá-las.
 - Não transforme arquitetura futura, API preventiva, exemplo de schema ou plano em
   autorização de implementação.
+- Em mudanças estruturais ou integrações, respeite `docs/ABSTRACTION_POLICY.md`; ela não transforma exemplos em autorização ou backlog.
 - Representantes e revendas não são sinônimos. Minimize exposição de dados:
   localização exata de pessoa física e informações comerciais privadas não podem
   ser publicadas sem a regra, o consentimento e a aprovação exigidos.

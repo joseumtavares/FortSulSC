@@ -1,15 +1,19 @@
 # Regras do Projeto — FortSulSC
 
 Status: regras obrigatórias de desenvolvimento
-Última revisão: 2026-08-21
+Última revisão: 2026-09-04
 
 > **Governança:** o status vigente de fase e as pendências que bloqueiam avanço estão em `PLANO_MESTRE_FORTSULSC.md`. Estas regras valem em todas as fases; o Plano Mestre diz qual fase está autorizada agora.
 
+
 ## 1. Regra principal de escopo
 
-Não implementar backend, banco de dados, autenticação, CRUD administrativo ou regras de negócio sem aprovação explícita do Jose.
+Não ampliar backend, banco de dados, autenticação, CRUD administrativo ou regras
+de negócio além do escopo aprovado explicitamente pelo Jose.
 
-A fase atual é documentação, planejamento, design e frontend — conforme registrado em `PLANO_MESTRE_FORTSULSC.md`.
+O projeto já possui a fundação Next.js/TypeScript e Prisma; o status das
+fatias de dados, das rotas, da autenticação e do painel continua definido em
+`PLANO_MESTRE_FORTSULSC.md`.
 
 ## 1.1. Fluxo obrigatório de aprovação em duas camadas
 
@@ -33,7 +37,7 @@ A partir da Fase 3 (modelagem e regras de negócio), toda proposta de regra de n
 - evitar dependências desnecessárias;
 - não misturar regra de negócio com componente visual.
 
-Na fase Next.js futura:
+No código Next.js atual e em suas próximas fatias:
 
 - usar TypeScript;
 - preferir Server Components por padrão;
@@ -44,13 +48,13 @@ Na fase Next.js futura:
 
 ## 3. Nomeação de arquivos
 
-Estado atual:
+Arquivos legados ainda preservados:
 
 - `index.html`;
 - `styles.css`;
 - `script.js`.
 
-Fase futura:
+Código Next.js atual e convenções para novas fatias:
 
 - componentes React em PascalCase;
 - hooks com prefixo `use`;
@@ -89,7 +93,8 @@ Assets atuais ficam em:
 image/
 ```
 
-Estrutura Next.js futura deve seguir `docs/ARCHITECTURE.md`.
+A estrutura Next.js existente e suas extensões aprovadas devem seguir
+`docs/ARCHITECTURE.md`.
 
 ## 6. Estrutura de commits
 
@@ -172,7 +177,34 @@ Quando backend for aprovado:
 - preservar o design aprovado;
 - apresentar modernizações visuais antes de implementar;
 - consultar o planejamento antes de expandir escopo;
+- em decisões estruturais ou integrações, consultar e respeitar `ABSTRACTION_POLICY.md`; ela não autoriza implementação por si só;
 - registrar decisões relevantes no SecondBrain quando houver entrega significativa.
+
+### 11.1. Gates de qualidade obrigatórios
+
+Toda alteração de código, configuração de execução ou dependência deve passar,
+antes de revisão, pelos comandos aplicáveis abaixo, com o resultado real
+registrado na entrega:
+
+```powershell
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
+
+- `npm run lint` deve terminar sem erros ou avisos; não introduzir
+  `eslint-disable` ou exceções de configuração sem justificativa explícita.
+- `npm run typecheck` é o comando oficial de tipos; quando o projeto usar um
+  cliente gerado (como Prisma), ele deve preparar esse cliente antes do
+  compilador, em vez de exigir uma etapa manual.
+- Quando houver testes de integração com banco, a worktree exige a variável de
+  conexão local aplicável (atualmente, `DATABASE_URL` para Prisma). Criar o
+  `.env` a partir do template/configuração aprovada, sem copiar credenciais de
+  outra worktree, exibir valores ou versionar o arquivo.
+- Para mudanças sem código, executar apenas os gates que possam ser afetados e
+  declarar os demais como não aplicáveis. Uma falha de ambiente não é sucesso:
+  registrar o bloqueio e a condição para reproduzi-lo.
 
 ## 12. O que nunca deve ser feito
 
@@ -203,3 +235,7 @@ A confirmação de revogação/regeneração na Vercel ainda depende do Jose. In
 - Acessibilidade básica foi mantida?
 - Responsividade foi preservada?
 - Nenhum segredo foi lido, exposto ou salvo?
+- `npm run lint` passou sem erros ou avisos?
+- `npm run typecheck` passou após preparar qualquer cliente de tipos gerado?
+- `npm test` e `npm run build` passaram, ou os bloqueios de ambiente foram
+  registrados sem expor variáveis de conexão ou outro segredo?
