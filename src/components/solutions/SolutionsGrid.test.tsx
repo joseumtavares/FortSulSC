@@ -10,31 +10,26 @@ function renderGrid() {
 }
 
 describe('SolutionsGrid', () => {
-  it('filtra sem remover cards do DOM e restaura todos', async () => {
+  it('filtra os cards renderizados e restaura todos', async () => {
     const user = userEvent.setup()
     renderGrid()
-    const filters = screen.getByLabelText('Filtrar soluções')
-    expect(filters.classList.contains('solution-filters')).toBe(true)
-    expect(filters.classList.contains('reveal')).toBe(true)
-    const cards = screen.getAllByRole('article')
-    expect(cards).toHaveLength(3)
-    expect(cards.every((card) => !card.classList.contains('is-hidden'))).toBe(true)
+    expect(screen.getByRole('tablist', { name: 'Filtrar soluções' }).parentElement?.classList.contains('solution-tablist-wrap')).toBe(true)
+    expect(screen.getAllByRole('article')).toHaveLength(3)
 
-    await user.click(screen.getByRole('button', { name: 'Fumageiro' }))
-    expect(cards.map((card) => card.getAttribute('data-category'))).toEqual(['equipamentos fumageiro', 'fumageiro equipamentos', 'equipamentos'])
-    expect(cards[2].classList.contains('is-hidden')).toBe(true)
-    expect(screen.getByRole('button', { name: 'Fumageiro' }).getAttribute('aria-pressed')).toBe('true')
+    await user.click(screen.getByRole('tab', { name: 'Fumageiro' }))
+    expect(screen.getAllByRole('article')).toHaveLength(2)
+    expect(screen.getByRole('tab', { name: 'Fumageiro' }).getAttribute('aria-selected')).toBe('true')
 
-    await user.click(screen.getByRole('button', { name: 'Todos' }))
-    expect(cards.every((card) => !card.classList.contains('is-hidden'))).toBe(true)
+    await user.click(screen.getByRole('tab', { name: 'Todos' }))
+    expect(screen.getAllByRole('article')).toHaveLength(3)
   })
 
   it('mostra o estado vazio em uma categoria sem cards', async () => {
     const user = userEvent.setup()
     renderGrid()
-    await user.click(screen.getByRole('button', { name: 'Aviário' }))
+    await user.click(screen.getByRole('tab', { name: 'Aviário' }))
 
-    expect(screen.getByText('Nenhuma solução desta categoria nesta apresentação.').hidden).toBe(false)
-    expect(screen.getAllByRole('article').every((card) => card.classList.contains('is-hidden'))).toBe(true)
+    expect(screen.getByText('Nenhuma solução desta categoria nesta apresentação.')).toBeTruthy()
+    expect(screen.queryAllByRole('article')).toHaveLength(0)
   })
 })
