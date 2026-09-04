@@ -10,6 +10,6 @@ describe('SolutionsSection', () => {
     expect(screen.getByText('Nossas soluções')).toBeTruthy()
     expect(screen.getByRole('heading', { level: 2, name: /equipamentos pensados/i })).toBeTruthy()
     expect(screen.getByRole('heading', { level: 2, name: 'Equipamentos pensados para o seu processo.' })).toBeTruthy()
-    expect(screen.getByRole('button', { name: 'Equipamentos' })).toBeTruthy()
+    expect(screen.getByRole('tab', { name: 'Equipamentos' })).toBeTruthy()
   })
 })
