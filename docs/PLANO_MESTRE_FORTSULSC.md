@@ -197,6 +197,7 @@ Não implementar a próxima fase antes de o Jose confirmar a fase atual como con
 | Política de privacidade já existe redigida pelo Jose (aguardando entrega do texto para publicação no rodapé) | Aprovada — desbloqueia o item de Fase 1 (link no rodapé); LGPD na Fase 3 segue dependendo do texto final |
 | Os recovery codes expostos no repositório (`recovery-codes-vercel-fortsul.txt`) não são mais válidos (confirmado pelo Jose em 30/08/2026) | Resolvida — item de segurança da seção 0.2 encerrado |
 | Storage de imagens: Cloudflare R2, servido por Route Handler/Server Action do próprio Next.js (sem serviço Spring Boot separado); PostgreSQL/Prisma guardam apenas `image_url`/`image_key`/`mime_type`/`size`, nunca a imagem em si (confirmado pelo Jose em 30/08/2026, opção (a)) | Aprovada — preserva a ADR-001-Stack-Fortsul (Next.js full-stack) sem introduzir Spring Boot; desbloqueia a modelagem de imagens na Fase 3 |
+| Representantes e revendas serão unificados em uma única tabela `partners` (diferenciada por `PartnerType`: `REPRESENTATIVE`/`RESELLER`), com dados privados isolados em `partner_private` (1:1); hierarquia geográfica `Region → State → Municipality → CommercialArea` alimentada pela API oficial de Localidades do IBGE, inicialmente restrita à Região Sul (PR/SC/RS); todas as tabelas do catálogo (incluindo as já criadas na Fatia 4.1) passam a usar UUID nativo como chave primária (confirmado pelo Jose em 02/09/2026, `docs/Proposta_Tarefa_4_Fatia_4_2.md`) | Aprovada — substitui, só no nível de tabela, a linha acima sobre `representatives`/`representative_private`; a distinção entre representante e revenda continua obrigatória em toda UI, filtro, marcador e rota pública via campo `type`, nunca fundida sob o rótulo genérico "parceiro" (mantém `docs/PLANEJAMENTO_PROJETO.md` §8 e a decisão D1 da entrevista ao cliente) |
 
 ---
 
@@ -237,6 +238,8 @@ Importante: a pasta `app/api/` nasce vazia/placeholder nesta fase — não impli
 Pendência aberta: a seção “Novidades e dicas” utiliza conteúdo de teste
 aprovado exclusivamente para validação de layout. Os três cards devem ser
 substituídos por conteúdo de lançamento antes da publicação da seção.
+
+Iniciativa aprovada em 03/09/2026, aguardando implementação: redesign de `#solucoes` (tabs animadas + carrossel horizontal por scroll), incluindo adoção de `motion` (não `framer-motion`, descontinuado) como primeira dependência de UI do frontend. Especificação completa em `docs/Proposta_Solucoes_Scroll_Tabs.md`; worktree `feature/solucoes-scroll-tabs` já criada, sem código de produção ainda.
 
 ## Fase Docker — Fundação de conteinerização 🟢
 

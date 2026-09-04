@@ -20,19 +20,28 @@
 
 ## Resolução de conflitos — categorias e contrato de teste
 
-**Decisão do José:** as categorias oficiais são **Aviário, Equipamentos,
-Fumageiro, Piscicultura e Secadores**. Qualquer referência anterior a
-`biomassa | fumageiro | equipamentos` (incluindo o contrato de teste de
-`SolutionFilters` do Incremento 5) está **desatualizada** e deve ser corrigida
-para usar as cinco categorias oficiais antes da implementação.
+**Decisão do José (atualizada em 2026-09-01, consolidação da Fase 3 —
+`docs/Entrevista_Cliente_Fase3_Modelo_e_Regras.md`, item B1):** as categorias
+oficiais são **Fumicultura, Equipamentos, Aviário, Piscicultura, Secadores e
+Acessórios** (seis categorias). "Fumageiro" foi renomeado para "Fumicultura";
+"Acessórios" é categoria nova. "Biomassa" **não é** e nunca foi categoria
+oficial (item B2); o alimentador é classificado como Equipamentos +
+Fumicultura. Qualquer referência anterior a `biomassa | fumageiro |
+equipamentos` (incluindo o contrato de teste de `SolutionFilters` do
+Incremento 5, hoje já implementado com a lista antiga de cinco) está
+**desatualizada** e deve ser corrigida para usar as seis categorias oficiais.
 
-**Ação obrigatória para o Codex:** reescrever `SolutionFilterId` e os dados de
-exemplo do contrato de teste do Incremento 5 usando `aviario | equipamentos |
-fumageiro | piscicultura | secadores` (ou os identificadores equivalentes
-definidos em `docs/RULES.md` para slugs), mantendo a mesma estrutura de teste
-já aprovada (estado inicial, filtragem, restauração via "Todos", ordem
-preservada, estado vazio, exclusividade do filtro ativo). O contrato revisado
-deve voltar para nova aprovação técnica antes do ciclo RED–GREEN começar.
+**Ação pendente para o Codex (fora do escopo desta proposta de modelagem —
+aguarda tarefa própria):** reescrever `SolutionFilterId` e os dados de exemplo
+do contrato de teste do Incremento 5 (`src/components/solutions/`) usando
+`fumicultura | equipamentos | aviario | piscicultura | secadores | acessorios`
+(ou os identificadores equivalentes definidos em `docs/RULES.md` para slugs),
+mantendo a mesma estrutura de teste já aprovada (estado inicial, filtragem,
+restauração via "Todos", ordem preservada, estado vazio, exclusividade do
+filtro ativo). Essa migração de conteúdo/UI já implementado é uma mudança
+própria — não é autorizada pela proposta de modelagem de dados da Fase 3
+(`docs/Proposta_Tarefa_4_Fase3_Modelagem.md` §2) — e deve ser proposta e
+revisada separadamente antes de qualquer implementação.
 
 ---
 
@@ -81,10 +90,12 @@ Cadastro inicial feito por José Tavares (via painel administrativo, quando
 existir; até lá, não há mecanismo de cadastro dinâmico).
 
 ### 4.3 Categorias aprovadas `[FASE 2 — AUTORIZADA para uso em filtros/UI; FASE 3 — modelagem de dados]`
-**Aviário, Equipamentos, Fumageiro, Piscicultura, Secadores.** Esta é a lista
-oficial e vigente — substitui qualquer conjunto anterior usado em código,
-testes ou documentação. Não criar novas categorias sem necessidade ou
-aprovação explícita.
+**Fumicultura, Equipamentos, Aviário, Piscicultura, Secadores, Acessórios**
+(seis categorias, consolidado em 2026-09-01 — ver "Resolução de conflitos"
+acima). Esta é a lista oficial e vigente — substitui qualquer conjunto
+anterior usado em código, testes ou documentação, incluindo a lista de cinco
+categorias com "Fumageiro" usada até então. Não criar novas categorias sem
+necessidade ou aprovação explícita.
 
 ## 5. Leads
 
@@ -239,7 +250,7 @@ com as decisões do cliente, com rastreabilidade e controle de escopo.
 | Telefone editável | Sim | Fase 3 |
 | Produtos no lançamento | ~10 | Fase 3 |
 | Cadastro inicial | José Tavares | Fase 3 |
-| Categorias | Aviário, Equipamentos, Fumageiro, Piscicultura, Secadores | Fase 2 (UI/filtros) / Fase 3 (dados) |
+| Categorias | Fumicultura, Equipamentos, Aviário, Piscicultura, Secadores, Acessórios (atualizado 2026-09-01) | Fase 2 (UI/filtros, migração pendente) / Fase 3 (dados) |
 | "Encontre o equipamento ideal" | Aprovado — é o Incremento 5 (Soluções e filtros), não uma seção nova | Fase 2 |
 | "Novidades e dicas" vs. "Artigos" | Distintos — estático (Fase 1/2) vs. CMS editorial (Fase 3) | Fase 1/2 e Fase 3, respectivamente |
 | Representante | Representa a FortSul e vende equipamentos | Nomenclatura transversal / dados Fase 3 |

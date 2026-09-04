@@ -1,6 +1,8 @@
 node_modules
 .next
 .git
+.git-incompleto-20260729
+.worktrees
 .gitignore
 docs
 *.md
