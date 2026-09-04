@@ -13,7 +13,7 @@
     "test:db": "vitest run src/lib/db",
     "test": "npm run test:static && npm run test:unit",
     "dev": "next dev",
-    "build": "next build --webpack",
+    "build": "prisma generate && next build --webpack",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
