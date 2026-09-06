@@ -213,8 +213,74 @@ model AdminUser {
   loginCodes    AdminLoginCode[]
   pendingLogins PendingLogin[]
   loginAttempts LoginAttempt[]
+  articles      Article[]
+  auditLogs     AuditLog[]
 
   @@map("admin_users")
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Article {
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug        String        @unique
+  title       String
+  excerpt     String?
+  body        String
+  status      ArticleStatus @default(DRAFT)
+  publishedAt DateTime?     @map("published_at")
+  authorId    String        @map("author_id") @db.Uuid
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  author AdminUser @relation(fields: [authorId], references: [id], onDelete: Restrict)
+
+  @@index([authorId])
+  @@index([status, publishedAt])
+  @@map("articles")
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  PUBLISH
+  UNPUBLISH
+  DEACTIVATE
+  DELETE
+}
+
+enum AuditEntityType {
+  ARTICLE
+  PRODUCT
+  CATEGORY
+  PARTNER
+  ADMIN_USER
+  INSTITUTIONAL_SETTINGS
+}
+
+enum AuditResult {
+  SUCCESS
+  FAILURE
+}
+
+model AuditLog {
+  id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  adminUserId String?         @map("admin_user_id") @db.Uuid
+  action      AuditAction
+  entityType  AuditEntityType @map("entity_type")
+  entityId    String?         @map("entity_id")
+  result      AuditResult
+  createdAt   DateTime        @default(now()) @map("created_at")
+
+  adminUser AdminUser? @relation(fields: [adminUserId], references: [id], onDelete: SetNull)
+
+  @@index([adminUserId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
 }
 
 model AdminLoginCode {

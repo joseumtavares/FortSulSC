@@ -43,6 +43,7 @@ Antes de qualquer nova tarefa:
 5. não abrir arquivos de recovery codes, `.env`, tokens, credenciais, chaves, senhas ou connection strings;
 6. para mudança estrutural (ver seção 7), delegar ao subagente `scope-gate-reviewer` antes de implementar ou propor commit/push;
 7. depois de criar ou alterar componente visual, delegar ao subagente `ui-reviewer` antes de entregar para revisão do Claude.
+8. em toda worktree nova, seguir `docs/WORKTREE_PREVIEW.md` antes de testes visuais, autenticação ou desenvolvimento: instalar dependências com o lockfile, vincular a Vercel CLI e usar o Preview otimizado; nunca copiar `.env`, `.env.local` ou `.vercel` de outra worktree.
 
 Os subagentes do projeto estão definidos em `.claude/agents/` (configuração local; ver `docs/FortSulSC_instrucoes_Hermes_Codex.md` seção 7.1) e não substituem a revisão do Claude nem a aprovação de Jose.
 

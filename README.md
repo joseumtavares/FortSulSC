@@ -67,6 +67,9 @@ npm run build
 de integração Prisma também exigem `DATABASE_URL` no `.env` local da worktree;
 esse arquivo não deve ser versionado nem copiado de outro ambiente.
 
+Para preparar uma worktree nova e testar o fluxo completo com Preview Vercel,
+use os scripts descritos em [docs/WORKTREE_PREVIEW.md](docs/WORKTREE_PREVIEW.md).
+
 O smoke test valida as rotas públicas principais, a resposta 404 e o bloqueio de tentativas de path traversal no servidor local.
 
 ## Escopo atual

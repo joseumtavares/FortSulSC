@@ -72,6 +72,21 @@ describe('LoginForm', () => {
     )
   })
 
+  it('mostra indisponibilidade temporária para o código público de falha da API', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(jsonResponse(503, {
+      error: 'Não foi possível iniciar o login. Tente novamente em instantes.',
+      code: 'AUTH_SERVICE_UNAVAILABLE',
+    }))
+    const user = userEvent.setup()
+    render(<LoginForm />)
+
+    await fillPasswordStep(user)
+
+    expect((await screen.findByRole('alert')).textContent).toBe(
+      'Não foi possível iniciar o login. Tente novamente em instantes.',
+    )
+  })
+
   it('redireciona para a confirmação de sessão quando o código é aceito', async () => {
     vi.mocked(fetch)
       .mockResolvedValueOnce(jsonResponse(200, { step: 'code_sent' }))

@@ -4,22 +4,26 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { PasswordStepForm } from './PasswordStepForm'
 import { CodeStepForm } from './CodeStepForm'
+import { AUTH_SERVICE_UNAVAILABLE_CODE } from '@/lib/auth/public-error'
 
 type Step = 'password' | 'code'
+type PasswordRequestResult = 'sent' | 'invalid' | 'unavailable'
 
 const RESEND_COOLDOWN_SECONDS = 60
 const GENERIC_PASSWORD_ERROR = 'Credenciais inválidas ou conta temporariamente bloqueada.'
+const PASSWORD_LOGIN_UNAVAILABLE = 'Não foi possível iniciar o login. Tente novamente em instantes.'
 const GENERIC_CODE_ERROR = 'Código inválido ou expirado.'
 const GENERIC_CODE_BLOCKED = 'Muitas tentativas. Tente novamente mais tarde.'
 const RESEND_COOLDOWN_MESSAGE = 'Aguarde antes de solicitar outro código.'
 
-async function readJson(response: Response): Promise<{ step?: string; error?: string } | null> {
+async function readJson(response: Response): Promise<{ step?: string; error?: string; code?: string } | null> {
   const data = await response.json().catch(() => null) as unknown
   if (!data || typeof data !== 'object' || Array.isArray(data)) return null
   const record = data as Record<string, unknown>
   return {
     step: typeof record.step === 'string' ? record.step : undefined,
     error: typeof record.error === 'string' ? record.error : undefined,
+    code: typeof record.code === 'string' ? record.code : undefined,
   }
 }
 
@@ -45,19 +49,23 @@ export function LoginForm() {
     if (step === 'code') codeInputRef.current?.focus()
   }, [step])
 
-  async function requestCode(): Promise<'sent' | 'error'> {
-    const response = await fetch('/api/admin/login/password', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
-    })
-    const data = await readJson(response)
-    if (response.ok && data?.step === 'code_sent') {
-      setCooldown(RESEND_COOLDOWN_SECONDS)
-      return 'sent'
+  async function requestCode(): Promise<PasswordRequestResult> {
+    try {
+      const response = await fetch('/api/admin/login/password', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
+      })
+      const data = await readJson(response)
+      if (response.ok && data?.step === 'code_sent') {
+        setCooldown(RESEND_COOLDOWN_SECONDS)
+        return 'sent'
+      }
+      return data?.code === AUTH_SERVICE_UNAVAILABLE_CODE || response.status >= 500 ? 'unavailable' : 'invalid'
+    } catch {
+      return 'unavailable'
     }
-    return 'error'
   }
 
   async function handlePasswordSubmit(event: FormEvent<HTMLFormElement>) {
@@ -76,7 +84,7 @@ export function LoginForm() {
       if (result === 'sent') {
         setStep('code')
       } else {
-        setError(GENERIC_PASSWORD_ERROR)
+        setError(result === 'unavailable' ? PASSWORD_LOGIN_UNAVAILABLE : GENERIC_PASSWORD_ERROR)
       }
     } finally {
       setSubmitting(false)
@@ -93,6 +101,8 @@ export function LoginForm() {
       if (result === 'sent') {
         setCode('')
         setInfo('Novo código enviado para o seu e-mail.')
+      } else if (result === 'unavailable') {
+        setError(PASSWORD_LOGIN_UNAVAILABLE)
       } else {
         setInfo(RESEND_COOLDOWN_MESSAGE)
       }
