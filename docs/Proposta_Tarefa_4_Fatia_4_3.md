@@ -30,7 +30,7 @@ Esta é a primeira fatia da Fase 3 que cria autenticação/admin (`CLAUDE.md` §
 
 ### 1.2 Excluído desta fatia (fica para fatias seguintes ou depende de decisão do Jose)
 
-- Qualquer página/rota `/admin` de UI (dashboard, formulários, CRUD visual). Esta fatia só entrega o back-end de autenticação; não há tela nova.
+- Qualquer página/rota `/admin` de UI (dashboard, formulários, CRUD visual). Esta fatia só entrega o back-end de autenticação; não há tela nova. **Pendência**: quando a futura tarefa criar a tela de login, repetir no navegador o fluxo validado por API (senha → código por e-mail → sessão) e o teste de replay, no qual a repetição do mesmo código deve retornar `401`.
 - `Article`, `AuditLog` (Fatia 4.4 — depende desta).
 - `InstitutionalSettings`, `Banner` (Fatia 4.5).
 - Recuperação de senha (esqueci minha senha) — fica para decisão futura pontual.
