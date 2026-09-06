@@ -20,4 +20,16 @@ describe('securityHeaders', () => {
       expect.objectContaining({ key: 'Strict-Transport-Security' }),
     ]))
   })
+
+  it('permite unsafe-eval somente no servidor de desenvolvimento', () => {
+    const developmentCsp = securityHeaders(false, true).find(
+      (header) => header.key === 'Content-Security-Policy',
+    )?.value
+    const productionCsp = securityHeaders(false, false).find(
+      (header) => header.key === 'Content-Security-Policy',
+    )?.value
+
+    expect(developmentCsp).toContain("'unsafe-eval'")
+    expect(productionCsp).not.toContain("'unsafe-eval'")
+  })
 })

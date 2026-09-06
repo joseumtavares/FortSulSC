@@ -200,8 +200,12 @@ npm run build
   compilador, em vez de exigir uma etapa manual.
 - Quando houver testes de integração com banco, a worktree exige a variável de
   conexão local aplicável (atualmente, `DATABASE_URL` para Prisma). Criar o
-  `.env` a partir do template/configuração aprovada, sem copiar credenciais de
-  outra worktree, exibir valores ou versionar o arquivo.
+  ambiente pelo fluxo aprovado em `docs/WORKTREE_PREVIEW.md`, sem copiar
+  credenciais de outra worktree, exibir valores ou versionar arquivos locais.
+- Toda worktree nova deve executar `scripts/bootstrap-preview-worktree.ps1`
+  antes do desenvolvimento. Para validação visual ou autenticação, usar
+  `scripts/start-preview-local.ps1`, que carrega o ambiente Preview pela
+  Vercel CLI e aplica as sobreposições HTTP somente ao processo local.
 - Para mudanças sem código, executar apenas os gates que possam ser afetados e
   declarar os demais como não aplicáveis. Uma falha de ambiente não é sucesso:
   registrar o bloqueio e a condição para reproduzi-lo.

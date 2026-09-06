@@ -55,7 +55,7 @@ Status consolidado em 04 de setembro de 2026:
 | 🟢 | Fase 1 — Design/frontend | Formalmente encerrada; baseline aprovado no commit `88e7d6f`. | Nenhum; preservada como baseline e referência de rollback. |
 | 🟢 | Fase 2 — Estrutura Next.js | Tarefas 1A/1B, assets, migração visual da Home e revisão de regressão concluídas e aprovadas; a aplicação Next.js/TypeScript em `src/` é a base vigente. | Novas rotas ou módulos seguem a fatia e as aprovações aplicáveis. |
 | 🟢 | Fase Docker — Fundação de conteinerização | Concluída e aprovada para commit: Dockerfile Next.js standalone, Compose com PostgreSQL vazio sem porta publicada no host, `.env.example`, `.dockerignore` e documentação local. `docker compose config --quiet`, build, saúde do PostgreSQL e resposta HTTP 200 da Home passaram. | A Fase 3 continua bloqueada até nova aprovação explícita do Jose, incluindo modelagem de dados e regras de negócio. |
-| 🟡 | Fase 3 — Modelagem e regras de negócio | Schema Prisma, migrations e testes de integração já estão presentes para as fatias aprovadas de catálogo e geografia/parceiros. Isso não implica autenticação, API de negócio, painel ou avanço automático das demais fatias. | Implementar somente a próxima fatia formalmente aprovada por Jose, com revisão técnica e contrato de testes quando aplicável. |
+| 🟡 | Fase 3 — Modelagem e regras de negócio | Schema Prisma, migrations e testes de integração já estão presentes para catálogo, geografia/parceiros e segurança administrativa. A Fatia 4.4 (Article + AuditLog) está implementada e validada no PostgreSQL Docker local da worktree `feature/codex-fatia-4-4`; aguarda revisão técnica. Isso não implica API de negócio, painel ou avanço automático das demais fatias. | Revisar a Fatia 4.4 antes de commit; depois, implementar somente a próxima fatia formalmente aprovada por Jose. |
 | 🔴 | Fase 4 — Painel administrativo | Não iniciada. | Conclusão e aprovação da Fase 3. |
 | 🔴 | Fase 5 — Mapa e dados públicos | Não iniciada. Componente `RepresentativeMap` já documentado em `COMPONENTS.md` como planejado. | Conclusão e aprovação da Fase 4, e definição prévia de quais dados de representantes são públicos. |
 | 🔴 | Fase 6 — Segurança, testes e deploy | Não iniciada. | Conclusão e aprovação da Fase 5. |
@@ -266,8 +266,14 @@ Não incluir nesta fase: schema Prisma, migrations, dados reais, credenciais de 
 ## Fase 3 — Modelagem e regras de negócio 🟡
 
 Objetivo: evoluir banco, entidades, permissões e regras de negócio somente nas
-fatias aprovadas. A fundação de catálogo e geografia/parceiros já está presente
-em schema, migrations e testes de integração.
+fatias aprovadas. A fundação de catálogo, geografia/parceiros e segurança
+administrativa já está presente em schema, migrations e testes de integração.
+
+A Fatia 4.4 adiciona `Article` e `AuditLog` na worktree
+`feature/codex-fatia-4-4`. A implementação mantém artigos em rascunho por
+padrão, separa consultas públicas da autoria e modela auditoria sem campos de
+texto livre. Ela aguarda revisão técnica, aplicação da migration e execução dos
+testes de integração antes de commit; não adiciona rota, CRUD ou painel.
 
 **Nenhuma próxima fatia começa sem consulta e aprovação do Jose.** O
 consentimento de dados de representantes já foi confirmado (Parte II) e a
@@ -346,6 +352,7 @@ Um agente entendeu este Plano Mestre quando consegue:
 | 31/08/2026 | Fase Docker implementada no worktree `feature/codex-docker`: Dockerfile Next.js standalone com usuário não-root, Compose com PostgreSQL vazio restrito à rede interna, `.env.example` sem senha, `.dockerignore` e instruções locais. Validações aprovadas: `docker compose config --quiet`, build, PostgreSQL healthy/`pg_isready` e Home HTTP 200. Sem Prisma, migrations, `DATABASE_URL`, `depends_on` no app ou conexão real app→banco. Aguarda revisão do Claude e validação manual do Jose antes de commit. |
 | 01/09/2026 | Jose aprovou formalmente a Fase 2 — Estrutura Next.js — após a conclusão e validação da Tarefa 3.9. O portão para iniciar a Fase Docker foi atendido. A Fase Docker recebeu revisão aprovada do Claude e validação manual aprovada do Jose, ficando autorizada para commit; a Fase 3 permanece bloqueada até nova aprovação explícita do Jose. |
 | 04/09/2026 | Corrigido descompasso documental: RULES, ARCHITECTURE e o estado vigente deste Plano Mestre passam a reconhecer a fundação Next.js/Prisma/Docker e as migrations/testes de integração presentes no repositório. Mantido o bloqueio de novas fatias, rotas, autenticação, painel e regras fora do escopo aprovado. |
+| 06/09/2026 | Fatia 4.4 (Article + AuditLog) implementada na worktree `feature/codex-fatia-4-4`: schema/migration Prisma, RLS para `audit_logs`, repositórios de artigo e auditoria, helper de RBAC e contratos de teste. Lint, tipos, testes unitários/estáticos e build passaram. As cinco migrations foram aplicadas no PostgreSQL Docker local e `npm run test:db` passou com 35 testes; em banco novo, o seed Prisma foi executado antes da suíte, conforme o pré-requisito da Fatia 4.1. Restam revisão técnica e aprovação antes de commit. Nenhuma rota, CRUD, painel, TOTP ou campo livre de auditoria foi adicionado. |
 
 ---
 
