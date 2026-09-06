@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { securityHeaders } from './src/lib/security/headers'
 
 const nextConfig: NextConfig = {
   // CLAUDE.md é a fonte de governança deliberada do projeto (ver seção 3.1 do
@@ -9,6 +10,13 @@ const nextConfig: NextConfig = {
   // do Next.js e consigam hidratar os componentes interativos.
   allowedDevOrigins: ['192.168.1.26'],
   output: 'standalone',
+  async headers() {
+    return [{
+      source: '/:path*',
+      // HSTS só é ativado quando o ambiente HTTPS de produção o declara.
+      headers: securityHeaders(process.env.SECURITY_HEADERS_HSTS === 'true'),
+    }]
+  },
 }
 
 export default nextConfig

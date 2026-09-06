@@ -22,7 +22,21 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      # A aplicação usa a role com menor privilégio; seed e expurgo mantêm a
+      # role migradora para tarefas administrativas controladas.
+      DATABASE_URL: postgresql://${POSTGRES_APP_USER:-fortsul_app}:${POSTGRES_APP_PASSWORD:?Preencha POSTGRES_APP_PASSWORD no .env local}@db:5432/${POSTGRES_DB}
+      DATABASE_PROVIDER: ${DATABASE_PROVIDER:-postgresql}
+      DATABASE_PLATFORM: ${DATABASE_PLATFORM:-local}
+      AUTH_SECRET: ${AUTH_SECRET:?Preencha AUTH_SECRET no .env local}
+      AUTH_ORIGIN: ${AUTH_ORIGIN:?Preencha AUTH_ORIGIN no .env local}
+      AUTH_TRUST_HOST: ${AUTH_TRUST_HOST:?Preencha AUTH_TRUST_HOST no .env local}
+      MFA_CODE_PEPPER: ${MFA_CODE_PEPPER:?Preencha MFA_CODE_PEPPER no .env local}
+      AUTH_COOKIE_SECURE: ${AUTH_COOKIE_SECURE:?Preencha AUTH_COOKIE_SECURE no .env local}
+      SECURITY_HEADERS_HSTS: ${SECURITY_HEADERS_HSTS:-false}
+      TRUST_PROXY_HEADERS: ${TRUST_PROXY_HEADERS:-false}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-console}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-}
     depends_on:
       db:
         condition: service_healthy
@@ -33,6 +47,53 @@ services:
       - ./vitest.setup.ts:/app/vitest.setup.ts
       - ./tsconfig.json:/app/tsconfig.json
       - ./next-env.d.ts:/app/next-env.d.ts
+    networks:
+      - fortsul-internal
+
+  # Ferramenta manual: não inicia com `docker compose up`.
+  # Ela existe só para criar o primeiro administrador local de teste.
+  seed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    command: ["npx", "prisma", "db", "seed"]
+    profiles: ["tools"]
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      ADMIN_SEED_EMAIL: ${ADMIN_SEED_EMAIL:-}
+      ADMIN_SEED_PASSWORD: ${ADMIN_SEED_PASSWORD:-}
+      ADMIN_SEED_RESET_PASSWORD: ${ADMIN_SEED_RESET_PASSWORD:-false}
+      SEED_ADMIN_REQUIRED: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - fortsul-internal
+
+  # Rotina autônoma: executa o expurgo ao iniciar e depois uma vez a cada
+  # intervalo configurado. No ambiente real, manter o padrão diário.
+  purge-security-data:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    command:
+      - /bin/sh
+      - -c
+      - |
+        set -eu
+        while true; do
+          npm run purge:security
+          sleep "$${SECURITY_PURGE_INTERVAL_SECONDS:-86400}"
+        done
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      SECURITY_PURGE_INTERVAL_SECONDS: ${SECURITY_PURGE_INTERVAL_SECONDS:-86400}
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - fortsul-internal
 

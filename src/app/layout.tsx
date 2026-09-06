@@ -1,8 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { SiteFooter } from '@/components/layout/SiteFooter'
-import { SiteHeader } from '@/components/layout/SiteHeader'
-import { FloatingWhatsApp } from '@/components/whatsapp/FloatingWhatsApp'
-import { WhatsAppProvider } from '@/components/whatsapp/WhatsAppProvider'
+import { SiteChrome } from '@/components/layout/SiteChrome'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -28,12 +25,7 @@ export default function RootLayout({
         <a className="skip-link" href="#conteudo">
           Ir para o conteúdo
         </a>
-        <WhatsAppProvider>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-          <FloatingWhatsApp />
-        </WhatsAppProvider>
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   )

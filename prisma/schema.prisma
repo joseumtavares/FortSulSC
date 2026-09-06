@@ -193,3 +193,106 @@ model PartnerCommercialArea {
   @@id([partnerId, commercialAreaId])
   @@map("partner_commercial_areas")
 }
+
+enum AdminRole {
+  ADMIN
+  EDITOR
+}
+
+model AdminUser {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String    @unique
+  name         String
+  role         AdminRole @default(EDITOR)
+  passwordHash String    @map("password_hash")
+  active       Boolean   @default(true)
+  tokenVersion Int       @default(0) @map("token_version")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  loginCodes    AdminLoginCode[]
+  pendingLogins PendingLogin[]
+  loginAttempts LoginAttempt[]
+
+  @@map("admin_users")
+}
+
+model AdminLoginCode {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  adminUserId String    @map("admin_user_id") @db.Uuid
+  codeHash    String    @map("code_hash")
+  expiresAt   DateTime  @map("expires_at")
+  consumedAt  DateTime? @map("consumed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  adminUser AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+
+  @@index([adminUserId])
+  @@map("admin_login_codes")
+}
+
+model PendingLogin {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  adminUserId String    @map("admin_user_id") @db.Uuid
+  expiresAt   DateTime  @map("expires_at")
+  consumedAt  DateTime? @map("consumed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  adminUser AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+
+  @@index([adminUserId])
+  @@map("pending_logins")
+}
+
+enum LoginAttemptResult {
+  PASSWORD_INVALID
+  CODE_INVALID
+  CODE_EXPIRED
+  SUCCESS
+  BLOCKED
+}
+
+model LoginAttempt {
+  id           String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  adminUserId  String?             @map("admin_user_id") @db.Uuid
+  email        String
+  ipHash       String              @map("ip_hash")
+  deviceId     String?             @map("device_id")
+  result       LoginAttemptResult
+  blockedUntil DateTime?           @map("blocked_until")
+  createdAt    DateTime            @default(now()) @map("created_at")
+
+  adminUser AdminUser? @relation(fields: [adminUserId], references: [id], onDelete: SetNull)
+
+  @@index([email])
+  @@index([adminUserId])
+  @@index([ipHash])
+  @@index([deviceId])
+  @@map("login_attempts")
+}
+
+enum RateLimitDimension {
+  EMAIL
+  IP
+  DEVICE
+}
+
+enum RateLimitContext {
+  PASSWORD_STEP
+  CODE_STEP
+  CODE_SEND
+}
+
+model RateLimitCounter {
+  id          String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  dimension   RateLimitDimension
+  key         String
+  context     RateLimitContext
+  windowStart DateTime           @map("window_start")
+  count       Int                @default(0)
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
+
+  @@unique([dimension, key, context, windowStart])
+  @@map("rate_limit_counters")
+}
