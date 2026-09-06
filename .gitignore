@@ -31,3 +31,9 @@ lighthouse-*_report.json
 
 # Perfis temporários do Chrome gerados pelo Lighthouse (inclusive caminhos WSL/Windows malformados)
 *lighthouse.[0-9]*/
+
+.vercel
+.env*
+
+# Estado local temporário do Supabase CLI
+supabase/.temp/

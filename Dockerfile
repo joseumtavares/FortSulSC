@@ -9,6 +9,7 @@ RUN npm ci
 
 FROM node:${NODE_VERSION} AS builder
 WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 ENV NODE_ENV=production

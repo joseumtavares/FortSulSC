@@ -1,29 +1,15 @@
-type LogContext = Record<string, unknown>;
+type LogContext = Record<string, string | number | boolean | undefined>
 
-function write(level: "debug" | "info" | "warn" | "error", message: string, context?: LogContext) {
-  const entry = { level, message, ...(context ? { context } : {}) };
-
-  if (level === "error") {
-    console.error(entry);
-    return;
-  }
-
-  if (level === "warn") {
-    console.warn(entry);
-    return;
-  }
-
-  if (level === "info") {
-    console.info(entry);
-    return;
-  }
-
-  console.debug(entry);
+function write(level: 'info' | 'error', event: string, context?: LogContext): void {
+  const payload = context ? { event, ...context } : { event }
+  console[level](JSON.stringify(payload))
 }
 
 export const logger = {
-  debug: (message: string, context?: LogContext) => write("debug", message, context),
-  info: (message: string, context?: LogContext) => write("info", message, context),
-  warn: (message: string, context?: LogContext) => write("warn", message, context),
-  error: (message: string, context?: LogContext) => write("error", message, context),
-};
+  info(event: string, context?: LogContext): void {
+    write('info', event, context)
+  },
+  error(event: string, context?: LogContext): void {
+    write('error', event, context)
+  },
+}

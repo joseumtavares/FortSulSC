@@ -230,6 +230,43 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 .not-found-actions { display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 34px; }
 .not-found-actions .text-link { border: 0; background: transparent; cursor: pointer; }
 
+/* ===== Fatia 4.3 — Login administrativo (/admin) ===== */
+.admin-shell { min-height: 100vh; }
+.admin-login { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 100vh; background: var(--blue-950); }
+.admin-login-institutional { position: relative; display: flex; flex-direction: column; justify-content: center; padding: 60px; background: linear-gradient(160deg, var(--blue-950), var(--blue-900)); color: var(--white); }
+.admin-login-institutional-logo { width: 220px; height: auto; margin-bottom: 28px; filter: brightness(0) invert(1); }
+.admin-login-institutional p { max-width: 380px; margin: 0; color: rgba(255,255,255,.7); font-size: 16px; }
+.admin-login-card { display: flex; flex-direction: column; justify-content: center; padding: 60px clamp(28px, 6vw, 90px); background: var(--white); }
+.admin-login-logo { display: none; width: 190px; height: auto; margin-bottom: 30px; }
+.admin-login-card h1 { color: var(--blue-900); font-size: clamp(28px, 3vw, 34px); }
+.admin-login-subtitle { margin: 12px 0 30px; color: var(--muted); font-size: 15px; }
+.admin-login-form { display: flex; flex-direction: column; gap: 20px; max-width: 380px; }
+.admin-field { display: flex; flex-direction: column; gap: 8px; }
+.admin-field label { color: var(--blue-900); font-size: 13px; font-weight: 700; }
+.admin-field input { min-height: 50px; padding: 0 16px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; color: var(--ink); }
+.admin-field input:focus-visible { outline: 2px solid var(--blue-700); outline-offset: 2px; }
+.admin-field-control { position: relative; }
+.admin-field-control input { width: 100%; padding-right: 46px; }
+.admin-field-toggle { position: absolute; right: 6px; top: 50%; display: grid; width: 36px; aspect-ratio: 1; place-items: center; border: 0; border-radius: 6px; background: transparent; color: var(--muted); transform: translateY(-50%); cursor: pointer; }
+.admin-field-toggle:hover { background: var(--surface); color: var(--blue-900); }
+.admin-field-toggle svg { width: 20px; }
+.admin-login-hint { margin: 0; color: var(--muted); font-size: 14px; }
+.admin-form-message { min-height: 20px; color: var(--orange-dark); font-size: 13px; font-weight: 700; }
+.admin-form-message-info { color: var(--blue-700); }
+.admin-submit { width: 100%; }
+.admin-submit[disabled] { opacity: .7; cursor: not-allowed; }
+.admin-resend { align-self: flex-start; padding: 0; border: 0; background: transparent; color: var(--blue-700); font-size: 13px; font-weight: 700; cursor: pointer; }
+.admin-resend:hover:not([disabled]) { color: var(--orange); }
+.admin-resend[disabled] { color: var(--muted); cursor: not-allowed; }
+
+.admin-session-check { display: grid; min-height: 100vh; place-items: center; padding: 40px; background: var(--surface); }
+.admin-session-check-card { width: min(480px, 100%); padding: 34px; border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+.admin-session-check-notice { margin: 0 0 20px; padding: 12px 14px; border-left: 4px solid var(--orange); background: var(--surface); color: var(--blue-900); font-size: 13px; font-weight: 700; }
+.admin-session-check-card h1 { color: var(--blue-900); font-size: 24px; }
+.admin-session-check-card dl { display: grid; gap: 14px; margin: 22px 0 0; }
+.admin-session-check-card dt { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.admin-session-check-card dd { margin: 4px 0 0; color: var(--ink); font-weight: 700; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
@@ -285,6 +322,10 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
   .content-heading { align-items: flex-start; flex-direction: column; }
   .content-heading > p { width: auto; max-width: 450px; }
   .content-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-login { grid-template-columns: 1fr; }
+  .admin-login-institutional { display: none; }
+  .admin-login-card { padding: 48px 28px; }
+  .admin-login-logo { display: block; }
 }
 
 /* ===== Fatia 1 — WhatsApp (diálogo, provider, trigger, botão flutuante) ===== */
@@ -349,4 +390,7 @@ body.dialog-open { overflow: hidden; }
   .not-found { min-height: 520px; padding-block: 80px; }
   .not-found-actions { align-items: stretch; flex-direction: column; gap: 20px; }
   .not-found-actions .button { width: 100%; }
+  .admin-login-card { padding: 40px 20px; }
+  .admin-session-check { padding: 24px; }
+  .admin-session-check-card { padding: 26px; }
 }

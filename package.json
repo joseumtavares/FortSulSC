@@ -9,7 +9,7 @@
   "scripts": {
     "preview": "node preview.mjs",
     "test:static": "node --test test-preview.mjs",
-    "test:unit": "vitest run",
+    "test:unit": "vitest run --exclude src/lib/db/**",
     "test:db": "vitest run src/lib/db",
     "test": "npm run test:static && npm run test:unit",
     "lint": "eslint .",
@@ -18,15 +18,20 @@
     "dev": "next dev",
     "build": "prisma generate && next build --webpack",
     "start": "next start",
-    "typecheck": "prisma generate && tsc --noEmit"
+    "typecheck": "prisma generate && tsc --noEmit",
+    "purge:security": "tsx scripts/purge-security-data.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "bcryptjs": "3.0.3",
+    "dotenv": "^16.6.1",
     "motion": "^13.2.0",
     "next": "^16.2.9",
+    "next-auth": "5.0.0-beta.32",
     "prisma": "^6.19.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "resend": "6.26.0",
     "tsx": "^4.20.6"
   },
   "devDependencies": {
@@ -42,12 +47,10 @@
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import-x": "^4.17.1",
     "jsdom": "^30.0.1",
+    "supabase": "^2.116.0",
     "typescript": "^5",
     "typescript-eslint": "^8.69.0",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.11"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
   }
 }
