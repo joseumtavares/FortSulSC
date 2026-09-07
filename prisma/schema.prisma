@@ -259,6 +259,42 @@ enum AuditEntityType {
   PARTNER
   ADMIN_USER
   INSTITUTIONAL_SETTINGS
+  BANNER
+}
+
+model Banner {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title     String
+  linkUrl   String?   @map("link_url")
+  imageUrl  String    @map("image_url")
+  imageKey  String    @map("image_key")
+  mimeType  String    @map("mime_type")
+  size      Int
+  altText   String    @map("alt_text")
+  active    Boolean   @default(false)
+  startAt   DateTime? @map("start_at")
+  endAt     DateTime? @map("end_at")
+  order     Int       @default(0)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@index([active, startAt, endAt])
+  @@map("banners")
+}
+
+model InstitutionalSettings {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  singletonKey Int      @unique @default(1) @map("singleton_key")
+  whatsapp     String
+  phone        String?
+  email        String
+  cnpj         String?
+  address      String?
+  socialLinks  Json?    @map("social_links")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("institutional_settings")
 }
 
 enum AuditResult {

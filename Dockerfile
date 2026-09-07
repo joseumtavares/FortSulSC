@@ -13,6 +13,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 ENV NODE_ENV=production
+# Next.js imports the database configuration while collecting routes. This is
+# only a build-time placeholder; runtime receives the real URL from Compose.
+ENV DATABASE_URL=postgresql://fortsul_app:build-only@db:5432/fortsul_dev
 RUN npx prisma generate
 RUN npm run build
 
