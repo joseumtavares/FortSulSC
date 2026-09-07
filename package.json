@@ -28,7 +28,6 @@
     "motion": "^13.2.0",
     "next": "^16.2.9",
     "next-auth": "5.0.0-beta.32",
-    "prisma": "^6.19.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "resend": "6.26.0",
@@ -43,14 +42,21 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.1.0",
-    "eslint": "^9.39.5",
+    "eslint": "^10.10.0",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import-x": "^4.17.1",
     "jsdom": "^30.0.1",
+    "prisma": "^6.19.0",
     "supabase": "^2.116.0",
     "typescript": "^5",
     "typescript-eslint": "^8.69.0",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.11"
+  },
+  "allowScripts": {
+    "@prisma/client@6.19.3": true,
+    "@prisma/engines@6.19.3": true,
+    "prisma@6.19.3": true,
+    "unrs-resolver@1.12.2": true,
+    "esbuild@0.28.2": true
   }
 }

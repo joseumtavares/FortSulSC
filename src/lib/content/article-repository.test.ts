@@ -8,6 +8,10 @@ vi.mock('@/lib/db/client', () => ({
   prisma: { article: articleMock },
 }))
 
+vi.mock('@prisma/client', () => ({
+  ArticleStatus: { PUBLISHED: 'PUBLISHED' },
+}))
+
 import { findArticleBySlugPublic } from './article-repository'
 
 describe('findArticleBySlugPublic', () => {
