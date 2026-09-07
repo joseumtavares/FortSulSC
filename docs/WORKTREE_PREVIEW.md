@@ -22,6 +22,17 @@ O script executa `npm ci` e vincula a worktree ao projeto Vercel `fort-sul-sc`.
 Use `-SkipInstall` somente quando `node_modules` já tiver sido criado a partir
 do `package-lock.json` nesta mesma worktree.
 
+Se a tarefa tocar Prisma, migrations ou `test:db`, prepare também o banco local
+isolado desta worktree:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\bootstrap-local-db.ps1
+```
+
+Esse bootstrap usa um nome de projeto do Docker Compose derivado da worktree
+atual, para não reutilizar o volume de outra branch nem repetir seed/migration
+em banco compartilhado por acidente.
+
 ## Iniciar o Preview otimizado
 
 ```powershell

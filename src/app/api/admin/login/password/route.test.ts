@@ -35,6 +35,6 @@ describe('POST /api/admin/login/password', () => {
       error: 'Não foi possível iniciar o login. Tente novamente em instantes.',
       code: AUTH_SERVICE_UNAVAILABLE_CODE,
     })
-    expect(logger.error).toHaveBeenCalledWith('auth.password_login_unavailable')
+    expect(logger.error).toHaveBeenCalledWith('auth.password_login_unavailable', { reason: 'unknown' })
   })
 })

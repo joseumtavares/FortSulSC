@@ -7,6 +7,11 @@ export type CreateArticleInput = {
   excerpt?: string | null
   body: string
   authorId: string
+  coverImageUrl?: string | null
+  coverImageKey?: string | null
+  coverImageMime?: string | null
+  coverImageSize?: number | null
+  coverImageAlt?: string | null
 }
 
 export function createArticle(input: CreateArticleInput) {
@@ -22,6 +27,11 @@ export function findArticleBySlugPublic(slug: string) {
       title: true,
       excerpt: true,
       body: true,
+      coverImageUrl: true,
+      coverImageKey: true,
+      coverImageMime: true,
+      coverImageSize: true,
+      coverImageAlt: true,
       publishedAt: true,
       createdAt: true,
       updatedAt: true,
@@ -29,11 +39,29 @@ export function findArticleBySlugPublic(slug: string) {
   })
 }
 
+export class ArticleMissingCoverImageError extends Error {
+  constructor() {
+    super('Artigo precisa de imagem de capa e texto alternativo para ser publicado')
+  }
+}
+
 export function findArticleForAdmin(id: string) {
   return prisma.article.findUnique({ where: { id } })
 }
 
-export function publishArticle(id: string) {
+export async function publishArticle(id: string) {
+  const article = await prisma.article.findUniqueOrThrow({
+    where: { id },
+    select: {
+      coverImageUrl: true,
+      coverImageAlt: true,
+    },
+  })
+
+  if (!article.coverImageUrl || !article.coverImageAlt) {
+    throw new ArticleMissingCoverImageError()
+  }
+
   return prisma.article.update({
     where: { id },
     data: { status: ArticleStatus.PUBLISHED, publishedAt: new Date() },

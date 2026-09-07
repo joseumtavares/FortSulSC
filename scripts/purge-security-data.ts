@@ -12,7 +12,7 @@ async function purgeSecurityData() {
   const shortRetentionCutoff = new Date(now - ONE_DAY_MS)
   const longRetentionCutoff = new Date(now - ONE_YEAR_MS)
 
-  const [expiredCodes, expiredPendingLogins, oldAttempts, oldCounters] = await prisma.$transaction([
+  const [expiredCodes, expiredPendingLogins, oldAttempts, oldCounters, oldAuditLogs] = await prisma.$transaction([
     prisma.adminLoginCode.deleteMany({
       where: {
         OR: [{ consumedAt: { lt: shortRetentionCutoff } }, { expiresAt: { lt: shortRetentionCutoff } }],
@@ -25,11 +25,13 @@ async function purgeSecurityData() {
     }),
     prisma.loginAttempt.deleteMany({ where: { createdAt: { lt: longRetentionCutoff } } }),
     prisma.rateLimitCounter.deleteMany({ where: { windowStart: { lt: longRetentionCutoff } } }),
+    prisma.auditLog.deleteMany({ where: { createdAt: { lt: longRetentionCutoff } } }),
   ])
 
   console.log(
     `Expurgo de segurança: ${expiredCodes.count} códigos, ${expiredPendingLogins.count} logins pendentes, ` +
-      `${oldAttempts.count} tentativas, ${oldCounters.count} contadores de rate limit removidos.`,
+      `${oldAttempts.count} tentativas, ${oldCounters.count} contadores de rate limit, ` +
+      `${oldAuditLogs.count} logs de auditoria removidos.`,
   )
 }
 

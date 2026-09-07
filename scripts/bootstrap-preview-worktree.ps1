@@ -29,4 +29,5 @@ if (-not $SkipInstall) {
 # .vercel e .env.local são locais e ignorados pelo Git; nenhuma variável é exibida.
 Invoke-Checked 'vercel' @('link', '--yes', '--project', $VercelProject)
 
-Write-Host 'Bootstrap concluído. Para abrir o Preview otimizado, execute scripts\start-preview-local.ps1.'
+Write-Host 'Bootstrap concluído. Se esta worktree usar Prisma/test:db, execute scripts\bootstrap-local-db.ps1 antes do desenvolvimento.'
+Write-Host 'Para abrir o Preview otimizado, execute scripts\start-preview-local.ps1.'

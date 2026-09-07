@@ -69,9 +69,9 @@ try {
     $env:ADMIN_SEED_RESET_PASSWORD = 'false'
     $env:SEED_ADMIN_REQUIRED = 'true'
 
-    # Usa o seed ja existente: cria as seis categorias e o administrador.
+    # Usa o seed direto via tsx: cria as seis categorias e o administrador.
     # Se a conta ja existir, este comando preserva a senha cadastrada.
-    & '.\node_modules\.bin\prisma.cmd' db seed
+    & '.\node_modules\.bin\tsx.cmd' 'prisma/seed.ts'
     if ($LASTEXITCODE -ne 0) { throw 'O seed falhou. Confira a mensagem anterior.' }
     Write-Host 'Seed concluido. Agora teste http://localhost:3000/admin/login'
 }
