@@ -131,7 +131,7 @@ export function LoginForm() {
       })
       const data = await readJson(response)
       if (response.ok && data?.step === 'authenticated') {
-        router.push('/admin/session-check')
+        router.push('/admin')
         return
       }
       setError(response.status === 429 ? GENERIC_CODE_BLOCKED : GENERIC_CODE_ERROR)

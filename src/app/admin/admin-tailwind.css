@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+
+/*
+ * Tokens institucionais (src/app/globals.css) reexpostos como variáveis de
+ * tema do Tailwind, só para esta tela — não altera a paleta genérica do
+ * Tailwind em nenhum outro lugar do projeto.
+ */
+@theme {
+  --color-brand-blue-950: #061b42;
+  --color-brand-blue-900: #08285e;
+  --color-brand-blue-800: #0a3478;
+  --color-brand-orange: #f26a21;
+  --color-brand-orange-light: #ff8a3d;
+  --color-brand-orange-dark: #b8460a;
+  --color-brand-ink: #152033;
+  --color-brand-muted: #667085;
+  --color-brand-surface: #f4f6f8;
+  --color-brand-line: #dfe4ea;
+  --radius-brand: 18px;
+  --font-brand-sans: 'Segoe UI', Inter, Arial, sans-serif;
+}
