@@ -28,9 +28,6 @@ export function findArticleBySlugPublic(slug: string) {
       excerpt: true,
       body: true,
       coverImageUrl: true,
-      coverImageKey: true,
-      coverImageMime: true,
-      coverImageSize: true,
       coverImageAlt: true,
       publishedAt: true,
       createdAt: true,
@@ -58,7 +55,7 @@ export async function publishArticle(id: string) {
     },
   })
 
-  if (!article.coverImageUrl || !article.coverImageAlt) {
+  if (!article.coverImageUrl || !article.coverImageAlt || article.coverImageAlt.trim() === '') {
     throw new ArticleMissingCoverImageError()
   }
 

@@ -80,6 +80,26 @@ describe('Fase 3 — Fatia 4.6: imagem de capa de Article + retenção de AuditL
     ).rejects.toThrow()
   })
 
+  it('bloqueia publicar artigo com texto alternativo só com espaços no banco', async () => {
+    const article = await prisma.article.create({
+      data: {
+        slug: `teste-4-6-alt-em-branco-${runId}`,
+        title: 'Artigo com alt em branco',
+        body: 'Corpo',
+        authorId,
+        coverImageUrl: 'https://example.test/capa.jpg',
+        coverImageAlt: '   ',
+      },
+    })
+
+    await expect(
+      prisma.article.update({
+        where: { id: article.id },
+        data: { status: 'PUBLISHED' },
+      }),
+    ).rejects.toThrow()
+  })
+
   it('remove audit log com mais de 1 ano na mesma janela de retenção', async () => {
     const expiredAt = new Date(Date.now() - 366 * 24 * 60 * 60 * 1000)
     const cutoff = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000)

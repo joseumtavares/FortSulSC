@@ -73,11 +73,21 @@ $repoRoot = if ((Split-Path -Leaf (Split-Path -Parent $projectDirectory)) -eq '.
     $projectDirectory
 }
 
-Import-DotEnv (Join-Path $repoRoot '.env')
-Import-DotEnv (Join-Path $projectDirectory '.env.local')
+$localEnvPath = Join-Path $projectDirectory '.env'
+$fallbackEnvPath = Join-Path $repoRoot '.env'
+if (Test-Path -LiteralPath $localEnvPath) {
+    Import-DotEnv $localEnvPath
+} else {
+    Import-DotEnv $fallbackEnvPath
+}
 
 if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
     throw 'docker não foi encontrado. Abra uma sessão com Docker Desktop acessível antes de continuar.'
+}
+
+& docker info *> $null
+if ($LASTEXITCODE -ne 0) {
+    throw 'Docker CLI encontrada, mas o Docker Desktop/engine Linux não está disponível. Inicie o Docker Desktop e aguarde o status Running antes de continuar.'
 }
 
 foreach ($name in @('POSTGRES_USER', 'POSTGRES_PASSWORD', 'POSTGRES_DB', 'POSTGRES_APP_USER', 'POSTGRES_APP_PASSWORD')) {

@@ -36,3 +36,5 @@ lighthouse-*_report.json
 
 # Estado local temporário do Supabase CLI
 supabase/.temp/
+
+.env*

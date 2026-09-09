@@ -11,5 +11,9 @@ ALTER TABLE "articles"
   ADD CONSTRAINT "articles_publish_requires_cover_image_check"
   CHECK (
     "status" <> 'PUBLISHED'
-    OR ("cover_image_url" IS NOT NULL AND "cover_image_alt" IS NOT NULL)
+    OR (
+      "cover_image_url" IS NOT NULL
+      AND "cover_image_alt" IS NOT NULL
+      AND btrim("cover_image_alt") <> ''
+    )
   );

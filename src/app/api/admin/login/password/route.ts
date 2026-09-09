@@ -23,21 +23,6 @@ function unavailableError(): NextResponse {
   )
 }
 
-function unavailableReason(error: unknown): string {
-  if (!(error instanceof Error)) return 'unknown'
-
-  const details = `${error.name} ${error.message}`.toLowerCase()
-  const categories: Array<[RegExp, string]> = [
-    [/database_url|prisma|database server|connection/, 'database_config_or_runtime'],
-    [/mfa_code_pepper/, 'mfa_config'],
-    [/auth_origin|auth_cookie_secure/, 'auth_config'],
-    [/resend|e-mail|email/, 'email_delivery'],
-  ]
-  const match = categories.find(([pattern]) => pattern.test(details))
-  if (match) return match[1]
-  return 'unknown'
-}
-
 function setDeviceCookie(response: NextResponse, deviceId: string): void {
   response.cookies.set(DEVICE_COOKIE_NAME, deviceId, {
     httpOnly: true,
@@ -72,8 +57,8 @@ export async function POST(request: NextRequest) {
       path: '/',
     })
     return response
-  } catch (error) {
-    logger.error('auth.password_login_unavailable', { reason: unavailableReason(error) })
+  } catch {
+    logger.error('auth.password_login_unavailable')
     return unavailableError()
   }
 }

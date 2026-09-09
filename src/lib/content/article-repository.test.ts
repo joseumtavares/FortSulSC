@@ -39,17 +39,17 @@ describe('findArticleBySlugPublic', () => {
     expect(call?.where).toMatchObject({ slug: 'qualquer-slug', status: 'PUBLISHED' })
   })
 
-  it('inclui os campos de imagem de capa no select público', async () => {
+  it('inclui apenas os campos públicos de imagem de capa no select', async () => {
     await findArticleBySlugPublic('qualquer-slug')
 
     const call = articleMock.findFirst.mock.calls[0]?.[0]
     expect(call?.select).toMatchObject({
       coverImageUrl: true,
-      coverImageKey: true,
-      coverImageMime: true,
-      coverImageSize: true,
       coverImageAlt: true,
     })
+    expect(call?.select).not.toHaveProperty('coverImageKey')
+    expect(call?.select).not.toHaveProperty('coverImageMime')
+    expect(call?.select).not.toHaveProperty('coverImageSize')
   })
 })
 
@@ -64,6 +64,16 @@ describe('publishArticle', () => {
     articleMock.findUniqueOrThrow.mockResolvedValueOnce({
       coverImageUrl: null,
       coverImageAlt: null,
+    })
+
+    await expect(publishArticle('article-id')).rejects.toBeInstanceOf(ArticleMissingCoverImageError)
+    expect(articleMock.update).not.toHaveBeenCalled()
+  })
+
+  it('rejeita publicação com texto alternativo em branco', async () => {
+    articleMock.findUniqueOrThrow.mockResolvedValueOnce({
+      coverImageUrl: 'https://example.test/capa.jpg',
+      coverImageAlt: '   ',
     })
 
     await expect(publishArticle('article-id')).rejects.toBeInstanceOf(ArticleMissingCoverImageError)
