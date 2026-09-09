@@ -8,6 +8,9 @@
 *credentials*
 .git-incompleto-*/
 
+# Arquivo local com dados que não podem ser publicados (decisão de Jose, 2026-09-07)
+dados .txt
+
 # Dependências
 node_modules/
 
@@ -37,3 +40,6 @@ lighthouse-*_report.json
 
 # Estado local temporário do Supabase CLI
 supabase/.temp/
+
+.vercel
+.env*
