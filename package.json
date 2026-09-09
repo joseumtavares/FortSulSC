@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "aws4fetch": "^1.0.20",
     "bcryptjs": "3.0.3",
     "dotenv": "^16.6.1",
     "motion": "^13.2.0",

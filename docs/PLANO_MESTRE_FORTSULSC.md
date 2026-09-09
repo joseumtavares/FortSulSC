@@ -289,6 +289,23 @@ espaços), aplicada de forma alinhada na constraint de banco (`CHECK` com
 interno/administrativo e não são retornados por essa consulta. A fatia não
 adiciona rota, CRUD, upload ou painel.
 
+A Fatia 4.7, aprovada por Jose em 08/09/2026 (limite de 5 MB, rota
+`POST /api/admin/articles/[id]/cover`, exclusão da imagem antiga ao
+substituir), implementa o upload de capa de artigo definido arquiteturalmente
+na Parte II: uma interface `ImageStorage` (`src/lib/storage/image-storage.ts`)
+com duas implementações trocáveis por `STORAGE_PROVIDER` — `local` (simulada,
+sem chamada externa, para desenvolvimento/testes) e `r2` (Cloudflare R2 via
+`aws4fetch` — pacote sem dependências transitivas, mais leve que o SDK
+oficial da AWS para o mesmo fim; único pacote de terceiro adicionado nesta
+fatia) — seguindo o mesmo padrão de configuração já usado para e-mail
+(`src/lib/auth/email-config.ts`). A rota exige sessão administrativa (RBAC
+`ADMIN`/`EDITOR`) e origem válida, valida MIME (`jpeg`/`png`/`webp`) e tamanho
+(até 5 MB), exige texto alternativo no mesmo request, e exclui a imagem
+anterior do storage após atualizar o banco com sucesso. Esta é a primeira
+rota do projeto a combinar sessão + RBAC em um Route Handler e a primeira a
+processar corpo `multipart/form-data`. A fatia não adiciona painel/UI de
+upload (Fase 4).
+
 **Nenhuma próxima fatia começa sem consulta e aprovação do Jose.** O
 consentimento de dados de representantes já foi confirmado (Parte II) e a
 política de privacidade já existe redigida, aguardando entrega do texto final
@@ -369,6 +386,7 @@ Um agente entendeu este Plano Mestre quando consegue:
 | 07/09/2026 | Fatia 4.5 (Banner + InstitutionalSettings) implementada na worktree atual: schema/migration Prisma com `Banner`, `InstitutionalSettings` e `AuditEntityType.BANNER`, repositórios mínimos e contratos de teste em código. `npm run typecheck`, `npm run lint`, `npm test` e `npm run build` passaram; a suíte unitária nova passou (6 testes). A suíte de banco local (`npm run test:db`) ficou bloqueada pelo ambiente: `DATABASE_URL` desta sessão aponta para Supabase e o Docker Desktop/Linux engine retornou 500 ao tentar subir o stack local com variáveis temporárias. Sem rota, CRUD ou painel nesta fatia. |
 | 08/09/2026 | Fatia 4.6 (imagem de capa obrigatória para publicação de `Article`) revisada na worktree `codex-fati-4-6`. O `scope-gate-reviewer` do Claude identificou três pendências bloqueadoras na implementação inicial: exposição de `coverImageKey`/`coverImageMime`/`coverImageSize` na consulta pública, alteração não relacionada em `src/app/api/admin/login/password/route.ts` e ausência de registro formal desta decisão neste Plano. Jose analisou o parecer e aprovou o escopo final, determinando as correções antes do commit: (1) a consulta pública passa a selecionar somente `coverImageUrl` e `coverImageAlt`; (2) a constraint de banco e a guarda em `publishArticle` passam a exigir `cover_image_alt` não nulo, não vazio e não composto só de espaços (`btrim`), alinhadas entre migration e aplicação; (3) a alteração em `password/route.ts` foi revertida para a versão da `main`, por não pertencer ao escopo desta fatia — fica registrada como melhoria a propor separadamente, se útil; (4) este registro formaliza a decisão na fonte de verdade do projeto. Commit, merge e push permanecem pendentes da suíte de testes, validação visual/manual de Jose e aprovação dupla final. |
 | 08/09/2026 | Fatia 4.6 concluída: commit `be89140` na branch `codex/fatia-4-6`, mesclado à `main` em `a79b50a` (fast-forward dos commits operacionais `9a68730`/`eaf5e38`/`9759102` que exigem e-mail real no Docker local e portam `bootstrap-preview-worktree`, `start-preview-local` e `seed-preview-admin` de PowerShell para Node multiplataforma). `lint`, `typecheck`, `npm test` (32 arquivos/84 testes) e `npm run build` aprovados na `main` pós-merge, antes do push. Jose validou visualmente e testou o login/MFA completo no deploy publicado na Vercel, sem regressão. Push para `origin/main` concluído. Fase 3 permanece 🟡 (mais fatias podem seguir, mediante nova proposta e aprovação). |
+| 08/09/2026 | Jose decidiu não encerrar a Fase 3 ainda e aprovou a Fatia 4.7 (upload de imagem de capa via Cloudflare R2) antes de reavaliar o encerramento. Escopo aprovado: limite de 5 MB, rota `POST /api/admin/articles/[id]/cover`, exclusão da imagem antiga ao substituir. Implementada na worktree `claude-fatia-4-7-cover-upload` (branch `feature/claude-fatia-4-7-cover-upload`): interface `ImageStorage` trocável (`local`/`r2`) seguindo o padrão de `email-config.ts`. Dependência nova inicial: `@aws-sdk/client-s3`; trocada por `aws4fetch` (sem dependências transitivas, mais leve, feito para assinar requisições `fetch` a APIs compatíveis com S3) após Jose pedir uma alternativa mais leve antes de confirmar. Route Handler com sessão + RBAC (`ADMIN`/`EDITOR`, confirmado por Jose) + validação de origem/MIME/tamanho/alt. `lint`, `lint:types` e `typecheck` aprovados; `npm run test:unit` aprovado (35 arquivos/107 testes, incluindo os novos). `npm run build` ainda não validado nesta worktree nova por falta de `.env` local (nenhum `.env` foi copiado de outra worktree, conforme regra); dois itens da Fase 3 seguem pendentes de decisão de Jose, independente desta fatia: texto final da política de retenção/exclusão LGPD e o próprio encerramento da fase. Commit, merge e push permanecem pendentes de revisão de escopo, testes completos e aprovação dupla. |
 
 ---
 

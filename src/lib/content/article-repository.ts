@@ -46,6 +46,18 @@ export function findArticleForAdmin(id: string) {
   return prisma.article.findUnique({ where: { id } })
 }
 
+export type UpdateArticleCoverImageInput = {
+  coverImageUrl: string
+  coverImageKey: string
+  coverImageMime: string
+  coverImageSize: number
+  coverImageAlt: string
+}
+
+export function updateArticleCoverImage(id: string, input: UpdateArticleCoverImageInput) {
+  return prisma.article.update({ where: { id }, data: input })
+}
+
 export async function publishArticle(id: string) {
   const article = await prisma.article.findUniqueOrThrow({
     where: { id },

@@ -14,7 +14,12 @@ vi.mock('@prisma/client', () => ({
   ArticleStatus: { PUBLISHED: 'PUBLISHED' },
 }))
 
-import { ArticleMissingCoverImageError, findArticleBySlugPublic, publishArticle } from './article-repository'
+import {
+  ArticleMissingCoverImageError,
+  findArticleBySlugPublic,
+  publishArticle,
+  updateArticleCoverImage,
+} from './article-repository'
 
 describe('findArticleBySlugPublic', () => {
   beforeEach(() => {
@@ -98,5 +103,34 @@ describe('publishArticle', () => {
       data: expect.objectContaining({ status: 'PUBLISHED' }),
     })
     expect(published).toMatchObject({ id: 'article-id', status: 'PUBLISHED' })
+  })
+})
+
+describe('updateArticleCoverImage', () => {
+  beforeEach(() => {
+    articleMock.update.mockReset()
+  })
+
+  it('atualiza os cinco campos de capa a partir do id do artigo', async () => {
+    articleMock.update.mockResolvedValueOnce({ id: 'article-id' })
+
+    await updateArticleCoverImage('article-id', {
+      coverImageUrl: 'https://images.fortsulsc.test/articles/article-id/capa.jpg',
+      coverImageKey: 'articles/article-id/capa.jpg',
+      coverImageMime: 'image/jpeg',
+      coverImageSize: 4096,
+      coverImageAlt: 'Descrição da capa',
+    })
+
+    expect(articleMock.update).toHaveBeenCalledWith({
+      where: { id: 'article-id' },
+      data: {
+        coverImageUrl: 'https://images.fortsulsc.test/articles/article-id/capa.jpg',
+        coverImageKey: 'articles/article-id/capa.jpg',
+        coverImageMime: 'image/jpeg',
+        coverImageSize: 4096,
+        coverImageAlt: 'Descrição da capa',
+      },
+    })
   })
 })
