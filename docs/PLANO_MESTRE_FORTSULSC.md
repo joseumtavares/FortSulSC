@@ -55,8 +55,8 @@ Status consolidado em 04 de setembro de 2026:
 | 🟢 | Fase 1 — Design/frontend | Formalmente encerrada; baseline aprovado no commit `88e7d6f`. | Nenhum; preservada como baseline e referência de rollback. |
 | 🟢 | Fase 2 — Estrutura Next.js | Tarefas 1A/1B, assets, migração visual da Home e revisão de regressão concluídas e aprovadas; a aplicação Next.js/TypeScript em `src/` é a base vigente. | Novas rotas ou módulos seguem a fatia e as aprovações aplicáveis. |
 | 🟢 | Fase Docker — Fundação de conteinerização | Concluída e aprovada para commit: Dockerfile Next.js standalone, Compose com PostgreSQL vazio sem porta publicada no host, `.env.example`, `.dockerignore` e documentação local. `docker compose config --quiet`, build, saúde do PostgreSQL e resposta HTTP 200 da Home passaram. | A Fase 3 continua bloqueada até nova aprovação explícita do Jose, incluindo modelagem de dados e regras de negócio. |
-| 🟡 | Fase 3 — Modelagem e regras de negócio | Schema Prisma, migrations e testes de integração já estão presentes para catálogo, geografia/parceiros, segurança administrativa e conteúdo institucional. As Fatias 4.4 (Article + AuditLog) e 4.5 (Banner + InstitutionalSettings) foram implementadas em sequência; a 4.4 já foi revisada e aprovada formalmente por Jose, e a 4.5 ainda aguarda o mesmo ciclo de validação e decisão de commit. Isso não implica API de negócio, painel ou avanço automático das demais fatias. | Claude pode planejar a próxima fatia; implementar somente após nova aprovação formal de Jose e revisão técnica do Claude. |
-| 🔴 | Fase 4 — Painel administrativo | Não iniciada. | Conclusão e aprovação da Fase 3. |
+| 🟢 | Fase 3 — Modelagem e regras de negócio | Encerrada formalmente por Jose em 08/09/2026, após as Fatias 4.1 a 4.7 (catálogo, geografia/parceiros, segurança administrativa, artigos + auditoria, banners + configurações institucionais, capa obrigatória de artigo, upload de imagem via R2). Texto LGPD e consulta pública de parceiro seguem pendentes, como itens paralelos que não bloqueiam a Fase 4. | Nenhum; preservada como base para novas fatias de schema quando a Fase 4 exigir. |
+| 🟡 | Fase 4 — Painel administrativo | Iniciada em 08/09/2026. Nenhuma fatia implementada ainda. | Claude propõe a primeira fatia; implementar somente após aprovação formal de Jose. |
 | 🔴 | Fase 5 — Mapa e dados públicos | Não iniciada. Componente `RepresentativeMap` já documentado em `COMPONENTS.md` como planejado. | Conclusão e aprovação da Fase 4, e definição prévia de quais dados de representantes são públicos. |
 | 🔴 | Fase 6 — Segurança, testes e deploy | Não iniciada. | Conclusão e aprovação da Fase 5. |
 
@@ -263,7 +263,7 @@ Segue o mesmo fluxo de aprovação da seção 4 do Plano Mestre: proposta da est
 
 Não incluir nesta fase: schema Prisma, migrations, dados reais, credenciais de produção dentro do container ou do `docker-compose.yaml`.
 
-## Fase 3 — Modelagem e regras de negócio 🟡
+## Fase 3 — Modelagem e regras de negócio 🟢
 
 Objetivo: evoluir banco, entidades, permissões e regras de negócio somente nas
 fatias aprovadas. A fundação de catálogo, geografia/parceiros e segurança
@@ -306,24 +306,36 @@ rota do projeto a combinar sessão + RBAC em um Route Handler e a primeira a
 processar corpo `multipart/form-data`. A fatia não adiciona painel/UI de
 upload (Fase 4).
 
-**Nenhuma próxima fatia começa sem consulta e aprovação do Jose.** O
-consentimento de dados de representantes já foi confirmado (Parte II) e a
-política de privacidade já existe redigida, aguardando entrega do texto final
-para a política de retenção/exclusão (LGPD). O storage de imagens já está
-definido (Parte II): Cloudflare R2, servido por Route Handler/Server Action do
-próprio Next.js, sem serviço Spring Boot, preservando a ADR-001.
+**Fase 3 formalmente encerrada por Jose em 08/09/2026**, após a Fatia 4.7,
+com a modelagem, permissões e contratos de teste das Fatias 4.1 a 4.7
+cobrindo catálogo, geografia/parceiros, segurança administrativa, artigos +
+auditoria, banners + configurações institucionais, capa obrigatória de
+artigo e upload de imagem via R2. O encerramento não significa que a
+modelagem de dados está fechada para sempre: schema/migrations novos ainda
+podem ser propostos dentro da Fase 4 quando uma funcionalidade do painel
+exigir, seguindo o mesmo fluxo de aprovação da seção 4.
 
-Entregável esperado de cada próxima fatia: proposta aprovada, alteração de schema
-e migration quando aplicável, contrato de testes em código e evidência de
-validação. O código existente não autoriza antecipar as fatias restantes.
+Dois itens ficam como pendências paralelas, sem bloquear o início da Fase 4:
+o texto final da política de retenção/exclusão (LGPD), ainda não entregue
+por Jose; e a consulta pública de parceiro/representante com seleção
+explícita de campos públicos vs privados (`Partner`/`PartnerPrivate`), ainda
+não implementada em código — pré-requisito da Fase 5, não da Fase 4.
+
+O storage de imagens já está definido (Parte II): Cloudflare R2, servido por
+Route Handler/Server Action do próprio Next.js, sem serviço Spring Boot,
+preservando a ADR-001.
 
 A partir desta fase, toda proposta de regra de negócio deve seguir o fluxo completo da seção 4 e vir acompanhada do contrato de testes em código (não em prosa), antes de qualquer Model, Service, Route Handler ou Server Action ser escrito.
 
-## Fase 4 — Painel administrativo 🔴
+## Fase 4 — Painel administrativo 🟡
 
 Objetivo: dashboard interno para produtos, categorias, representantes, revendas, regiões, banners e configurações.
 
-Depende de: Fase 3 aprovada. O Jose já aprovou arquiteturalmente a edição via painel (30/08/2026, Parte II). A Fase 3 entrega os pré-requisitos — modelagem, permissões e contratos —; esta Fase 4 implementa o dashboard administrativo sobre essa base.
+Fase 3 formalmente encerrada e aprovada por Jose em 08/09/2026 — o portão
+para iniciar esta fase foi atendido. O Jose já havia aprovado
+arquiteturalmente a edição via painel (30/08/2026, Parte II). Nenhuma fatia
+desta fase começa sem proposta técnica e aprovação explícita de Jose,
+seguindo o mesmo fluxo usado na Fase 3 (seção 4).
 
 ## Fase 5 — Mapa e dados públicos 🔴
 
@@ -388,6 +400,7 @@ Um agente entendeu este Plano Mestre quando consegue:
 | 08/09/2026 | Fatia 4.6 concluída: commit `be89140` na branch `codex/fatia-4-6`, mesclado à `main` em `a79b50a` (fast-forward dos commits operacionais `9a68730`/`eaf5e38`/`9759102` que exigem e-mail real no Docker local e portam `bootstrap-preview-worktree`, `start-preview-local` e `seed-preview-admin` de PowerShell para Node multiplataforma). `lint`, `typecheck`, `npm test` (32 arquivos/84 testes) e `npm run build` aprovados na `main` pós-merge, antes do push. Jose validou visualmente e testou o login/MFA completo no deploy publicado na Vercel, sem regressão. Push para `origin/main` concluído. Fase 3 permanece 🟡 (mais fatias podem seguir, mediante nova proposta e aprovação). |
 | 08/09/2026 | Jose decidiu não encerrar a Fase 3 ainda e aprovou a Fatia 4.7 (upload de imagem de capa via Cloudflare R2) antes de reavaliar o encerramento. Escopo aprovado: limite de 5 MB, rota `POST /api/admin/articles/[id]/cover`, exclusão da imagem antiga ao substituir. Implementada na worktree `claude-fatia-4-7-cover-upload` (branch `feature/claude-fatia-4-7-cover-upload`): interface `ImageStorage` trocável (`local`/`r2`) seguindo o padrão de `email-config.ts`. Dependência nova inicial: `@aws-sdk/client-s3`; trocada por `aws4fetch` (sem dependências transitivas, mais leve, feito para assinar requisições `fetch` a APIs compatíveis com S3) após Jose pedir uma alternativa mais leve antes de confirmar. Route Handler com sessão + RBAC (`ADMIN`/`EDITOR`, confirmado por Jose) + validação de origem/MIME/tamanho/alt. `lint`, `lint:types` e `typecheck` aprovados; `npm run test:unit` aprovado (35 arquivos/107 testes, incluindo os novos). `npm run build` ainda não validado nesta worktree nova por falta de `.env` local (nenhum `.env` foi copiado de outra worktree, conforme regra); dois itens da Fase 3 seguem pendentes de decisão de Jose, independente desta fatia: texto final da política de retenção/exclusão LGPD e o próprio encerramento da fase. Commit, merge e push permanecem pendentes de revisão de escopo, testes completos e aprovação dupla. |
 | 08/09/2026 | Fatia 4.7 concluída: commit `2d37f08` na branch `feature/claude-fatia-4-7-cover-upload`, mesclado à `main` por fast-forward (sem divergência de histórico). `.env` novo gerado para a worktree (segredos aleatórios, nunca copiados), Postgres isolado com as 7 migrations e seed aplicados, `npm run test:db` aprovado (6 arquivos/45 testes) e `npm run build` aprovado nessa worktree antes do merge. Após o merge, `npm install` (nova dependência `aws4fetch`), `lint`, `typecheck`, `npm test` (35 arquivos/109 testes) e `npm run build` repetidos e aprovados na `main`. Push para `origin/main` concluído; Jose validou o deploy publicado na Vercel sem erro. Fase 3 permanece 🟡 — texto final da política LGPD e a decisão de encerrar a fase continuam em aberto, independentes desta fatia. |
+| 08/09/2026 | Jose pediu análise do Plano Mestre para decidir a próxima tarefa entre a Fase 5 (mapa de representantes) ou reavaliar a fase vigente. Análise: a Fase 5 exige conclusão da Fase 4 (não iniciada) e a regra de código de dados públicos vs privados de `Partner`/`PartnerPrivate` (não implementada, só o schema da Fatia 4.2 existe) — pular para a Fase 5 deixaria a futura página pública sem a seleção explícita de campos exigida por `CLAUDE.md` §14. Diante disso, Jose decidiu **encerrar formalmente a Fase 3** (🟡 → 🟢) e **iniciar a Fase 4 — Painel administrativo** (🔴 → 🟡), atualizando a Parte IV e a tabela de status (seção 0.2). Texto LGPD e consulta pública de parceiro seguem como pendências paralelas, não bloqueantes. Nenhuma fatia da Fase 4 foi implementada ainda; a primeira depende de proposta técnica e aprovação formal de Jose. |
 
 ---
 
