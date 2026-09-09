@@ -10,7 +10,7 @@ export function SiteHeader() {
         <div className="container utility-inner">
           <span>Orleans, Santa Catarina</span>
           <div>
-            <a href="tel:+554836600818">(48) 3660-0818</a>
+            <span>(48) 3660-0818</span>
             <span className="utility-divider" aria-hidden="true" />
             <a href="#contato">Atendimento e orçamento</a>
           </div>

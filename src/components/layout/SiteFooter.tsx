@@ -50,7 +50,12 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="container footer-bottom">
-        <span>© 2026 FortSulSC. Todos os direitos reservados.</span>
+        <span>
+          <a href="/admin/login" aria-label="Acesso administrativo" className="footer-copyright-link">
+            ©
+          </a>{' '}
+          2026 FortSulSC. Todos os direitos reservados.
+        </span>
         <a href="#inicio">Voltar ao topo ↑</a>
       </div>
     </footer>

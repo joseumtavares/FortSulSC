@@ -73,6 +73,7 @@ h1, h2, h3 { margin: 0; line-height: 1.08; letter-spacing: -.035em; }
 .footer-grid p { font-size: 14px; }
 .footer-bottom { min-height: 76px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.1); font-size: 12px; }
 .footer-bottom a:hover { color: var(--white); }
+.footer-bottom .footer-copyright-link:hover { color: inherit; }
 
 /* ===== Fatia 3 — Hero, tira de categorias e Sobre ===== */
 .hero { position: relative; isolation: isolate; min-height: 670px; overflow: hidden; background: var(--blue-950); color: var(--white); }

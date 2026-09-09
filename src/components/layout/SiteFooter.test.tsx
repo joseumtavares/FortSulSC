@@ -21,6 +21,18 @@ describe('SiteFooter', () => {
     expect(screen.getByRole('link', { name: 'Voltar ao topo ↑' }).getAttribute('href')).toBe('#inicio')
   })
 
+  it('expõe um link discreto para o login administrativo no símbolo de copyright', () => {
+    render(
+      <WhatsAppProvider>
+        <SiteFooter />
+      </WhatsAppProvider>,
+    )
+
+    const link = screen.getByRole('link', { name: 'Acesso administrativo' })
+    expect(link.getAttribute('href')).toBe('/admin/login')
+    expect(link.textContent).toBe('©')
+  })
+
   it('abre o diálogo pelo CTA de WhatsApp', async () => {
     const user = userEvent.setup()
     render(

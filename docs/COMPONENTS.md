@@ -212,6 +212,10 @@ Exemplo futuro:
   - `phone`;
   - `socialLinks`;
   - `legalLinks`.
+- O símbolo "©" do copyright é um link real para `/admin/login`
+  (`aria-label="Acesso administrativo"`), visualmente idêntico ao texto ao
+  redor (sem sublinhado, sem mudança de cor em nenhum estado de mouse) —
+  atalho discreto para o painel administrativo, aprovado por Jose.
 
 ### 3.14 FloatingWhatsApp
 
