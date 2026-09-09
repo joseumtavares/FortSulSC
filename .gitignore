@@ -36,10 +36,8 @@ lighthouse-*_report.json
 *lighthouse.[0-9]*/
 
 .vercel
-.env*
 
 # Estado local temporário do Supabase CLI
 supabase/.temp/
 
-.vercel
 .env*

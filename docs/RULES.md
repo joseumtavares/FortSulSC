@@ -203,10 +203,13 @@ npm run build
   ambiente pelo fluxo aprovado em `docs/WORKTREE_PREVIEW.md`, sem copiar
   credenciais de outra worktree, exibir valores ou versionar arquivos locais.
 - Toda worktree nova deve executar `node scripts/bootstrap-preview-worktree.mjs`
-  antes do desenvolvimento. Para validação visual ou autenticação, usar
+  antes do desenvolvimento. Se a tarefa tocar Prisma, migrations ou `test:db`,
+  executar também `scripts/bootstrap-local-db.ps1` para criar um projeto Docker
+  Compose isolado por worktree. Para validação visual ou autenticação, usar
   `node scripts/start-preview-local.mjs`, que carrega o ambiente Preview pela
   Vercel CLI e aplica as sobreposições HTTP somente ao processo local. Os
-  scripts são Node puro (rodam em Linux, macOS e Windows sem PowerShell).
+  scripts de bootstrap/preview citados são Node puro (rodam em Linux, macOS e
+  Windows sem PowerShell); `bootstrap-local-db.ps1` ainda é PowerShell/Windows.
 - O bootstrap deve concluir também suas validações estruturais. Se `next-env.d.ts`
   ou outro arquivo obrigatório existir como diretório, parar e corrigir a
   worktree antes de executar Docker, Prisma, testes ou build. Soluções efetivas

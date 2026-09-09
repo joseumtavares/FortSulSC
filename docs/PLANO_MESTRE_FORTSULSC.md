@@ -277,7 +277,17 @@ migration foi aplicada, os testes de integração passaram, a implementação fo
 integrada à `main` e o deploy online foi validado na Vercel. A Fatia 4.5, em
 sequência, adiciona `Banner` e `InstitutionalSettings` com a mesma lógica de
 conteúdo institucional sem rota pública ainda. A fatia não adiciona rota, CRUD
-ou painel.
+ou painel. A Fatia 4.6, em sequência, adiciona à `Article` os campos opcionais
+de imagem de capa (`coverImageUrl`, `coverImageKey`, `coverImageMime`,
+`coverImageSize`, `coverImageAlt`) e a regra de negócio aprovada por Jose em
+08/09/2026: um artigo não pode ser publicado sem `coverImageUrl` nem sem
+`coverImageAlt` semanticamente válido (não nulo, não vazio, não composto só de
+espaços), aplicada de forma alinhada na constraint de banco (`CHECK` com
+`btrim`) e na guarda de aplicação em `publishArticle`. A consulta pública
+(`findArticleBySlugPublic`) expõe somente `coverImageUrl` e `coverImageAlt`;
+`coverImageKey`, `coverImageMime` e `coverImageSize` são de uso
+interno/administrativo e não são retornados por essa consulta. A fatia não
+adiciona rota, CRUD, upload ou painel.
 
 **Nenhuma próxima fatia começa sem consulta e aprovação do Jose.** O
 consentimento de dados de representantes já foi confirmado (Parte II) e a
@@ -357,6 +367,7 @@ Um agente entendeu este Plano Mestre quando consegue:
 | 01/09/2026 | Jose aprovou formalmente a Fase 2 — Estrutura Next.js — após a conclusão e validação da Tarefa 3.9. O portão para iniciar a Fase Docker foi atendido. A Fase Docker recebeu revisão aprovada do Claude e validação manual aprovada do Jose, ficando autorizada para commit; a Fase 3 permanece bloqueada até nova aprovação explícita do Jose. |
 | 04/09/2026 | Corrigido descompasso documental: RULES, ARCHITECTURE e o estado vigente deste Plano Mestre passam a reconhecer a fundação Next.js/Prisma/Docker e as migrations/testes de integração presentes no repositório. Mantido o bloqueio de novas fatias, rotas, autenticação, painel e regras fora do escopo aprovado. |
 | 07/09/2026 | Fatia 4.5 (Banner + InstitutionalSettings) implementada na worktree atual: schema/migration Prisma com `Banner`, `InstitutionalSettings` e `AuditEntityType.BANNER`, repositórios mínimos e contratos de teste em código. `npm run typecheck`, `npm run lint`, `npm test` e `npm run build` passaram; a suíte unitária nova passou (6 testes). A suíte de banco local (`npm run test:db`) ficou bloqueada pelo ambiente: `DATABASE_URL` desta sessão aponta para Supabase e o Docker Desktop/Linux engine retornou 500 ao tentar subir o stack local com variáveis temporárias. Sem rota, CRUD ou painel nesta fatia. |
+| 08/09/2026 | Fatia 4.6 (imagem de capa obrigatória para publicação de `Article`) revisada na worktree `codex-fati-4-6`. O `scope-gate-reviewer` do Claude identificou três pendências bloqueadoras na implementação inicial: exposição de `coverImageKey`/`coverImageMime`/`coverImageSize` na consulta pública, alteração não relacionada em `src/app/api/admin/login/password/route.ts` e ausência de registro formal desta decisão neste Plano. Jose analisou o parecer e aprovou o escopo final, determinando as correções antes do commit: (1) a consulta pública passa a selecionar somente `coverImageUrl` e `coverImageAlt`; (2) a constraint de banco e a guarda em `publishArticle` passam a exigir `cover_image_alt` não nulo, não vazio e não composto só de espaços (`btrim`), alinhadas entre migration e aplicação; (3) a alteração em `password/route.ts` foi revertida para a versão da `main`, por não pertencer ao escopo desta fatia — fica registrada como melhoria a propor separadamente, se útil; (4) este registro formaliza a decisão na fonte de verdade do projeto. Commit, merge e push permanecem pendentes da suíte de testes, validação visual/manual de Jose e aprovação dupla final. |
 
 ---
 

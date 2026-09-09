@@ -83,6 +83,17 @@ que a configuração do Prisma seja corrigida e validada novamente. O critério 
 sucesso é dado verificável no banco e `npm run test:db` aprovado, não apenas a
 ausência de erro no comando.
 
+Se a tarefa tocar Prisma, migrations ou `test:db`, prepare também o banco local
+isolado desta worktree:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\bootstrap-local-db.ps1
+```
+
+Esse bootstrap usa um nome de projeto do Docker Compose derivado da worktree
+atual, para não reutilizar o volume de outra branch nem repetir seed/migration
+em banco compartilhado por acidente.
+
 ## Iniciar o Preview otimizado
 
 ```bash
