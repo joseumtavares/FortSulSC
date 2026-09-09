@@ -202,10 +202,15 @@ npm run build
   conexão local aplicável (atualmente, `DATABASE_URL` para Prisma). Criar o
   ambiente pelo fluxo aprovado em `docs/WORKTREE_PREVIEW.md`, sem copiar
   credenciais de outra worktree, exibir valores ou versionar arquivos locais.
-- Toda worktree nova deve executar `scripts/bootstrap-preview-worktree.ps1`
+- Toda worktree nova deve executar `node scripts/bootstrap-preview-worktree.mjs`
   antes do desenvolvimento. Para validação visual ou autenticação, usar
-  `scripts/start-preview-local.ps1`, que carrega o ambiente Preview pela
-  Vercel CLI e aplica as sobreposições HTTP somente ao processo local.
+  `node scripts/start-preview-local.mjs`, que carrega o ambiente Preview pela
+  Vercel CLI e aplica as sobreposições HTTP somente ao processo local. Os
+  scripts são Node puro (rodam em Linux, macOS e Windows sem PowerShell).
+- O bootstrap deve concluir também suas validações estruturais. Se `next-env.d.ts`
+  ou outro arquivo obrigatório existir como diretório, parar e corrigir a
+  worktree antes de executar Docker, Prisma, testes ou build. Soluções efetivas
+  e causas recorrentes estão em `docs/WORKTREE_PREVIEW.md`.
 - Para mudanças sem código, executar apenas os gates que possam ser afetados e
   declarar os demais como não aplicáveis. Uma falha de ambiente não é sucesso:
   registrar o bloqueio e a condição para reproduzi-lo.

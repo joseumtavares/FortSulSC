@@ -34,9 +34,9 @@ services:
       AUTH_COOKIE_SECURE: ${AUTH_COOKIE_SECURE:?Preencha AUTH_COOKIE_SECURE no .env local}
       SECURITY_HEADERS_HSTS: ${SECURITY_HEADERS_HSTS:-false}
       TRUST_PROXY_HEADERS: ${TRUST_PROXY_HEADERS:-false}
-      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-console}
-      RESEND_API_KEY: ${RESEND_API_KEY:-}
-      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:?Preencha EMAIL_PROVIDER=resend no .env local — "console" nunca expõe o código MFA em lugar nenhum, por segurança, e não permite testar o login manualmente}
+      RESEND_API_KEY: ${RESEND_API_KEY:?Preencha RESEND_API_KEY no .env local}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:?Preencha RESEND_FROM_EMAIL no .env local}
     depends_on:
       db:
         condition: service_healthy

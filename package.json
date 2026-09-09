@@ -9,7 +9,7 @@
   "scripts": {
     "preview": "node preview.mjs",
     "test:static": "node --test test-preview.mjs",
-    "test:unit": "vitest run --exclude src/lib/db/**",
+    "test:unit": "vitest run --exclude 'src/lib/db/**'",
     "test:db": "vitest run src/lib/db",
     "test": "npm run test:static && npm run test:unit",
     "lint": "eslint .",
