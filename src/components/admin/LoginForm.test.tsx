@@ -87,7 +87,7 @@ describe('LoginForm', () => {
     )
   })
 
-  it('redireciona para a confirmação de sessão quando o código é aceito', async () => {
+  it('redireciona para o painel administrativo quando o código é aceito', async () => {
     vi.mocked(fetch)
       .mockResolvedValueOnce(jsonResponse(200, { step: 'code_sent' }))
       .mockResolvedValueOnce(jsonResponse(200, { step: 'authenticated' }))
@@ -98,7 +98,7 @@ describe('LoginForm', () => {
     await user.type(await screen.findByLabelText('Código de verificação'), '123456')
     await user.click(screen.getByRole('button', { name: 'Confirmar código' }))
 
-    await waitFor(() => expect(push).toHaveBeenCalledWith('/admin/session-check'))
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/admin'))
   })
 
   it('mostra "Código inválido ou expirado" em 401 e o texto de bloqueio em 429', async () => {
