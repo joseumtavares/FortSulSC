@@ -206,10 +206,20 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 .content-heading h2 { color: var(--blue-900); }
 .content-heading > p { width: 360px; margin: 0 0 7px; color: var(--muted); font-size: 15px; }
 .content-empty { margin: 47px 0 30px; padding: 40px; border-radius: var(--radius); background: var(--white); color: var(--muted); text-align: center; }
-.content-carousel { overflow: hidden; margin: 47px 0 30px; mask: linear-gradient(90deg, transparent 0%, black 4%, black 96%, transparent 100%); -webkit-mask: linear-gradient(90deg, transparent 0%, black 4%, black 96%, transparent 100%); }
-.content-track { display: flex; gap: 18px; width: max-content; padding: 0; margin: 0; list-style: none; animation: content-scroll 34s linear infinite; }
-.content-track > li { flex: 0 0 300px; min-width: 0; }
-.content-track:focus-within { animation-play-state: paused; }
+/* Mesmo padrão comprovado de .solution-carousel (seção Soluções): setas +
+   scroll nativo do navegador, sem animação CSS contínua — a versão anterior
+   com translateX animado causava cortes/sumiço cíclico em testes reais de
+   celular (Safari e Chrome). */
+.content-carousel { position: relative; margin: 47px 0 30px; overflow: hidden; border-radius: var(--radius); }
+.content-track { display: flex; gap: 18px; overflow-x: auto; padding: 4px 2px 12px; margin: 0; list-style: none; scroll-snap-type: x proximity; scrollbar-width: none; }
+.content-track::-webkit-scrollbar { display: none; }
+.content-carousel-item { flex: 0 0 300px; min-width: 0; scroll-snap-align: start; }
+.content-carousel-control { position: absolute; z-index: 2; top: 50%; display: grid; width: 42px; aspect-ratio: 1; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--white); color: var(--blue-900); box-shadow: 0 8px 22px rgba(6,27,66,.18); cursor: pointer; opacity: 0; transform: translateY(-50%); transition: opacity .2s, background .2s, color .2s; }
+.content-carousel:hover .content-carousel-control, .content-carousel:focus-within .content-carousel-control { opacity: 1; }
+.content-carousel-control:hover { background: var(--orange); color: var(--white); }
+.content-carousel-control svg { width: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+.content-carousel-control.is-previous { left: 12px; }
+.content-carousel-control.is-next { right: 12px; }
 .content-card-trigger { all: unset; display: block; width: 100%; cursor: pointer; }
 .content-card-trigger:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: var(--radius); }
 .content-card { height: 100%; overflow: hidden; border-radius: var(--radius); background: var(--white); box-shadow: 0 16px 45px rgba(6,27,66,.08); }
@@ -219,8 +229,6 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 .content-card-body h3 { color: var(--blue-900); font-size: 20px; }
 .content-card-body p { margin: 12px 0 0; color: var(--muted); font-size: 15px; }
 .content-cta { margin-top: 0; }
-
-@keyframes content-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 .content-article-dialog { width: min(640px, calc(100% - 32px)); max-height: min(88vh, 720px); margin: auto; padding: 0; border: 0; border-radius: var(--radius); background: var(--white); color: var(--ink); box-shadow: 0 28px 80px rgba(6,27,66,.35); }
 .content-article-dialog::backdrop { background: rgba(4,22,54,.72); backdrop-filter: blur(3px); }
@@ -297,7 +305,6 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   .reveal { opacity: 1; transform: none; }
   .about-panel { transition: none; transform: none; }
-  .content-track { animation: none; }
 }
 
 @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
@@ -347,20 +354,7 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
   .map-wrap { min-height: 430px; }
   .content-heading { align-items: flex-start; flex-direction: column; }
   .content-heading > p { width: auto; max-width: 450px; }
-  /* Em telas de toque a rolagem automática contínua (desktop) causava cortes
-     e sumiço cíclico dos cards em testes reais (Safari e Chrome no celular).
-     Em vez de depender de animação CSS, o carrossel vira uma faixa deslizável
-     pelo dedo: mais robusto e também mais previsível para o usuário. */
-  .content-carousel { overflow: visible; -webkit-mask: none; mask: none; }
-  .content-track {
-    animation: none;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
-  }
-  .content-track > li { flex: 0 0 260px; scroll-snap-align: start; }
-  .content-track > li[aria-hidden='true'] { display: none; }
+  .content-carousel-item { flex: 0 0 260px; }
   .admin-login { grid-template-columns: 1fr; }
   .admin-login-institutional { display: none; }
   .admin-login-card { padding: 48px 28px; }
@@ -421,7 +415,8 @@ body.dialog-open { overflow: hidden; }
   .step-icon { box-shadow: none; background: #eef3fa; }
   .map-wrap { min-height: 340px; }
   .content-carousel { margin-top: 36px; }
-  .content-track > li { flex-basis: 78vw; }
+  .content-carousel-item { flex-basis: 78vw; }
+  .content-carousel-control { display: none; }
   .content-card-media { height: 220px; }
   .content-card-body { min-height: 0; padding: 19px; }
   .content-card-body h3 { font-size: 18px; }

@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ContentSectionView } from './ContentSectionView'
 import { WhatsAppProvider } from '@/components/whatsapp/WhatsAppProvider'
@@ -57,36 +57,45 @@ describe('ContentSectionView', () => {
     expect(screen.getByAltText('Alimentador de cavaco, briquete e pellets em operação')).toBeTruthy()
   })
 
-  it('duplica os cards para a rolagem contínua, mas esconde a duplicata de leitores de tela', () => {
+  it('renderiza um card por artigo, sem duplicação, com setas de navegação', () => {
     render(
       <WhatsAppProvider>
         <ContentSectionView items={items} />
       </WhatsAppProvider>,
     )
 
-    expect(screen.getAllByRole('heading', { level: 3, name: 'Como escolher o alimentador ideal' })).toHaveLength(1)
-    expect(document.querySelectorAll('.content-card-body h3').length).toBe(items.length * 2)
-    // A duplicata é clicável (mesmo popup do card real) para não parecer quebrada ao
-    // usuário de mouse, mas fica fora da árvore de acessibilidade (aria-hidden) e da
-    // ordem de tabulação (tabIndex -1), então some das buscas por role/nome acessível.
-    expect(screen.getAllByRole('button', { name: /Como escolher o alimentador ideal/ })).toHaveLength(1)
-    expect(document.querySelectorAll('.content-card-trigger').length).toBe(items.length * 2)
-    expect(document.querySelectorAll('.content-card-trigger[tabindex="-1"]').length).toBe(items.length)
+    expect(document.querySelectorAll('.content-card-body h3').length).toBe(items.length)
+    expect(document.querySelectorAll('.content-card-trigger').length).toBe(items.length)
+    expect(screen.getByRole('button', { name: 'Ver artigos anteriores' })).toBeTruthy()
+    expect(screen.getByRole('button', { name: 'Ver próximos artigos' })).toBeTruthy()
   })
 
-  it('abre o popup também ao clicar na duplicata do carrossel (clique de mouse, não leitor de tela)', () => {
+  it('não mostra setas de navegação quando há só um artigo', () => {
+    render(
+      <WhatsAppProvider>
+        <ContentSectionView items={[items[0]]} />
+      </WhatsAppProvider>,
+    )
+
+    expect(screen.queryByRole('button', { name: 'Ver artigos anteriores' })).toBeNull()
+    expect(screen.queryByRole('button', { name: 'Ver próximos artigos' })).toBeNull()
+  })
+
+  it('rola o carrossel ao clicar na seta de próximo', async () => {
+    const user = userEvent.setup()
     render(
       <WhatsAppProvider>
         <ContentSectionView items={items} />
       </WhatsAppProvider>,
     )
 
-    const triggers = document.querySelectorAll('.content-card-trigger')
-    const duplicateTrigger = triggers[items.length]
-    fireEvent.click(duplicateTrigger)
+    const track = document.querySelector('.content-track') as HTMLElement
+    const scrollBySpy = vi.fn()
+    track.scrollBy = scrollBySpy
 
-    const dialog = getOpenDialog()
-    expect(within(dialog).getByText('Texto completo do artigo sobre alimentadores.')).toBeTruthy()
+    await user.click(screen.getByRole('button', { name: 'Ver próximos artigos' }))
+
+    expect(scrollBySpy).toHaveBeenCalledWith(expect.objectContaining({ left: expect.any(Number) }))
   })
 
   it('mostra estado vazio quando não há artigos publicados', () => {
