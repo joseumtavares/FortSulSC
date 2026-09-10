@@ -255,11 +255,28 @@ model Article {
   createdAt      DateTime      @default(now()) @map("created_at")
   updatedAt      DateTime      @updatedAt @map("updated_at")
 
-  author AdminUser @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  author AdminUser      @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  images ArticleImage[]
 
   @@index([authorId])
   @@index([status, publishedAt])
   @@map("articles")
+}
+
+model ArticleImage {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  articleId String   @map("article_id") @db.Uuid
+  imageUrl  String   @map("image_url")
+  imageKey  String   @map("image_key")
+  mimeType  String   @map("mime_type")
+  size      Int
+  altText   String   @map("alt_text")
+  order     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([articleId])
+  @@map("article_images")
 }
 
 enum AuditAction {

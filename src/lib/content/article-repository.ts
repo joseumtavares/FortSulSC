@@ -1,5 +1,6 @@
 import { ArticleStatus } from '@prisma/client'
 import { prisma } from '@/lib/db/client'
+import { slugify } from './slug'
 
 export type CreateArticleInput = {
   slug: string
@@ -36,6 +37,26 @@ export function findArticleBySlugPublic(slug: string) {
   })
 }
 
+export function listPublishedArticlesPublic() {
+  return prisma.article.findMany({
+    where: { status: ArticleStatus.PUBLISHED },
+    orderBy: { publishedAt: 'desc' },
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      excerpt: true,
+      body: true,
+      coverImageUrl: true,
+      coverImageAlt: true,
+      images: {
+        orderBy: { order: 'asc' },
+        select: { imageUrl: true, altText: true },
+      },
+    },
+  })
+}
+
 export class ArticleMissingCoverImageError extends Error {
   constructor() {
     super('Artigo precisa de imagem de capa e texto alternativo para ser publicado')
@@ -44,6 +65,48 @@ export class ArticleMissingCoverImageError extends Error {
 
 export function findArticleForAdmin(id: string) {
   return prisma.article.findUnique({ where: { id } })
+}
+
+export function listArticlesForAdmin() {
+  return prisma.article.findMany({
+    orderBy: { updatedAt: 'desc' },
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      status: true,
+      publishedAt: true,
+      updatedAt: true,
+    },
+  })
+}
+
+/**
+ * Deriva um slug único a partir do título, tentando o valor base primeiro e
+ * acrescentando um sufixo numérico só se já existir outro artigo com o mesmo
+ * slug (evita colisão de URL pública sem exigir que o admin pense nisso).
+ */
+export async function generateUniqueArticleSlug(title: string): Promise<string> {
+  const base = slugify(title) || 'artigo'
+  let candidate = base
+  let suffix = 2
+
+  while (await prisma.article.findUnique({ where: { slug: candidate }, select: { id: true } })) {
+    candidate = `${base}-${suffix}`
+    suffix += 1
+  }
+
+  return candidate
+}
+
+export type UpdateArticleInput = {
+  title: string
+  excerpt?: string | null
+  body: string
+}
+
+export function updateArticle(id: string, input: UpdateArticleInput) {
+  return prisma.article.update({ where: { id }, data: input })
 }
 
 export type UpdateArticleCoverImageInput = {
