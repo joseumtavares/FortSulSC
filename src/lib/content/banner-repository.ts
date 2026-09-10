@@ -71,3 +71,7 @@ export function updateBanner(id: string, input: UpdateBannerInput) {
     data: input,
   })
 }
+
+export function listBannersForAdmin() {
+  return prisma.banner.findMany({ orderBy: [{ active: 'desc' }, { order: 'asc' }, { createdAt: 'desc' }] })
+}

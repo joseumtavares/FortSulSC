@@ -42,11 +42,17 @@ describe('institutional-settings-repository', () => {
 
     expect(institutionalSettingsMock.upsert).toHaveBeenCalledWith({
       where: { singletonKey: 1 },
-      update: input,
+      update: { ...input, socialLinks: input.socialLinks },
       create: {
         singletonKey: 1,
         ...input,
       },
     })
   })
+})
+
+it('rejects malformed social links before persistence', () => {
+  institutionalSettingsMock.upsert.mockClear()
+  expect(() => upsertInstitutionalSettings({ whatsapp: '123', email: 'test@example.com', socialLinks: { instagram: 'http://instagram.com' } })).toThrow()
+  expect(institutionalSettingsMock.upsert).not.toHaveBeenCalled()
 })

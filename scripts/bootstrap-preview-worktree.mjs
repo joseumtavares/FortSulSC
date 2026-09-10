@@ -4,7 +4,7 @@
 // Substitui bootstrap-preview-worktree.ps1 (Windows-only) por uma versão
 // que roda igual em Linux, macOS e Windows.
 
-import { existsSync, lstatSync } from 'node:fs'
+import { existsSync, lstatSync, writeFileSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -35,6 +35,36 @@ function assertRequiredFile(relativePath) {
   }
 }
 
+// next-env.d.ts é gerado pelo Next.js e ignorado pelo Git (.gitignore) — uma
+// worktree nova legitimamente nasce sem ele, antes do primeiro `next dev`/
+// `next build`. Diferente de assertRequiredFile, não tratamos a ausência como
+// erro: recriamos o conteúdo padrão (sem nada específico do projeto) para não
+// bloquear o bootstrap. Se o caminho existir como diretório, isso ainda é uma
+// falha real (ver tabela de falhas recorrentes) e continua parando o script.
+const NEXT_ENV_CONTENT = `/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+import "./.next/types/routes.d.ts";
+import "./.next/types/root-params.d.ts";
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+`
+
+function ensureNextEnvFile() {
+  const fullPath = path.join(projectRoot, 'next-env.d.ts')
+  if (!existsSync(fullPath)) {
+    writeFileSync(fullPath, NEXT_ENV_CONTENT)
+    return
+  }
+  const stats = lstatSync(fullPath)
+  if (!stats.isFile()) {
+    fail(
+      "Artefato inválido: 'next-env.d.ts' existe como diretório, mas precisa ser um arquivo. " +
+        'Remova somente o diretório vazio antes de continuar; o bootstrap recria o conteúdo padrão.',
+    )
+  }
+}
+
 function commandExists(command) {
   const result = spawnSync(command, ['--version'], { stdio: 'ignore', shell: true })
   return !result.error && result.status === 0
@@ -47,9 +77,10 @@ function runChecked(command, commandArgs, errorMessage) {
   }
 }
 
-for (const file of ['package.json', 'package-lock.json', 'tsconfig.json', 'next.config.ts', 'next-env.d.ts']) {
+for (const file of ['package.json', 'package-lock.json', 'tsconfig.json', 'next.config.ts']) {
   assertRequiredFile(file)
 }
+ensureNextEnvFile()
 
 if (!commandExists('npm')) {
   fail('npm não foi encontrado. Instale a versão de Node.js exigida por package.json antes de continuar.')

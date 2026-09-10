@@ -317,6 +317,39 @@ Exemplo futuro:
 - Props: `articleId`, `images` (lista pronta, vinda do servidor), `maxImages`.
 - Observação: exclusão de uma imagem individual da galeria é sempre permitida, mesmo com o artigo publicado — não se confunde com a regra "sem exclusão" de artigo, que é sobre o ciclo de vida do artigo inteiro. Página pública consumidora da galeria ainda não existe.
 
+### 3.22 BannerForm
+
+- Status: implementado (`src/components/admin/BannerForm.tsx`).
+- Objetivo: formulário de título/texto alternativo/link/janela de agendamento de um banner, usado tanto na criação (com upload de imagem obrigatório, em uma única etapa) quanto na edição (só texto).
+- Quando utilizar: telas `/admin/banners/novo` e `/admin/banners/[id]`.
+- Props: `bannerId?`, `initial?` (título, texto alternativo, link, datas).
+- Observação: diferente de `Article`, `Banner` nunca existe sem imagem no schema — por isso a criação é um único `POST` multipart (texto + arquivo), sem fluxo em duas etapas. Componente só coleta entrada e chama a API (`POST`/`PATCH /api/admin/banners[/[id]]`); validação de data/link fica no servidor.
+
+### 3.23 BannerImageForm
+
+- Status: implementado (`src/components/admin/BannerImageForm.tsx`).
+- Objetivo: substituir a imagem de um banner já existente (JPEG/PNG/WEBP, até 5 MB).
+- Quando utilizar: tela `/admin/banners/[id]`.
+- Quando não utilizar: criação de banner (a imagem já nasce junto, via `BannerForm`).
+- Props: `bannerId`, `imageUrl`, `altText`.
+- Observação: mesmo padrão de `ArticleCoverUploadForm` — a imagem antiga só é excluída do storage depois que o banco confirma a nova.
+
+### 3.24 BannerActiveToggle
+
+- Status: implementado (`src/components/admin/BannerActiveToggle.tsx`).
+- Objetivo: alternar um banner entre ativo e inativo por meio de uma única caixa de seleção (sem exclusão física — mesmo princípio já aprovado para `Article`).
+- Quando utilizar: tela `/admin/banners/[id]`.
+- Props: `bannerId`, `initialActive`.
+- Observação: `active` é um kill switch absoluto sobre a janela de datas — um banner fora do período `startAt`/`endAt` nunca aparece publicamente, mas um banner dentro do período também não aparece se `active: false`. Mais de um banner pode ficar ativo ao mesmo tempo (sem limite artificial). Exibição pública de banners na Home ainda não existe (fora do escopo desta fatia).
+
+### 3.25 InstitutionalSettingsForm
+
+- Status: implementado (`src/components/admin/InstitutionalSettingsForm.tsx`).
+- Objetivo: formulário único de contato institucional (WhatsApp, telefone, e-mail, CNPJ, endereço) e redes sociais (Facebook/Instagram/LinkedIn/YouTube).
+- Quando utilizar: tela `/admin/settings`.
+- Props: `initial?` (linha única de configurações, ou `undefined` na primeira vez).
+- Observação: sem lista nem "novo" — é sempre a mesma linha (`singletonKey = 1`). Links de rede social são sempre `https://` ou ausentes; a validação de formato (`parseSocialLinks`, `src/lib/content/social-links.ts`) roda no servidor, o componente só filtra campos vazios antes de enviar.
+
 ## 4. Regra para novos componentes
 
 Antes de criar componente novo:
