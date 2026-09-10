@@ -8,6 +8,6 @@ export default defineConfig({
     environment: 'jsdom',
     testTimeout: 15_000,
     setupFiles: ['./vitest.setup.ts'],
-    exclude: [...configDefaults.exclude, '**/.worktrees/**'],
+    exclude: [...configDefaults.exclude, '**/.worktrees/**', '**/worktrees/**'],
   },
 })

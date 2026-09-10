@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ContentSectionView } from './ContentSection'
+import { ContentSectionView } from './ContentSectionView'
 import { WhatsAppProvider } from '@/components/whatsapp/WhatsAppProvider'
 import type { ContentCardData } from '@/components/content/content-data'
 
