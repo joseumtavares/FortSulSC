@@ -66,9 +66,50 @@ class R2ImageStorage implements ImageStorage {
   }
 }
 
+class SupabaseImageStorage implements ImageStorage {
+  constructor(
+    private readonly url: string,
+    private readonly serviceRoleKey: string,
+    private readonly bucket: string,
+  ) {}
+
+  private objectUrl(key: string): string {
+    return `${this.url}/storage/v1/object/${this.bucket}/${key}`
+  }
+
+  async upload({ key, body, contentType }: UploadImageInput): Promise<UploadedImage> {
+    const response = await fetch(this.objectUrl(key), {
+      method: 'POST',
+      body: new Uint8Array(body),
+      headers: {
+        authorization: `Bearer ${this.serviceRoleKey}`,
+        'content-type': contentType,
+        'x-upsert': 'true',
+      },
+    })
+    if (!response.ok) throw new Error(`Falha ao enviar imagem ao Supabase Storage (status ${response.status}).`)
+
+    return { url: `${this.url}/storage/v1/object/public/${this.bucket}/${key}` }
+  }
+
+  async delete(key: string): Promise<void> {
+    const response = await fetch(this.objectUrl(key), {
+      method: 'DELETE',
+      headers: { authorization: `Bearer ${this.serviceRoleKey}` },
+    })
+    if (!response.ok && response.status !== 404) {
+      throw new Error(`Falha ao excluir imagem no Supabase Storage (status ${response.status}).`)
+    }
+  }
+}
+
 export function getImageStorage(): ImageStorage {
   const config = getImageStorageConfig()
   if (config.provider === 'local') return new LocalImageStorage()
+
+  if (config.provider === 'supabase') {
+    return new SupabaseImageStorage(config.url, config.serviceRoleKey, config.bucket)
+  }
 
   const client = new AwsClient({
     accessKeyId: config.accessKeyId,

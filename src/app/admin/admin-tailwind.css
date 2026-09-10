@@ -19,3 +19,26 @@
   --radius-brand: 18px;
   --font-brand-sans: 'Segoe UI', Inter, Arial, sans-serif;
 }
+
+/*
+ * src/app/globals.css define h1/h2 fora de camada CSS (@layer), com
+ * font-size grande para o hero do site público. Regras fora de camada
+ * sempre vencem as camadas do Tailwind (base/utilities), independente de
+ * especificidade — por isso `text-xl`/`text-base` do painel eram
+ * ignorados. Estas regras, também fora de camada, restauram os tamanhos
+ * pretendidos só dentro do painel administrativo.
+ */
+.admin-panel h1 {
+  max-width: none;
+  font-size: 1.25rem;
+}
+.admin-panel h2,
+.admin-panel h3 {
+  max-width: none;
+  font-size: 1rem;
+}
+@media (min-width: 640px) {
+  .admin-panel h1 {
+    font-size: 1.5rem;
+  }
+}

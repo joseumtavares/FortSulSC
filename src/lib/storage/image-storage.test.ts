@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const clientFetchMock = vi.hoisted(() => vi.fn())
 const getImageStorageConfigMock = vi.hoisted(() => vi.fn())
@@ -88,6 +88,77 @@ describe('R2ImageStorage', () => {
 
   it('não trata 404 como falha ao excluir (objeto já ausente)', async () => {
     clientFetchMock.mockResolvedValueOnce(new Response(null, { status: 404 }))
+    const storage = getImageStorage()
+
+    await expect(storage.delete('articles/a1/capa-antiga.jpg')).resolves.toBeUndefined()
+  })
+})
+
+describe('SupabaseImageStorage', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    vi.stubGlobal('fetch', vi.fn())
+    getImageStorageConfigMock.mockReturnValue({
+      provider: 'supabase',
+      url: 'https://qhtthprfozrwgurnlmni.supabase.co',
+      serviceRoleKey: 'service-role-key',
+      bucket: 'fortsul',
+    })
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('upload envia um POST autenticado e devolve a URL pública', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(new Response(null, { status: 200 }))
+    const storage = getImageStorage()
+
+    const result = await storage.upload({
+      key: 'articles/a1/capa.jpg',
+      body: Buffer.from('conteudo'),
+      contentType: 'image/jpeg',
+    })
+
+    expect(result).toEqual({
+      url: 'https://qhtthprfozrwgurnlmni.supabase.co/storage/v1/object/public/fortsul/articles/a1/capa.jpg',
+    })
+    expect(fetch).toHaveBeenCalledWith(
+      'https://qhtthprfozrwgurnlmni.supabase.co/storage/v1/object/fortsul/articles/a1/capa.jpg',
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          authorization: 'Bearer service-role-key',
+          'content-type': 'image/jpeg',
+          'x-upsert': 'true',
+        },
+      }),
+    )
+  })
+
+  it('propaga erro quando o Supabase Storage responde com falha no upload', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(new Response(null, { status: 500 }))
+    const storage = getImageStorage()
+
+    await expect(
+      storage.upload({ key: 'articles/a1/capa.jpg', body: Buffer.from('x'), contentType: 'image/jpeg' }),
+    ).rejects.toThrow('Falha ao enviar imagem ao Supabase Storage')
+  })
+
+  it('delete envia um DELETE autenticado', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(new Response(null, { status: 200 }))
+    const storage = getImageStorage()
+
+    await storage.delete('articles/a1/capa-antiga.jpg')
+
+    expect(fetch).toHaveBeenCalledWith(
+      'https://qhtthprfozrwgurnlmni.supabase.co/storage/v1/object/fortsul/articles/a1/capa-antiga.jpg',
+      expect.objectContaining({ method: 'DELETE', headers: { authorization: 'Bearer service-role-key' } }),
+    )
+  })
+
+  it('não trata 404 como falha ao excluir (objeto já ausente)', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(new Response(null, { status: 404 }))
     const storage = getImageStorage()
 
     await expect(storage.delete('articles/a1/capa-antiga.jpg')).resolves.toBeUndefined()

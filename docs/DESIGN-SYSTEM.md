@@ -215,16 +215,23 @@ Regras:
 
 ## 13. Modais
 
-Status: não implementado.
+Status: implementado. Dois modais reais no site público, ambos usando
+`<dialog>` nativo com o mesmo padrão de acessibilidade:
+
+- `WhatsAppDialog` (`src/components/whatsapp/WhatsAppDialog.tsx`) — opções de contato via WhatsApp;
+- `ContentArticleDialog` (`src/components/content/ContentArticleDialog.tsx`) — texto completo e galeria de imagens de um artigo de "Novidades e dicas".
 
 Só criar modal se houver necessidade real. Preferir páginas, drawers ou seções simples quando possível.
 
-Se aprovado:
+Padrão obrigatório, seguido pelos dois modais acima:
 
 - fechar com ESC;
-- foco preso dentro do modal;
-- botão de fechar acessível;
-- overlay discreto.
+- foco preso dentro do modal (Tab/Shift+Tab não escapam);
+- foco vai para o botão de fechar ao abrir;
+- botão de fechar acessível (`aria-label`);
+- clique fora do conteúdo (no overlay) fecha o modal;
+- overlay discreto (`::backdrop` com blur leve);
+- `body.dialog-open { overflow: hidden }` enquanto aberto.
 
 ## 14. Tabelas
 

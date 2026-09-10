@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ChevronsRight } from 'lucide-react'
 import { ACCOUNT_NAV_ITEMS, NAV_ITEMS, type NavItem } from './nav-items'
 
@@ -20,16 +22,12 @@ function NavButton({
 
   const accessibleName = item.badge ? `${item.label}, ${item.badge} pendentes` : item.label
 
-  return (
-    <button
-      type="button"
-      onClick={() => onSelect(item.key)}
-      aria-current={isSelected ? 'true' : undefined}
-      aria-label={accessibleName}
-      className={`relative flex h-11 w-full items-center rounded-lg transition-colors ${
-        isSelected ? 'bg-brand-orange/10 text-brand-blue-950 font-semibold' : 'text-brand-muted hover:bg-brand-surface'
-      }`}
-    >
+  const className = `relative flex h-11 w-full items-center rounded-lg transition-colors ${
+    isSelected ? 'bg-brand-orange/10 text-brand-blue-950 font-semibold' : 'text-brand-muted hover:bg-brand-surface'
+  }`
+
+  const content = (
+    <>
       <span className="grid h-11 w-12 shrink-0 place-content-center">
         <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
       </span>
@@ -47,6 +45,26 @@ function NavButton({
           {item.badge}
         </span>
       )}
+    </>
+  )
+
+  if (item.href) {
+    return (
+      <Link href={item.href} aria-current={isSelected ? 'page' : undefined} aria-label={accessibleName} className={className}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(item.key)}
+      aria-current={isSelected ? 'true' : undefined}
+      aria-label={accessibleName}
+      className={className}
+    >
+      {content}
     </button>
   )
 }
@@ -54,6 +72,12 @@ function NavButton({
 export function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(true)
   const [selected, setSelected] = useState('dashboard')
+  const pathname = usePathname()
+
+  function isItemSelected(item: NavItem): boolean {
+    if (item.href) return item.href === '/admin' ? pathname === item.href : pathname.startsWith(item.href)
+    return selected === item.key
+  }
 
   return (
     <nav
@@ -74,14 +98,14 @@ export function AdminSidebar() {
 
       <div className="flex-1 space-y-1 overflow-y-auto p-2">
         {NAV_ITEMS.map((item) => (
-          <NavButton key={item.key} item={item} isSelected={selected === item.key} isOpen={isOpen} onSelect={setSelected} />
+          <NavButton key={item.key} item={item} isSelected={isItemSelected(item)} isOpen={isOpen} onSelect={setSelected} />
         ))}
 
         {isOpen && (
           <p className="hidden px-3 pt-4 pb-1 text-[11px] font-semibold uppercase tracking-wide text-brand-muted md:block">Conta</p>
         )}
         {ACCOUNT_NAV_ITEMS.map((item) => (
-          <NavButton key={item.key} item={item} isSelected={selected === item.key} isOpen={isOpen} onSelect={setSelected} />
+          <NavButton key={item.key} item={item} isSelected={isItemSelected(item)} isOpen={isOpen} onSelect={setSelected} />
         ))}
       </div>
 

@@ -168,25 +168,42 @@ Exemplo futuro:
 
 ### 3.10 ContentSection
 
-- Nome atual: `content-section`, `content-heading`, `content-grid`.
-- Objetivo: apresentar novidades e dicas estáticas da FortSul.
-- Quando utilizar: home e páginas institucionais com conteúdo editorial estático aprovado.
-- Quando não utilizar: antes de existir conteúdo aprovado ou para CMS/artigos dinâmicos sem a Fase 3 autorizada.
-- Observação: os três cards atuais são conteúdo de teste aprovado exclusivamente para validação de layout e devem ser substituídos antes do lançamento.
+- Status: implementado, consumindo dados reais (`src/components/sections/ContentSection.tsx`).
+- Nome atual: `content-section`, `content-heading`, `content-carousel`, `content-track`, `content-empty`.
+- Objetivo: apresentar, na home pública, os artigos reais publicados no painel administrativo ("Novidades e dicas"), rolando automaticamente em um carrossel infinito.
+- Quando utilizar: home.
+- Quando não utilizar: páginas administrativas.
+- Observação: `ContentSection` (Server Component assíncrono) busca `listPublishedArticlesPublic()` e repassa os dados já prontos para `ContentSectionView` (componente síncrono, testável, sem acesso a banco) — separação exigida por `CLAUDE.md` §8. Se não houver artigo publicado, mostra o texto "Em breve, novidades e dicas por aqui." em vez do carrossel. Se o banco estiver indisponível no momento da geração estática (build), cai para o mesmo estado vazio em vez de quebrar o build; `revalidatePath('/')`, chamado pelas rotas de publicar/despublicar artigo, regenera a página com dados reais assim que o banco responder.
 - Componentes relacionados:
+  - `ContentCarousel`;
   - `ContentCard`;
+  - `ContentArticleDialog`;
   - `WhatsAppTrigger`.
 
 ### 3.11 ContentCard
 
-- Nome atual: `content-card`, `content-card-media`, `content-card-body`.
-- Objetivo: apresentar imagem, título e descrição de uma novidade ou dica.
-- Quando utilizar: dentro de `ContentSection`.
+- Status: implementado (`src/components/content/ContentCard.tsx`).
+- Nome atual: `content-card`, `content-card-media`, `content-card-body`, `content-card-trigger`.
+- Objetivo: apresentar capa, título e resumo de um artigo dentro do carrossel.
+- Quando utilizar: dentro de `ContentCarousel`.
 - Quando não utilizar: isolado sem a seção de conteúdo correspondente.
-- Props futuras:
-  - `image`;
-  - `title`;
-  - `description`.
+- Props: `item` (`ContentCardData`), `onSelect?` (torna o card um `<button>` que abre o popup do artigo), `decorative?` (usado só na cópia duplicada do carrossel para o loop contínuo — fica `aria-hidden` e não recebe `onSelect`, portanto não é focável nem lido por leitor de tela).
+
+### 3.11.1 ContentCarousel
+
+- Status: implementado (`src/components/content/ContentCarousel.tsx`, client component).
+- Objetivo: renderizar a lista de `ContentCard` em rolagem automática infinita (CSS puro, `@keyframes content-scroll`) e controlar qual artigo está aberto no popup.
+- Quando utilizar: dentro de `ContentSection`.
+- Props: `items` (`ContentCardData[]`, já prontos).
+- Observação: duplica os itens para o efeito de loop contínuo; a duplicata é `decorative` (ver 3.11). Pausa a rolagem em `:hover`/`:focus-within` e respeita `prefers-reduced-motion`.
+
+### 3.11.2 ContentArticleDialog
+
+- Status: implementado (`src/components/content/ContentArticleDialog.tsx`, client component).
+- Objetivo: popup com o texto completo do artigo e a galeria de imagens adicionais, aberto ao clicar em um `ContentCard`.
+- Quando utilizar: dentro de `ContentCarousel`.
+- Props: `item` (`ContentCardData | null`), `onClose`.
+- Observação: mesmo padrão de acessibilidade de `WhatsAppDialog` (`<dialog>` nativo, foco preso, ESC fecha, clique fora fecha). A galeria interna (`ArticleGalleryRotator`) roda automaticamente a cada 4s, mas para (a) se o usuário navegar manualmente pelas setas/bolinhas, e (b) se o sistema tiver `prefers-reduced-motion` ativado.
 
 ### 3.12 CtaSection
 
@@ -259,15 +276,46 @@ Exemplo futuro:
 
 ### 3.17 AdminShell
 
-- Status: planejado, não implementado.
-- Objetivo: estrutura visual do painel administrativo.
-- Quando utilizar: rotas protegidas `/admin`.
+- Status: implementado (`src/components/admin/AdminShell.tsx`, `AdminSidebar.tsx`).
+- Objetivo: estrutura visual do painel administrativo (sidebar + área de conteúdo).
+- Quando utilizar: rotas protegidas `/admin` (real, autenticada) e a prévia visual `/admin/preview-dashboard`.
 - Quando não utilizar: site público.
-- Props futuras:
-  - `user`;
-  - `navigation`;
-  - `children`.
-- Observação: depende de aprovação para autenticação, RBAC e backend.
+- Props: `children`.
+- Observação: `AdminSidebar` navega de verdade (via `next/link` + `usePathname`) só nos itens de `NAV_ITEMS` que já têm página própria (hoje: Dashboard e Novidades e dicas); os demais domínios (Produtos, Categorias, Representantes, Revendas, Regiões, Banners, Configurações, Documentação) continuam como botões inertes de seleção local até terem rota real. A classe `admin-panel` na raiz do shell corrige o tamanho de `h1`/`h2` herdado do CSS institucional do site público (ver `src/app/admin/admin-tailwind.css`).
+
+### 3.18 ArticleTextForm
+
+- Status: implementado (`src/components/admin/ArticleTextForm.tsx`).
+- Objetivo: formulário de título/resumo/corpo de um artigo de "Novidades e dicas", usado tanto na criação quanto na edição.
+- Quando utilizar: telas `/admin/articles/novo` e `/admin/articles/[id]`.
+- Quando não utilizar: site público.
+- Props: `articleId?`, `initialTitle?`, `initialExcerpt?`, `initialBody?`.
+- Observação: componente só coleta entrada e chama a API (`POST`/`PATCH /api/admin/articles[/[id]]`); a geração de slug e a persistência ficam no servidor.
+
+### 3.19 ArticleCoverUploadForm
+
+- Status: implementado (`src/components/admin/ArticleCoverUploadForm.tsx`).
+- Objetivo: upload da imagem de capa obrigatória para publicar um artigo (JPEG/PNG/WEBP, até 5 MB).
+- Quando utilizar: tela `/admin/articles/[id]`.
+- Quando não utilizar: criação de artigo (a capa só pode ser enviada depois que o artigo existe).
+- Props: `articleId`, `currentUrl?`, `currentAlt?`.
+- Observação: tamanho ideal recomendado na própria tela (1200×675px, 16:9), alinhado ao box fixo do card público (`.content-card-media`, 230px de altura, `object-fit: cover`).
+
+### 3.20 ArticlePublishToggle
+
+- Status: implementado (`src/components/admin/ArticlePublishToggle.tsx`).
+- Objetivo: alternar um artigo entre rascunho e publicado por meio de uma única caixa de seleção (sem exclusão de artigo — decisão de Jose; artigos são reutilizáveis via publicar/despublicar).
+- Quando utilizar: tela `/admin/articles/[id]`.
+- Props: `articleId`, `initialPublished`.
+- Observação: a regra "precisa de capa e texto alternativo para publicar" é validada só no servidor; o componente apenas exibe a mensagem de erro devolvida pela API.
+
+### 3.21 ArticleGallery
+
+- Status: implementado (`src/components/admin/ArticleGallery.tsx`).
+- Objetivo: galeria de até 4 imagens adicionais por artigo (além da capa), exibidas ao final do artigo publicado.
+- Quando utilizar: tela `/admin/articles/[id]`.
+- Props: `articleId`, `images` (lista pronta, vinda do servidor), `maxImages`.
+- Observação: exclusão de uma imagem individual da galeria é sempre permitida, mesmo com o artigo publicado — não se confunde com a regra "sem exclusão" de artigo, que é sobre o ciclo de vida do artigo inteiro. Página pública consumidora da galeria ainda não existe.
 
 ## 4. Regra para novos componentes
 

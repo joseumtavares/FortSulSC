@@ -10,9 +10,9 @@ describe('getImageStorageConfig', () => {
     expect(getImageStorageConfig({ STORAGE_PROVIDER: 'local' })).toEqual({ provider: 'local' })
   })
 
-  it('não aceita provedor diferente de local/r2', () => {
+  it('não aceita provedor diferente de local/r2/supabase', () => {
     expect(() => getImageStorageConfig({ STORAGE_PROVIDER: 'aws-s3' })).toThrow(
-      'STORAGE_PROVIDER deve ser "local" ou "r2"',
+      'STORAGE_PROVIDER deve ser "local", "r2" ou "supabase"',
     )
   })
 
@@ -37,6 +37,26 @@ describe('getImageStorageConfig', () => {
       secretAccessKey: 'secret-key',
       bucket: 'fortsul-images',
       publicBaseUrl: 'https://images.fortsulsc.test',
+    })
+  })
+
+  it('exige as variáveis do Supabase quando STORAGE_PROVIDER=supabase', () => {
+    expect(() => getImageStorageConfig({ STORAGE_PROVIDER: 'supabase' })).toThrow('SUPABASE_STORAGE_URL')
+  })
+
+  it('monta a configuração do Supabase quando todas as variáveis estão presentes', () => {
+    const config = getImageStorageConfig({
+      STORAGE_PROVIDER: 'supabase',
+      SUPABASE_STORAGE_URL: 'https://qhtthprfozrwgurnlmni.supabase.co',
+      SUPABASE_STORAGE_SERVICE_KEY: 'service-role-key',
+      SUPABASE_STORAGE_BUCKET: 'fortsul',
+    })
+
+    expect(config).toEqual({
+      provider: 'supabase',
+      url: 'https://qhtthprfozrwgurnlmni.supabase.co',
+      serviceRoleKey: 'service-role-key',
+      bucket: 'fortsul',
     })
   })
 })
