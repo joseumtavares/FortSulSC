@@ -32,6 +32,7 @@ export function ContentCard({
           className="content-card-trigger"
           onClick={onSelect}
           aria-haspopup="dialog"
+          tabIndex={decorative ? -1 : undefined}
         >
           {media}
         </button>

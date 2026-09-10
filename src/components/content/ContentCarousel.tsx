@@ -16,7 +16,7 @@ export function ContentCarousel({ items }: { items: ContentCardData[] }) {
             <ContentCard key={item.id} item={item} onSelect={() => setActiveItem(item)} />
           ))}
           {items.map((item) => (
-            <ContentCard key={`${item.id}-duplicado`} item={item} decorative />
+            <ContentCard key={`${item.id}-duplicado`} item={item} decorative onSelect={() => setActiveItem(item)} />
           ))}
         </ul>
       </div>

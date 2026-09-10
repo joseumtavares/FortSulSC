@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ContentSectionView } from './ContentSectionView'
 import { WhatsAppProvider } from '@/components/whatsapp/WhatsAppProvider'
@@ -66,8 +66,27 @@ describe('ContentSectionView', () => {
 
     expect(screen.getAllByRole('heading', { level: 3, name: 'Como escolher o alimentador ideal' })).toHaveLength(1)
     expect(document.querySelectorAll('.content-card-body h3').length).toBe(items.length * 2)
+    // A duplicata é clicável (mesmo popup do card real) para não parecer quebrada ao
+    // usuário de mouse, mas fica fora da árvore de acessibilidade (aria-hidden) e da
+    // ordem de tabulação (tabIndex -1), então some das buscas por role/nome acessível.
     expect(screen.getAllByRole('button', { name: /Como escolher o alimentador ideal/ })).toHaveLength(1)
-    expect(document.querySelectorAll('.content-card-trigger').length).toBe(items.length)
+    expect(document.querySelectorAll('.content-card-trigger').length).toBe(items.length * 2)
+    expect(document.querySelectorAll('.content-card-trigger[tabindex="-1"]').length).toBe(items.length)
+  })
+
+  it('abre o popup também ao clicar na duplicata do carrossel (clique de mouse, não leitor de tela)', () => {
+    render(
+      <WhatsAppProvider>
+        <ContentSectionView items={items} />
+      </WhatsAppProvider>,
+    )
+
+    const triggers = document.querySelectorAll('.content-card-trigger')
+    const duplicateTrigger = triggers[items.length]
+    fireEvent.click(duplicateTrigger)
+
+    const dialog = getOpenDialog()
+    expect(within(dialog).getByText('Texto completo do artigo sobre alimentadores.')).toBeTruthy()
   })
 
   it('mostra estado vazio quando não há artigos publicados', () => {
