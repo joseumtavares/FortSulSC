@@ -347,7 +347,20 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
   .map-wrap { min-height: 430px; }
   .content-heading { align-items: flex-start; flex-direction: column; }
   .content-heading > p { width: auto; max-width: 450px; }
-  .content-track > li { flex: 0 0 260px; }
+  /* Em telas de toque a rolagem automática contínua (desktop) causava cortes
+     e sumiço cíclico dos cards em testes reais (Safari e Chrome no celular).
+     Em vez de depender de animação CSS, o carrossel vira uma faixa deslizável
+     pelo dedo: mais robusto e também mais previsível para o usuário. */
+  .content-carousel { overflow: visible; -webkit-mask: none; mask: none; }
+  .content-track {
+    animation: none;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .content-track > li { flex: 0 0 260px; scroll-snap-align: start; }
+  .content-track > li[aria-hidden='true'] { display: none; }
   .admin-login { grid-template-columns: 1fr; }
   .admin-login-institutional { display: none; }
   .admin-login-card { padding: 48px 28px; }
