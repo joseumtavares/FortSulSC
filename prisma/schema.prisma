@@ -284,6 +284,7 @@ enum AuditAction {
   UPDATE
   PUBLISH
   UNPUBLISH
+  ACTIVATE
   DEACTIVATE
   DELETE
 }

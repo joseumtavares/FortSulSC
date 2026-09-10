@@ -1,5 +1,6 @@
-import type { Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/db/client'
+import { parseSocialLinks } from './social-links'
 
 export type InstitutionalSettingsInput = {
   whatsapp: string
@@ -7,7 +8,7 @@ export type InstitutionalSettingsInput = {
   email: string
   cnpj?: string | null
   address?: string | null
-  socialLinks?: Prisma.InputJsonValue | Prisma.NullableJsonNullValueInput
+  socialLinks?: unknown
 }
 
 export function getInstitutionalSettings() {
@@ -15,12 +16,21 @@ export function getInstitutionalSettings() {
 }
 
 export function upsertInstitutionalSettings(input: InstitutionalSettingsInput) {
+  const socialLinks = parseSocialLinks(input.socialLinks)
+  const data = {
+    whatsapp: input.whatsapp,
+    phone: input.phone,
+    email: input.email,
+    cnpj: input.cnpj,
+    address: input.address,
+    socialLinks: socialLinks === null ? Prisma.DbNull : socialLinks,
+  }
   return prisma.institutionalSettings.upsert({
     where: { singletonKey: 1 },
-    update: input,
+    update: data,
     create: {
       singletonKey: 1,
-      ...input,
+      ...data,
     },
   })
 }

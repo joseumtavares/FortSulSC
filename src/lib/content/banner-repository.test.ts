@@ -11,7 +11,7 @@ vi.mock('@/lib/db/client', () => ({
   prisma: { banner: bannerMock },
 }))
 
-import { createBanner, findActiveBannersPublic, findBannerForAdmin, updateBanner } from './banner-repository'
+import { createBanner, findActiveBannersPublic, findBannerForAdmin, listBannersForAdmin, updateBanner } from './banner-repository'
 
 describe('banner-repository', () => {
   beforeEach(() => {
@@ -77,4 +77,9 @@ describe('banner-repository', () => {
       data: input,
     })
   })
+})
+
+it('lists all banners in administrative order', async () => {
+  await listBannersForAdmin()
+  expect(bannerMock.findMany).toHaveBeenCalledWith({ orderBy: [{ active: 'desc' }, { order: 'asc' }, { createdAt: 'desc' }] })
 })

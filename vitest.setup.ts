@@ -1,5 +1,14 @@
+import { config } from 'dotenv'
 import { afterEach } from 'vitest'
 import { cleanup } from '@testing-library/react'
+
+// `vitest run src/lib/db` não carrega nenhum arquivo de variáveis sozinho
+// (diferente de `next dev`/`next build`, que carregam `.env.local`/`.env`
+// automaticamente). Sem isto, os testes de integração falham com
+// "Environment variable not found: DATABASE_URL" mesmo com o arquivo
+// preenchido corretamente. Mesma ordem de prioridade do Next.js: `.env.local`
+// vence `.env` quando a mesma chave existe nos dois.
+config({ path: ['.env.local', '.env'] })
 
 // Sem globals do Vitest habilitado, o auto-cleanup do Testing Library não se
 // registra sozinho — sem isto, o DOM de um teste vaza para o próximo.

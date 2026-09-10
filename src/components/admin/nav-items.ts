@@ -28,10 +28,10 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'revendas', label: 'Revendas', icon: Store },
   { key: 'regioes', label: 'Regiões', icon: MapPin },
   { key: 'artigos', label: 'Novidades e dicas', icon: Newspaper, href: '/admin/articles' },
-  { key: 'banners', label: 'Banners', icon: ImageIcon },
+  { key: 'banners', label: 'Banners', icon: ImageIcon, href: '/admin/banners' },
 ]
 
 export const ACCOUNT_NAV_ITEMS: NavItem[] = [
-  { key: 'configuracoes', label: 'Configurações', icon: Settings },
+  { key: 'configuracoes', label: 'Configurações', icon: Settings, href: '/admin/settings' },
   { key: 'documentacao', label: 'Documentação', icon: FileText },
 ]
