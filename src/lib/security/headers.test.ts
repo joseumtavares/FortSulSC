@@ -32,4 +32,25 @@ describe('securityHeaders', () => {
     expect(developmentCsp).toContain("'unsafe-eval'")
     expect(productionCsp).not.toContain("'unsafe-eval'")
   })
+
+  it('sem provedor de storage configurado, img-src permanece restrito a self/data/blob', () => {
+    const csp = securityHeaders(false, false, []).find((header) => header.key === 'Content-Security-Policy')?.value
+    expect(csp).toContain("img-src 'self' data: blob:;")
+  })
+
+  it('inclui a origem do storage de imagens configurado em img-src', () => {
+    const csp = securityHeaders(false, false, ['https://qhttphrfozrwgurnlmni.supabase.co']).find(
+      (header) => header.key === 'Content-Security-Policy',
+    )?.value
+
+    expect(csp).toContain("img-src 'self' data: blob: https://qhttphrfozrwgurnlmni.supabase.co;")
+  })
+
+  it('ignora origens nulas/indefinidas sem quebrar a política', () => {
+    const csp = securityHeaders(false, false, [null, undefined]).find(
+      (header) => header.key === 'Content-Security-Policy',
+    )?.value
+
+    expect(csp).toContain("img-src 'self' data: blob:;")
+  })
 })
