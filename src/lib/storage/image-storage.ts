@@ -77,17 +77,29 @@ class SupabaseImageStorage implements ImageStorage {
     return `${this.url}/storage/v1/object/${this.bucket}/${key}`
   }
 
+  private authHeaders(): Record<string, string> {
+    // O gateway do Supabase exige `apikey` além de `Authorization`, mesmo
+    // em chamadas servidor-a-servidor com a service role key.
+    return {
+      authorization: `Bearer ${this.serviceRoleKey}`,
+      apikey: this.serviceRoleKey,
+    }
+  }
+
   async upload({ key, body, contentType }: UploadImageInput): Promise<UploadedImage> {
     const response = await fetch(this.objectUrl(key), {
       method: 'POST',
       body: new Uint8Array(body),
       headers: {
-        authorization: `Bearer ${this.serviceRoleKey}`,
+        ...this.authHeaders(),
         'content-type': contentType,
         'x-upsert': 'true',
       },
     })
-    if (!response.ok) throw new Error(`Falha ao enviar imagem ao Supabase Storage (status ${response.status}).`)
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      throw new Error(`Falha ao enviar imagem ao Supabase Storage (status ${response.status}): ${detail}`)
+    }
 
     return { url: `${this.url}/storage/v1/object/public/${this.bucket}/${key}` }
   }
@@ -95,10 +107,11 @@ class SupabaseImageStorage implements ImageStorage {
   async delete(key: string): Promise<void> {
     const response = await fetch(this.objectUrl(key), {
       method: 'DELETE',
-      headers: { authorization: `Bearer ${this.serviceRoleKey}` },
+      headers: this.authHeaders(),
     })
     if (!response.ok && response.status !== 404) {
-      throw new Error(`Falha ao excluir imagem no Supabase Storage (status ${response.status}).`)
+      const detail = await response.text().catch(() => '')
+      throw new Error(`Falha ao excluir imagem no Supabase Storage (status ${response.status}): ${detail}`)
     }
   }
 }

@@ -129,6 +129,7 @@ describe('SupabaseImageStorage', () => {
         method: 'POST',
         headers: {
           authorization: 'Bearer service-role-key',
+          apikey: 'service-role-key',
           'content-type': 'image/jpeg',
           'x-upsert': 'true',
         },
@@ -153,7 +154,10 @@ describe('SupabaseImageStorage', () => {
 
     expect(fetch).toHaveBeenCalledWith(
       'https://qhtthprfozrwgurnlmni.supabase.co/storage/v1/object/fortsul/articles/a1/capa-antiga.jpg',
-      expect.objectContaining({ method: 'DELETE', headers: { authorization: 'Bearer service-role-key' } }),
+      expect.objectContaining({
+        method: 'DELETE',
+        headers: { authorization: 'Bearer service-role-key', apikey: 'service-role-key' },
+      }),
     )
   })
 
