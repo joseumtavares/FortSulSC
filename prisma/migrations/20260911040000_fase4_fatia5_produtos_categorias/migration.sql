@@ -30,3 +30,12 @@ ALTER TABLE "product_testimonials" ADD CONSTRAINT "product_testimonials_product_
 -- Fatia 4.3 já concede SELECT/INSERT/UPDATE/DELETE em "products"/"categories"
 -- à role restrita fortsul_app; a tabela nova precisa do mesmo grant.
 GRANT SELECT, INSERT, UPDATE, DELETE ON "product_testimonials" TO fortsul_app;
+
+-- RLS deny-by-default (mesmo padrão da Fatia 4.3 para admin_users/login_attempts/
+-- audit_logs/partner_private): sem isto, o Supabase expõe a tabela por padrão via
+-- PostgREST para as roles anon/authenticated. FORCE garante que nem a role dona
+-- do schema (usada só em migrations) fica isenta — a aplicação em runtime usa
+-- exclusivamente fortsul_app, nunca a role proprietária.
+ALTER TABLE "product_testimonials" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "product_testimonials" FORCE ROW LEVEL SECURITY;
+CREATE POLICY fortsul_app_full_access ON "product_testimonials" TO fortsul_app USING (true) WITH CHECK (true);
