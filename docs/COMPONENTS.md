@@ -105,7 +105,7 @@ Exemplo futuro:
 - Objetivo: menu de categorias (`role="tablist"`, navegação por seta/Home/End) + carrossel horizontal com setas (mesmo padrão de `ContentCarousel`) dos produtos ativos da categoria selecionada.
 - Quando utilizar: `SolutionsSection`, seção "Soluções" da Home.
 - Props: `filters`/`activeFilter`/`solutions` prontos (tipos em `src/components/solutions/solutions-data.ts`), vindos de `listActiveCategoriesPublic()`/`listActiveProductsPublic()`.
-- Observação: `ProductScroller` mantém o `activeItem` do popup (`ProductDialog`) e não decide regra de negócio — só repassa o item selecionado.
+- Observação: `ProductScroller` mantém o `activeItem` do popup (`ProductDialog`) e não decide regra de negócio — só repassa o item selecionado. Também sincroniza a URL com `?produto=<slug>` via `window.history.replaceState` (sem router do Next, para não forçar a Home a sair de geração estática) ao abrir/fechar o popup, e abre automaticamente o produto correspondente se a página carregar com esse parâmetro já na URL (link compartilhável).
 
 ### 3.6 SolutionCard
 
@@ -118,10 +118,10 @@ Exemplo futuro:
 ### 3.6.1 ProductDialog
 
 - Status: implementado (`src/components/solutions/ProductDialog.tsx`).
-- Objetivo: popup do produto — descrição, aplicações, especificações, galeria de fotos (rotação, mesmo padrão de `ContentArticleDialog`), depoimentos (link por rede social) e botão "Saiba mais" com link `wa.me` pré-preenchido.
+- Objetivo: popup do produto — descrição, aplicações, especificações, galeria de fotos (rotação, mesmo padrão de `ContentArticleDialog`), depoimentos (ícone da rede social + link) e botão "Saiba mais" com link `wa.me` pré-preenchido, incluindo o link do próprio produto (`appendProductUrlToWhatsAppLink`, `src/lib/content/product-whatsapp.ts`) para o cliente acessar direto.
 - Quando utilizar: só via `ProductScroller`.
 - Props: `item` (`SolutionCardData | null`), `onClose`.
-- Observação: mesmo padrão de acessibilidade de `ContentArticleDialog` — `<dialog>` nativo, foco preso, `Escape`, clique fora, foco inicial no botão fechar.
+- Observação: mesmo padrão de acessibilidade de `ContentArticleDialog` — `<dialog>` nativo, foco preso, `Escape`, clique fora, foco inicial no botão fechar. `PlatformIcon` (local, sem lib nova) desenha o ícone de TikTok/Facebook/Instagram ao lado do link do depoimento.
 
 ### 3.7 SupportSection
 
@@ -405,14 +405,14 @@ Exemplo futuro:
 ### 3.34 ProductImagesForm
 
 - Status: implementado (`src/components/admin/ProductImagesForm.tsx`).
-- Objetivo: upload de imagens do produto (JPEG/PNG/WEBP, até 5 MB), com papel "Principal" (`HERO`) ou "Galeria" (`GALLERY`) — mesmo padrão de `ArticleGallery`, sem limite fixo de quantidade.
+- Objetivo: upload de imagens do produto (JPEG/PNG/WEBP, até 5 MB), com papel "Principal" (`HERO`) ou "Galeria" (`GALLERY`) — mesmo padrão de `ArticleGallery`. Exibe a dimensão recomendada e o limite de imagens (`PRODUCT_IMAGE_RECOMMENDED_WIDTH_PX`/`HEIGHT_PX`, `MAX_PRODUCT_IMAGES` — 1600×900px 16:9, até 6 imagens — em `src/lib/content/product-image-input.ts`) e esconde o formulário de upload ao atingir o limite, mesmo padrão de `ArticleGallery`/`ProductTestimonialsForm`.
 - Quando utilizar: tela `/admin/products/[id]`.
 - Props: `productId`, `images`.
 
 ### 3.35 ProductApplicationsForm / ProductSpecificationsForm
 
 - Status: implementado (`src/components/admin/ProductApplicationsForm.tsx`, `ProductSpecificationsForm.tsx`).
-- Objetivo: editores de lista dinâmica (adicionar/remover linhas) para as aplicações (só rótulo) e especificações (rótulo + valor) do produto, salvos como substituição da lista inteira (`PUT`).
+- Objetivo: editores de lista dinâmica (adicionar/remover linhas) para as aplicações (só rótulo) e especificações (rótulo + valor) do produto, salvos como substituição da lista inteira (`PUT`). `ProductSpecificationsForm` tem atalhos de um clique para Altura/Largura/Comprimento/Peso (preenchem o rótulo e sugerem a unidade no placeholder do valor), evitando digitar o rótulo à mão.
 - Quando utilizar: tela `/admin/products/[id]`.
 - Props: `productId`, `initialLabels`/`initialRows`.
 
