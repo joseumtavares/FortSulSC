@@ -13,6 +13,7 @@ function toSolutionCardData(product: Awaited<ReturnType<typeof listActiveProduct
 
   return {
     id: product.id,
+    slug: product.slug,
     code: product.code,
     name: product.name,
     eyebrow: product.eyebrow,

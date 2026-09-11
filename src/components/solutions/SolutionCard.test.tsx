@@ -6,6 +6,7 @@ import type { SolutionCardData } from './solutions-data'
 
 const solution: SolutionCardData = {
   id: 'produto-1',
+  slug: 'alimentador-de-cavaco',
   code: 'ALM-001',
   name: 'Alimentador de Cavaco',
   eyebrow: 'Lançamento',

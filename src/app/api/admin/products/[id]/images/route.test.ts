@@ -2,10 +2,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { NextRequest } from 'next/server'
 
-const mocks = vi.hoisted(() => ({ guard: vi.fn(), find: vi.fn(), create: vi.fn(), audit: vi.fn(), upload: vi.fn(), revalidatePath: vi.fn() }))
+const mocks = vi.hoisted(() => ({ guard: vi.fn(), find: vi.fn(), count: vi.fn(), create: vi.fn(), audit: vi.fn(), upload: vi.fn(), revalidatePath: vi.fn() }))
 vi.mock('@/lib/auth/admin-route-guard', () => ({ requireAdminRequest: mocks.guard }))
 vi.mock('@/lib/content/product-repository', () => ({ findProductForAdmin: mocks.find }))
-vi.mock('@/lib/content/product-image-repository', () => ({ createProductImage: mocks.create }))
+vi.mock('@/lib/content/product-image-repository', () => ({ countProductImages: mocks.count, createProductImage: mocks.create }))
 vi.mock('@/lib/audit/audit-log-repository', () => ({ recordAuditEvent: mocks.audit }))
 vi.mock('@/lib/storage/image-storage', () => ({ getImageStorage: () => ({ upload: mocks.upload }) }))
 vi.mock('@/lib/logger', () => ({ logger: { error: vi.fn() } }))
@@ -18,6 +18,7 @@ beforeEach(() => {
   vi.resetAllMocks()
   mocks.guard.mockResolvedValue({ ok: true, session: { user: { id: 'admin-1' } } })
   mocks.find.mockResolvedValue({ id })
+  mocks.count.mockResolvedValue(0)
   mocks.upload.mockResolvedValue({ url: 'https://example.com/new.webp' })
   mocks.create.mockResolvedValue({ id: 'img-1', imageUrl: 'https://example.com/new.webp', altText: 'Alt', role: 'GALLERY' })
 })
@@ -46,6 +47,16 @@ describe('POST /api/admin/products/[id]/images', () => {
   it('returns 404 for a missing product', async () => {
     mocks.find.mockResolvedValue(null)
     expect((await POST(request(uploadForm()), context)).status).toBe(404)
+  })
+
+  it('rejects uploads once the product reaches the image limit', async () => {
+    mocks.count.mockResolvedValue(6)
+    const response = await POST(request(uploadForm()), context)
+    const json = (await response.json()) as { error: string }
+
+    expect(response.status).toBe(400)
+    expect(json.error).toContain('6 imagens')
+    expect(mocks.upload).not.toHaveBeenCalled()
   })
 
   it.each([['image/svg+xml', 5], ['image/webp', 0], ['image/webp', 5 * 1024 * 1024 + 1]])('rejects unsupported or empty/oversized files', async (type, size) => {

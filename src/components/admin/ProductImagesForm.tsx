@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { MAX_PRODUCT_IMAGES, PRODUCT_IMAGE_RECOMMENDED_HEIGHT_PX, PRODUCT_IMAGE_RECOMMENDED_WIDTH_PX } from '@/lib/content/product-image-input'
 
 export type ProductImageItem = { id: string; imageUrl: string; altText: string; role: 'HERO' | 'GALLERY' }
 
@@ -12,6 +13,8 @@ export function ProductImagesForm({ productId, images }: { productId: string; im
   const [isUploading, setIsUploading] = useState(false)
   const [removingId, setRemovingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  const atLimit = images.length >= MAX_PRODUCT_IMAGES
 
   async function uploadImage(file: File): Promise<{ error?: string } | null> {
     const formData = new FormData()
@@ -83,6 +86,9 @@ export function ProductImagesForm({ productId, images }: { productId: string; im
     <section className="space-y-4 rounded-brand border border-brand-line bg-white p-6 shadow-sm">
       <h2 className="text-base font-semibold text-brand-blue-950">Imagens</h2>
       <p className="text-xs text-brand-muted">A imagem de destaque (Principal) aparece primeiro no popup público; as demais formam a galeria.</p>
+      <p className="text-xs text-brand-muted">
+        Dimensão recomendada: {PRODUCT_IMAGE_RECOMMENDED_WIDTH_PX}×{PRODUCT_IMAGE_RECOMMENDED_HEIGHT_PX}px (proporção 16:9). Até {MAX_PRODUCT_IMAGES} imagens no total.
+      </p>
 
       {images.length > 0 && (
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -107,33 +113,37 @@ export function ProductImagesForm({ productId, images }: { productId: string; im
 
       {error && <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
 
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <div>
-          <label htmlFor="product-image-file" className="mb-1 block text-sm font-medium text-brand-blue-950">Nova imagem (JPEG, PNG ou WEBP, até 5 MB)</label>
-          <input id="product-image-file" type="file" name="file" accept="image/jpeg,image/png,image/webp" className="w-full text-sm" />
-        </div>
+      {atLimit ? (
+        <p className="text-xs text-brand-muted">Limite de {MAX_PRODUCT_IMAGES} imagens atingido. Remova uma para enviar outra.</p>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div>
+            <label htmlFor="product-image-file" className="mb-1 block text-sm font-medium text-brand-blue-950">Nova imagem (JPEG, PNG ou WEBP, até 5 MB)</label>
+            <input id="product-image-file" type="file" name="file" accept="image/jpeg,image/png,image/webp" className="w-full text-sm" />
+          </div>
 
-        <div>
-          <label htmlFor="product-image-alt" className="mb-1 block text-sm font-medium text-brand-blue-950">Texto alternativo</label>
-          <input id="product-image-alt" required value={alt} onChange={(event) => setAlt(event.target.value)} className="w-full rounded-lg border border-brand-line px-3 py-2 text-sm" />
-        </div>
+          <div>
+            <label htmlFor="product-image-alt" className="mb-1 block text-sm font-medium text-brand-blue-950">Texto alternativo</label>
+            <input id="product-image-alt" required value={alt} onChange={(event) => setAlt(event.target.value)} className="w-full rounded-lg border border-brand-line px-3 py-2 text-sm" />
+          </div>
 
-        <div>
-          <label htmlFor="product-image-role" className="mb-1 block text-sm font-medium text-brand-blue-950">Tipo</label>
-          <select id="product-image-role" value={role} onChange={(event) => setRole(event.target.value === 'HERO' ? 'HERO' : 'GALLERY')} className="w-full rounded-lg border border-brand-line px-3 py-2 text-sm">
-            <option value="GALLERY">Galeria</option>
-            <option value="HERO">Principal</option>
-          </select>
-        </div>
+          <div>
+            <label htmlFor="product-image-role" className="mb-1 block text-sm font-medium text-brand-blue-950">Tipo</label>
+            <select id="product-image-role" value={role} onChange={(event) => setRole(event.target.value === 'HERO' ? 'HERO' : 'GALLERY')} className="w-full rounded-lg border border-brand-line px-3 py-2 text-sm">
+              <option value="GALLERY">Galeria</option>
+              <option value="HERO">Principal</option>
+            </select>
+          </div>
 
-        <button
-          type="submit"
-          disabled={isUploading}
-          className="inline-flex h-10 items-center justify-center rounded-lg border border-brand-line bg-white px-4 text-sm font-semibold text-brand-blue-950 transition-colors hover:bg-brand-surface disabled:opacity-60"
-        >
-          {isUploading ? 'Enviando…' : 'Adicionar imagem'}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={isUploading}
+            className="inline-flex h-10 items-center justify-center rounded-lg border border-brand-line bg-white px-4 text-sm font-semibold text-brand-blue-950 transition-colors hover:bg-brand-surface disabled:opacity-60"
+          >
+            {isUploading ? 'Enviando…' : 'Adicionar imagem'}
+          </button>
+        </form>
+      )}
     </section>
   )
 }

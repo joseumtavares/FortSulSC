@@ -2,14 +2,27 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from 'react'
 import type { SolutionCardData, SolutionGalleryImage } from './solutions-data'
+import { appendProductUrlToWhatsAppLink } from '@/lib/content/product-whatsapp'
 
 const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
 const GALLERY_INTERVAL_MS = 4000
 
-const PLATFORM_LABELS: Record<SolutionCardData['testimonials'][number]['platform'], string> = {
+type TestimonialPlatform = SolutionCardData['testimonials'][number]['platform']
+
+const PLATFORM_LABELS: Record<TestimonialPlatform, string> = {
   TIKTOK: 'TikTok',
   FACEBOOK: 'Facebook',
   INSTAGRAM: 'Instagram',
+}
+
+function PlatformIcon({ platform }: { platform: TestimonialPlatform }) {
+  if (platform === 'FACEBOOK') {
+    return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.23 10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.9 3.77-3.9 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22C18.34 21.23 22 17.08 22 12.06Z" /></svg>
+  }
+  if (platform === 'INSTAGRAM') {
+    return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.21.6 1.76 1.15.55.55.9 1.1 1.15 1.76.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.76 4.9 4.9 0 0 1-1.76 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.76-1.15 4.9 4.9 0 0 1-1.15-1.76c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.21 1.15-1.76A4.9 4.9 0 0 1 5.44.54c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2Zm0 3.24a6.76 6.76 0 1 0 0 13.52 6.76 6.76 0 0 0 0-13.52Zm0 11.14a4.38 4.38 0 1 1 0-8.76 4.38 4.38 0 0 1 0 8.76Zm7.02-11.4a1.58 1.58 0 1 1-3.15 0 1.58 1.58 0 0 1 3.15 0Z" /></svg>
+  }
+  return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M16.6 5.82c-.98-.86-1.5-2.06-1.5-3.32h-3.05v13.6a3.03 3.03 0 1 1-2.13-2.9V10.1a6.1 6.1 0 1 0 5.18 6.03V9.2a8.14 8.14 0 0 0 4.63 1.44V7.6a4.85 4.85 0 0 1-3.13-1.78Z" /></svg>
 }
 
 function prefersReducedMotion(): boolean {
@@ -134,6 +147,9 @@ export function ProductDialog({ item, onClose }: { item: SolutionCardData | null
   }
 
   const gallery = item ? (item.heroImage ? [item.heroImage, ...item.gallery] : item.gallery) : []
+  const whatsappHref = item
+    ? appendProductUrlToWhatsAppLink(item.whatsappLink, `${window.location.origin}${window.location.pathname}?produto=${item.slug}`)
+    : ''
 
   return (
     <dialog
@@ -183,6 +199,7 @@ export function ProductDialog({ item, onClose }: { item: SolutionCardData | null
                   {item.testimonials.map((testimonial) => (
                     <li key={testimonial.url}>
                       <a href={testimonial.url} target="_blank" rel="noopener noreferrer">
+                        <PlatformIcon platform={testimonial.platform} />
                         {PLATFORM_LABELS[testimonial.platform]}{testimonial.authorName ? ` — ${testimonial.authorName}` : ''}
                       </a>
                     </li>
@@ -193,7 +210,7 @@ export function ProductDialog({ item, onClose }: { item: SolutionCardData | null
 
             <div className="product-dialog-actions">
               {item.catalogUrl && <a href={item.catalogUrl} target="_blank" rel="noopener noreferrer" className="button button-light">Baixar catálogo</a>}
-              <a href={item.whatsappLink} target="_blank" rel="noopener noreferrer" className="button button-dark">Saiba mais</a>
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="button button-dark">Saiba mais</a>
             </div>
           </div>
         </div>

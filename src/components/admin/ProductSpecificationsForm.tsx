@@ -5,6 +5,13 @@ import { useRouter } from 'next/navigation'
 
 type Row = { label: string; value: string }
 
+const QUICK_ADD_SPECS = [
+  { label: 'Altura', placeholder: 'Ex.: 1,20 m' },
+  { label: 'Largura', placeholder: 'Ex.: 0,80 m' },
+  { label: 'Comprimento', placeholder: 'Ex.: 2,50 m' },
+  { label: 'Peso', placeholder: 'Ex.: 85 kg' },
+]
+
 export function ProductSpecificationsForm({ productId, initialRows }: { productId: string; initialRows: Row[] }) {
   const router = useRouter()
   const [rows, setRows] = useState<Row[]>(initialRows.length > 0 ? initialRows : [{ label: '', value: '' }])
@@ -18,6 +25,15 @@ export function ProductSpecificationsForm({ productId, initialRows }: { productI
 
   function removeRow(index: number) {
     setRows((current) => current.filter((_, rowIndex) => rowIndex !== index))
+  }
+
+  function addQuickSpec(label: string) {
+    setRows((current) => {
+      const blankIndex = current.findIndex((row) => !row.label && !row.value)
+      const nextRow = { label, value: '' }
+      if (blankIndex === -1) return [...current, nextRow]
+      return current.map((row, index) => (index === blankIndex ? nextRow : row))
+    })
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -47,6 +63,22 @@ export function ProductSpecificationsForm({ productId, initialRows }: { productI
       <h2 className="text-lg font-semibold text-brand-blue-950">Especificações</h2>
       {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
       {saved && <p role="status" className="text-sm text-green-800">Especificações salvas.</p>}
+      <div>
+        <p className="mb-2 text-xs text-brand-muted">Atalhos para dimensões:</p>
+        <div className="flex flex-wrap gap-2">
+          {QUICK_ADD_SPECS.map((quickSpec) => (
+            <button
+              key={quickSpec.label}
+              type="button"
+              disabled={saving}
+              onClick={() => addQuickSpec(quickSpec.label)}
+              className="min-h-9 rounded-lg border border-brand-line px-3 text-xs font-semibold text-brand-blue-950 transition-colors hover:bg-brand-surface disabled:opacity-60"
+            >
+              + {quickSpec.label}
+            </button>
+          ))}
+        </div>
+      </div>
       <fieldset disabled={saving} className="min-w-0 space-y-2">
         <legend className="sr-only">Lista de especificações do produto</legend>
         {rows.map((row, index) => (
@@ -62,7 +94,7 @@ export function ProductSpecificationsForm({ productId, initialRows }: { productI
               value={row.value}
               onChange={(event) => updateRow(index, 'value', event.target.value)}
               aria-label={`Valor da especificação ${index + 1}`}
-              placeholder="Ex.: 5 HP"
+              placeholder={QUICK_ADD_SPECS.find((quickSpec) => quickSpec.label === row.label)?.placeholder ?? 'Ex.: 5 HP'}
               className="min-w-0 rounded-lg border border-brand-line px-3 py-2 text-sm"
             />
             <button type="button" onClick={() => removeRow(index)} aria-label={`Remover especificação ${index + 1}`} className="min-h-11 w-fit shrink-0 justify-self-start px-2 text-sm font-semibold text-red-700">Remover</button>

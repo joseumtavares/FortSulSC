@@ -3,7 +3,8 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { requireAdminRequest } from '@/lib/auth/admin-route-guard'
 import { findProductForAdmin } from '@/lib/content/product-repository'
-import { createProductImage } from '@/lib/content/product-image-repository'
+import { countProductImages, createProductImage } from '@/lib/content/product-image-repository'
+import { MAX_PRODUCT_IMAGES } from '@/lib/content/product-image-input'
 import { recordAuditEvent } from '@/lib/audit/audit-log-repository'
 import { getImageStorage } from '@/lib/storage/image-storage'
 import { logger } from '@/lib/logger'
@@ -63,6 +64,11 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     const { id } = await context.params
     const product = await findProductForAdmin(id)
     if (!product) return errorResponse('Produto não encontrado.', 404)
+
+    const existingCount = await countProductImages(id)
+    if (existingCount >= MAX_PRODUCT_IMAGES) {
+      return errorResponse(`Limite de ${MAX_PRODUCT_IMAGES} imagens por produto atingido.`, 400)
+    }
 
     const parsed = parseUploadForm(await request.formData())
     if (typeof parsed === 'string') return errorResponse(parsed, 400)

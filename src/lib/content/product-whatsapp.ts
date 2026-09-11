@@ -14,3 +14,17 @@ export function buildProductWhatsAppLink(product: { name: string; whatsappMessag
   const digits = WHATSAPP_PHONE_TEL.replace(/[^0-9]/g, '')
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`
 }
+
+/**
+ * Acrescenta o link do produto ao final da mensagem já montada, para que o
+ * cliente receba o link direto (sem precisar navegar pelo site) junto com o
+ * texto pré-definido no painel. `productUrl` é resolvido no navegador
+ * (origem + slug), já que a home é gerada estaticamente e não deve depender
+ * de leitura de headers em tempo de build.
+ */
+export function appendProductUrlToWhatsAppLink(whatsappLink: string, productUrl: string): string {
+  const url = new URL(whatsappLink)
+  const currentText = url.searchParams.get('text') ?? ''
+  url.searchParams.set('text', `${currentText}\n\n${productUrl}`)
+  return url.toString()
+}

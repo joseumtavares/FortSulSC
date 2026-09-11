@@ -12,6 +12,7 @@ export type SolutionSpecification = { label: string; value: string }
 
 export type SolutionCardData = {
   id: string
+  slug: string
   code: string
   name: string
   eyebrow: string | null

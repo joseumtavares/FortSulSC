@@ -13,7 +13,7 @@ const filters: SolutionFilter[] = [
 
 function makeProduct(id: string, categorySlugs: string[]): SolutionCardData {
   return {
-    id, code: id.toUpperCase(), name: `Produto ${id}`, eyebrow: null, shortDescription: null, description: null,
+    id, slug: id, code: id.toUpperCase(), name: `Produto ${id}`, eyebrow: null, shortDescription: null, description: null,
     catalogUrl: null, categorySlugs, applications: [], specifications: [],
     heroImage: null, gallery: [], testimonials: [], whatsappLink: 'https://wa.me/554836600818?text=x',
   }

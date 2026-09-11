@@ -16,7 +16,32 @@ export function ProductScroller({ products, activeFilter }: ProductScrollerProps
   const sectionRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const previousFilterRef = useRef<string | null>(null)
+  const hasAppliedDeepLinkRef = useRef(false)
   const [activeItem, setActiveItem] = useState<SolutionCardData | null>(null)
+
+  useEffect(() => {
+    if (hasAppliedDeepLinkRef.current) return
+    hasAppliedDeepLinkRef.current = true
+
+    const slug = new URLSearchParams(window.location.search).get('produto')
+    if (!slug) return
+    const match = products.find((product) => product.slug === slug)
+    if (match) setActiveItem(match)
+  }, [products])
+
+  function openProduct(product: SolutionCardData) {
+    setActiveItem(product)
+    const url = new URL(window.location.href)
+    url.searchParams.set('produto', product.slug)
+    window.history.replaceState(null, '', url)
+  }
+
+  function closeProduct() {
+    setActiveItem(null)
+    const url = new URL(window.location.href)
+    url.searchParams.delete('produto')
+    window.history.replaceState(null, '', url)
+  }
 
   function scroll(direction: 'left' | 'right') {
     const track = trackRef.current
@@ -64,13 +89,13 @@ export function ProductScroller({ products, activeFilter }: ProductScrollerProps
         {products.length > 1 && <button type="button" className="solution-carousel-control is-previous" aria-label="Ver produtos anteriores" onClick={() => scroll('left')}><Chevron direction="left" /></button>}
         <div ref={trackRef} className="solution-carousel-track">
           {products.map((solution) => (
-            <div key={solution.id} className="solution-carousel-item"><SolutionCard solution={solution} onSelect={() => setActiveItem(solution)} /></div>
+            <div key={solution.id} className="solution-carousel-item"><SolutionCard solution={solution} onSelect={() => openProduct(solution)} /></div>
           ))}
         </div>
         {products.length > 1 && <button type="button" className="solution-carousel-control is-next" aria-label="Ver próximos produtos" onClick={() => scroll('right')}><Chevron direction="right" /></button>}
       </div>
 
-      <ProductDialog item={activeItem} onClose={() => setActiveItem(null)} />
+      <ProductDialog item={activeItem} onClose={closeProduct} />
     </>
   )
 }

@@ -274,8 +274,9 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 .product-dialog-specs th { width: 45%; color: var(--blue-900); font-weight: 700; }
 .product-dialog-specs td { color: var(--muted); }
 .product-dialog-testimonials { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 0; padding: 0; list-style: none; }
-.product-dialog-testimonials a { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 999px; background: var(--surface); color: var(--blue-900); font-size: 13px; font-weight: 700; text-decoration: none; }
+.product-dialog-testimonials a { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: var(--surface); color: var(--blue-900); font-size: 13px; font-weight: 700; text-decoration: none; }
 .product-dialog-testimonials a:hover { background: var(--orange); color: var(--white); }
+.product-dialog-testimonials svg { width: 16px; height: 16px; flex: 0 0 auto; fill: currentColor; }
 .product-dialog-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
 /* ===== Fatia 8 — CTA final ===== */

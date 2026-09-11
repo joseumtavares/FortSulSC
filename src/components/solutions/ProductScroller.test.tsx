@@ -6,12 +6,12 @@ import type { SolutionCardData } from './solutions-data'
 
 const products: SolutionCardData[] = [
   {
-    id: 'produto-1', code: 'ALM-001', name: 'Alimentador de Cavaco', eyebrow: null, shortDescription: null, description: 'Descrição completa do alimentador.',
+    id: 'produto-1', slug: 'alimentador-de-cavaco', code: 'ALM-001', name: 'Alimentador de Cavaco', eyebrow: null, shortDescription: null, description: 'Descrição completa do alimentador.',
     catalogUrl: null, categorySlugs: ['equipamentos', 'fumageiro'], applications: ['Fornalhas industriais'], specifications: [{ label: 'Potência', value: '5 HP' }],
     heroImage: { src: '/image/alimentador.webp', alt: 'Alimentador' }, gallery: [], testimonials: [], whatsappLink: 'https://wa.me/554836600818?text=1',
   },
   {
-    id: 'produto-2', code: 'QUE-001', name: 'Queimador', eyebrow: null, shortDescription: null, description: null,
+    id: 'produto-2', slug: 'queimador', code: 'QUE-001', name: 'Queimador', eyebrow: null, shortDescription: null, description: null,
     catalogUrl: null, categorySlugs: ['fumageiro'], applications: [], specifications: [],
     heroImage: null, gallery: [], testimonials: [], whatsappLink: 'https://wa.me/554836600818?text=2',
   },
@@ -48,7 +48,31 @@ describe('ProductScroller', () => {
     expect(screen.getByText('Fornalhas industriais')).toBeTruthy()
     expect(screen.getByText('Potência')).toBeTruthy()
     expect(screen.getByText('5 HP')).toBeTruthy()
-    expect(screen.getByRole('link', { name: 'Saiba mais' }).getAttribute('href')).toBe('https://wa.me/554836600818?text=1')
+    const whatsappHref = screen.getByRole('link', { name: 'Saiba mais' }).getAttribute('href') ?? ''
+    const whatsappText = new URL(whatsappHref).searchParams.get('text') ?? ''
+    expect(whatsappText).toContain('produto=alimentador-de-cavaco')
+  })
+
+  it('atualiza a URL com o slug do produto ao abrir e limpa ao fechar', async () => {
+    const user = userEvent.setup()
+    renderScroller()
+
+    await user.click(screen.getByRole('button', { name: /Alimentador de Cavaco/ }))
+    expect(window.location.search).toBe('?produto=alimentador-de-cavaco')
+
+    await user.click(screen.getByRole('button', { name: 'Fechar produto' }))
+    expect(window.location.search).toBe('')
+  })
+
+  it('abre o produto automaticamente quando a URL já tem ?produto=', () => {
+    window.history.replaceState(null, '', '/?produto=queimador')
+    renderScroller()
+
+    const dialog = screen.getByRole('dialog', { hidden: true }) as HTMLDialogElement
+    expect(dialog.open).toBe(true)
+    expect(screen.getByRole('heading', { level: 2, name: 'Queimador' })).toBeTruthy()
+
+    window.history.replaceState(null, '', '/')
   })
 
   it('mostra depoimentos quando o produto tem', async () => {
