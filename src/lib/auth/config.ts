@@ -38,8 +38,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     // Sessão curta de propósito: o callback `jwt` revalida `active`/`role`/
     // `tokenVersion` a cada requisição (revogação imediata, ver proposta
     // §3.3), mas um maxAge curto limita a janela mesmo em caso de falha
-    // não prevista nessa revalidação.
-    maxAge: 60 * 60 * 8,
+    // não prevista nessa revalidação. Reduzido de 8h para 2h a pedido do
+    // Jose (achado de segurança: sessão longa demais para um painel
+    // administrativo); o logout por inatividade (15 min, `IdleLogoutWatcher`)
+    // cobre o caso de esquecer a aba aberta dentro dessas 2h.
+    maxAge: 60 * 60 * 2,
   },
   providers: [
     Credentials({
