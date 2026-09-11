@@ -31,7 +31,7 @@ export function BannerImageForm({ bannerId, imageUrl, altText }: { bannerId: str
     <label className="block text-sm font-medium text-brand-blue-950">Nova imagem
       <input name="file" type="file" accept="image/jpeg,image/png,image/webp" required disabled={saving} className="block w-full min-w-0 text-sm" />
     </label>
-    <p className="text-sm text-brand-muted">JPEG, PNG ou WEBP, até 5 MB.</p>
+    <p className="text-sm text-brand-muted">JPEG, PNG ou WEBP, até 5 MB. Dimensão recomendada: 1600×400px (proporção 4:1).</p>
     <button disabled={saving} className="min-h-11 rounded-lg bg-brand-blue-950 px-5 py-2 text-sm font-semibold text-white disabled:opacity-60">{saving ? 'Enviando…' : 'Substituir imagem'}</button>
   </form>
 }

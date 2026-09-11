@@ -1,12 +1,13 @@
 // @vitest-environment node
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { NextRequest } from 'next/server'
-const mocks = vi.hoisted(() => ({ guard: vi.fn(), list: vi.fn(), create: vi.fn(), find: vi.fn(), update: vi.fn(), audit: vi.fn(), upload: vi.fn(), remove: vi.fn() }))
+const mocks = vi.hoisted(() => ({ guard: vi.fn(), list: vi.fn(), create: vi.fn(), find: vi.fn(), update: vi.fn(), audit: vi.fn(), upload: vi.fn(), remove: vi.fn(), revalidatePath: vi.fn() }))
 vi.mock('@/lib/auth/admin-route-guard', () => ({ requireAdminRequest: mocks.guard }))
 vi.mock('@/lib/content/banner-repository', () => ({ listBannersForAdmin: mocks.list, createBanner: mocks.create, findBannerForAdmin: mocks.find, updateBanner: mocks.update }))
 vi.mock('@/lib/audit/audit-log-repository', () => ({ recordAuditEvent: mocks.audit }))
 vi.mock('@/lib/storage/image-storage', () => ({ getImageStorage: () => ({ upload: mocks.upload, delete: mocks.remove }) }))
 vi.mock('@/lib/logger', () => ({ logger: { error: vi.fn() } }))
+vi.mock('next/cache', () => ({ revalidatePath: mocks.revalidatePath }))
 const id = '12345678-1234-1234-1234-123456789abc'
 const context = { params: Promise.resolve({ id }) }
 beforeEach(() => {
@@ -45,6 +46,7 @@ describe('banner upload', () => {
     expect(mocks.update).toHaveBeenCalled()
     expect(mocks.audit).toHaveBeenCalledWith(expect.objectContaining({ action: 'UPDATE', entityType: 'BANNER', entityId: id }))
     expect(mocks.remove).toHaveBeenCalledWith('banners/old.webp')
+    expect(mocks.revalidatePath).toHaveBeenCalledWith('/')
   })
   it('cleans up the new upload when persistence fails', async () => {
     const form = uploadForm()
@@ -54,6 +56,7 @@ describe('banner upload', () => {
     expect(await response.text()).not.toContain('private db detail')
     expect(mocks.remove).toHaveBeenCalledWith(mocks.upload.mock.calls[0]?.[0].key)
     expect(mocks.remove).not.toHaveBeenCalledWith('banners/old.webp')
+    expect(mocks.revalidatePath).not.toHaveBeenCalled()
     expect(mocks.audit).not.toHaveBeenCalled()
   })
 })

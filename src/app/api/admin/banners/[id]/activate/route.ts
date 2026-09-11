@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { requireAdminRequest } from '@/lib/auth/admin-route-guard'
 import { findBannerForAdmin, updateBanner } from '@/lib/content/banner-repository'
 import { recordAuditEvent } from '@/lib/audit/audit-log-repository'
@@ -13,6 +14,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     if (!banner) return NextResponse.json({ error: 'Banner não encontrado.' }, { status: 404 })
     await updateBanner(id, { active: true })
     await recordAuditEvent({ adminUserId: guard.session.user.id, action: 'ACTIVATE', entityType: 'BANNER', entityId: id, result: 'SUCCESS' })
+    revalidatePath('/')
     return NextResponse.json({ id, active: true })
   } catch {
     logger.error('content.banner_activate_failed')

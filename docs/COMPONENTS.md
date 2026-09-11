@@ -350,6 +350,21 @@ Exemplo futuro:
 - Props: `initial?` (linha única de configurações, ou `undefined` na primeira vez).
 - Observação: sem lista nem "novo" — é sempre a mesma linha (`singletonKey = 1`). Links de rede social são sempre `https://` ou ausentes; a validação de formato (`parseSocialLinks`, `src/lib/content/social-links.ts`) roda no servidor, o componente só filtra campos vazios antes de enviar.
 
+### 3.26 BannerStrip
+
+- Status: implementado (`src/components/sections/BannerStrip.tsx`).
+- Objetivo: buscar os banners ativos (`findActiveBannersPublic()`) e repassar prontos para `BannerStripView`. Server Component assíncrono, mesmo padrão de `ContentSection`.
+- Quando utilizar: `src/app/page.tsx`, entre `HeroSection` e `CategoryStrip`.
+- Observação: busca envolvida em `try/catch` — se o banco estiver indisponível na geração estática, a faixa simplesmente não aparece (nunca quebra o build). `revalidatePath('/')` é chamado pelas rotas `activate`/`deactivate`/troca de imagem de banner, então a Home atualiza assim que um banner muda de estado.
+
+### 3.27 BannerStripView
+
+- Status: implementado (`src/components/sections/BannerStripView.tsx`).
+- Objetivo: exibir a faixa promocional de banners ativos abaixo do Hero — imagem em largura total (proporção 4:1 recomendada), clicável quando o banner tem `linkUrl` (abre em nova aba).
+- Quando utilizar: só via `BannerStrip`; não chama Prisma diretamente.
+- Props: `items` (lista pronta: `id`, `imageUrl`, `altText`, `linkUrl`).
+- Observação: sem banner ativo, não renderiza nada (sem espaço vazio nem título). Com 2+ banners, mostra setas de navegação (scroll nativo + `scrollBy`, mesmo padrão de `ContentCarousel`/`.solution-carousel`) — sem rotação automática, decisão já validada nas fatias anteriores por causar cortes visuais em testes reais de celular. Setas ocultas em telas pequenas (relia em `scroll-snap` + gesto de deslizar).
+
 ## 4. Regra para novos componentes
 
 Antes de criar componente novo:

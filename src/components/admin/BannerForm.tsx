@@ -73,7 +73,7 @@ export function BannerForm({ bannerId, initial }: Props) {
         {!bannerId && <div><label className="block text-sm font-medium text-brand-blue-950">Imagem
           <input name="file" type="file" accept="image/jpeg,image/png,image/webp" required aria-describedby="banner-image-help" className={inputClass} />
         </label>
-          <span id="banner-image-help" className="mt-1 block text-xs text-brand-muted">JPEG, PNG ou WEBP, até 5 MB. O banner será criado inativo.</span>
+          <span id="banner-image-help" className="mt-1 block text-xs text-brand-muted">JPEG, PNG ou WEBP, até 5 MB. Dimensão recomendada: 1600×400px (proporção 4:1). O banner será criado inativo.</span>
         </div>}
       </fieldset>
       <button disabled={saving} className="min-h-11 rounded-lg bg-brand-orange px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-orange-dark disabled:opacity-60">

@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { requireAdminRequest } from '@/lib/auth/admin-route-guard'
 import { findBannerForAdmin, updateBanner } from '@/lib/content/banner-repository'
 import { parseBannerFile, uploadBannerImage, deleteBannerImage } from '@/lib/content/banner-upload'
@@ -23,6 +24,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     })
     await deleteBannerImage(banner.imageKey)
     await recordAuditEvent({ adminUserId: guard.session.user.id, action: 'UPDATE', entityType: 'BANNER', entityId: id, result: 'SUCCESS' })
+    revalidatePath('/')
     return NextResponse.json({ id, imageUrl: image.imageUrl })
   } catch {
     logger.error('content.banner_image_failed')
