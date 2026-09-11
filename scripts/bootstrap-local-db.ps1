@@ -65,6 +65,24 @@ function Wait-ForDatabase([string]$ComposeProjectName, [string]$DatabaseUser, [s
     throw 'O Postgres local não ficou pronto a tempo.'
 }
 
+function Set-AppRolePassword([string]$ComposeProjectName, [string]$MigrateUrl, [string]$AppUser, [string]$AppPassword) {
+    # A migration fatia_4_3 cria a role restrita fortsul_app sem senha de
+    # propósito (nenhum segredo em SQL versionado); sem este passo, todo
+    # volume novo nasce com a role sem senha e a aplicação falha a
+    # autenticação em toda query. Idempotente: ALTER ROLE ... WITH PASSWORD
+    # é seguro de repetir. A senha nunca é passada por argumento nem
+    # aparece em log — vai só pelo stdin do `prisma db execute`, dentro do
+    # SQL, usando a role proprietária (via DATABASE_URL/$MigrateUrl).
+    $escapedUser = $AppUser -replace '"', '""'
+    $escapedPassword = $AppPassword -replace "'", "''"
+    $sql = "ALTER ROLE ""$escapedUser"" WITH PASSWORD '$escapedPassword';"
+
+    $sql | & docker compose -p $ComposeProjectName run --rm --no-deps -e "DATABASE_URL=$MigrateUrl" app npx prisma db execute --schema=prisma/schema.prisma --stdin
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Falha ao definir a senha da role fortsul_app (ALTER ROLE).'
+    }
+}
+
 $projectDirectory = Split-Path -Parent $PSScriptRoot
 $composeProjectName = Get-ComposeProjectName $projectDirectory
 $repoRoot = if ((Split-Path -Leaf (Split-Path -Parent $projectDirectory)) -eq '.worktrees') {
@@ -108,6 +126,7 @@ try {
 
     if (-not $SkipMigration) {
         Invoke-Checked 'docker' @('compose', '-p', $composeProjectName, 'run', '--rm', '--no-deps', '-e', "DATABASE_URL=$migrateUrl", 'app', 'npx', 'prisma', 'migrate', 'deploy')
+        Set-AppRolePassword $composeProjectName $migrateUrl $env:POSTGRES_APP_USER $env:POSTGRES_APP_PASSWORD
     }
 
     if (-not $SkipSeed) {
