@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache'
 import { requireAdminRequest } from '@/lib/auth/admin-route-guard'
 import { readJsonObject } from '@/lib/auth/request-body'
 import { findProductForAdmin, setProductApplications } from '@/lib/content/product-repository'
+import { MAX_PRODUCT_APPLICATION_LABEL_LENGTH } from '@/lib/content/text-limits'
 import { recordAuditEvent } from '@/lib/audit/audit-log-repository'
 import { logger } from '@/lib/logger'
 
@@ -15,9 +16,12 @@ function parseApplications(body: Record<string, unknown> | null): Application[] 
     if (!item || typeof item !== 'object' || typeof (item as Record<string, unknown>).label !== 'string') {
       throw new Error('Cada aplicação precisa de um rótulo de texto.')
     }
-    const label = (item as Record<string, unknown>).label as string
-    if (!label.trim()) throw new Error('Cada aplicação precisa de um rótulo de texto.')
-    return { label: label.trim(), order: index }
+    const label = ((item as Record<string, unknown>).label as string).trim()
+    if (!label) throw new Error('Cada aplicação precisa de um rótulo de texto.')
+    if (label.length > MAX_PRODUCT_APPLICATION_LABEL_LENGTH) {
+      throw new Error(`Cada aplicação deve ter no máximo ${MAX_PRODUCT_APPLICATION_LABEL_LENGTH} caracteres.`)
+    }
+    return { label, order: index }
   })
 }
 

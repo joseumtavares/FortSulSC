@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { parseCategoryInput } from './category-input'
+import { MAX_CATEGORY_NAME_LENGTH } from './text-limits'
 
 describe('parseCategoryInput', () => {
   it('normalizes valid input', () => {
@@ -24,4 +25,12 @@ describe('parseCategoryInput', () => {
       expect(() => parseCategoryInput(input)).toThrow()
     },
   )
+
+  it('rejects a name longer than the character limit', () => {
+    expect(() => parseCategoryInput({ name: 'A'.repeat(MAX_CATEGORY_NAME_LENGTH + 1), slug: 'ok' })).toThrow()
+  })
+
+  it('accepts a name at exactly the character limit', () => {
+    expect(() => parseCategoryInput({ name: 'A'.repeat(MAX_CATEGORY_NAME_LENGTH), slug: 'ok' })).not.toThrow()
+  })
 })

@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { NextRequest } from 'next/server'
+import { MAX_PRODUCT_APPLICATION_LABEL_LENGTH } from '@/lib/content/text-limits'
 
 const mocks = vi.hoisted(() => ({ guard: vi.fn(), find: vi.fn(), setApplications: vi.fn(), audit: vi.fn(), revalidatePath: vi.fn() }))
 vi.mock('@/lib/auth/admin-route-guard', () => ({ requireAdminRequest: mocks.guard }))
@@ -36,6 +37,12 @@ describe('PUT /api/admin/products/[id]/applications', () => {
 
   it('rejects an application without a label', async () => {
     expect((await PUT(request({ applications: [{ label: '' }] }), context)).status).toBe(400)
+    expect(mocks.setApplications).not.toHaveBeenCalled()
+  })
+
+  it('rejects an application label longer than the character limit', async () => {
+    const response = await PUT(request({ applications: [{ label: 'A'.repeat(MAX_PRODUCT_APPLICATION_LABEL_LENGTH + 1) }] }), context)
+    expect(response.status).toBe(400)
     expect(mocks.setApplications).not.toHaveBeenCalled()
   })
 

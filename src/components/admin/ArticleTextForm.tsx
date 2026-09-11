@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { CharCounter } from './CharCounter'
+import { MAX_ARTICLE_BODY_LENGTH, MAX_ARTICLE_EXCERPT_LENGTH, MAX_ARTICLE_TITLE_LENGTH } from '@/lib/content/text-limits'
 
 type ArticleTextFormProps = {
   articleId?: string
@@ -71,8 +73,10 @@ export function ArticleTextForm({
           value={title}
           onChange={(event) => setTitle(event.target.value)}
           required
+          maxLength={MAX_ARTICLE_TITLE_LENGTH}
           className="w-full rounded-lg border border-brand-line px-3 py-2 text-sm"
         />
+        <CharCounter length={title.length} max={MAX_ARTICLE_TITLE_LENGTH} />
       </div>
 
       <div>
@@ -84,8 +88,10 @@ export function ArticleTextForm({
           value={excerpt}
           onChange={(event) => setExcerpt(event.target.value)}
           rows={2}
+          maxLength={MAX_ARTICLE_EXCERPT_LENGTH}
           className="w-full rounded-lg border border-brand-line px-3 py-2 text-sm"
         />
+        <CharCounter length={excerpt.length} max={MAX_ARTICLE_EXCERPT_LENGTH} />
       </div>
 
       <div>
@@ -98,8 +104,10 @@ export function ArticleTextForm({
           onChange={(event) => setBody(event.target.value)}
           required
           rows={14}
+          maxLength={MAX_ARTICLE_BODY_LENGTH}
           className="w-full rounded-lg border border-brand-line px-3 py-2 text-sm"
         />
+        <CharCounter length={body.length} max={MAX_ARTICLE_BODY_LENGTH} />
       </div>
 
       <button

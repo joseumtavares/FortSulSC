@@ -1,8 +1,10 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { CharCounter } from './CharCounter'
 import { MAX_PRODUCT_TESTIMONIALS } from '@/lib/content/testimonial-input'
+import { MAX_TESTIMONIAL_AUTHOR_NAME_LENGTH } from '@/lib/content/text-limits'
 
 export type TestimonialItem = { id: string; platform: 'TIKTOK' | 'FACEBOOK' | 'INSTAGRAM'; url: string; authorName: string | null }
 
@@ -13,8 +15,13 @@ export function ProductTestimonialsForm({ productId, testimonials }: { productId
   const [saving, setSaving] = useState(false)
   const [removingId, setRemovingId] = useState<string | null>(null)
   const [error, setError] = useState('')
+  const [authorNameLength, setAuthorNameLength] = useState(0)
 
   const atLimit = testimonials.length >= MAX_PRODUCT_TESTIMONIALS
+
+  function handleAuthorNameChange(event: ChangeEvent<HTMLInputElement>) {
+    setAuthorNameLength(event.target.value.length)
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -33,6 +40,7 @@ export function ProductTestimonialsForm({ productId, testimonials }: { productId
       const result = await response.json() as { error?: string }
       if (!response.ok) { setError(result.error ?? 'Não foi possível salvar o depoimento.'); return }
       form.reset()
+      setAuthorNameLength(0)
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setSaving(false) }
   }
@@ -96,7 +104,8 @@ export function ProductTestimonialsForm({ productId, testimonials }: { productId
           </div>
           <div>
             <label htmlFor="testimonial-author" className="mb-1 block text-sm font-medium text-brand-blue-950">Nome do autor (opcional)</label>
-            <input id="testimonial-author" name="authorName" disabled={saving} className="w-full rounded-lg border border-brand-line px-3 py-2 text-sm" />
+            <input id="testimonial-author" name="authorName" disabled={saving} maxLength={MAX_TESTIMONIAL_AUTHOR_NAME_LENGTH} onChange={handleAuthorNameChange} className="w-full rounded-lg border border-brand-line px-3 py-2 text-sm" />
+            <CharCounter length={authorNameLength} max={MAX_TESTIMONIAL_AUTHOR_NAME_LENGTH} />
           </div>
           <button type="submit" disabled={saving} className="inline-flex h-10 items-center justify-center rounded-lg border border-brand-line bg-white px-4 text-sm font-semibold text-brand-blue-950 transition-colors hover:bg-brand-surface disabled:opacity-60">
             {saving ? 'Salvando…' : 'Adicionar depoimento'}

@@ -1,7 +1,16 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { CharCounter } from './CharCounter'
+import {
+  MAX_PRODUCT_CODE_LENGTH,
+  MAX_PRODUCT_DESCRIPTION_LENGTH,
+  MAX_PRODUCT_EYEBROW_LENGTH,
+  MAX_PRODUCT_NAME_LENGTH,
+  MAX_PRODUCT_SHORT_DESCRIPTION_LENGTH,
+  MAX_PRODUCT_WHATSAPP_MESSAGE_LENGTH,
+} from '@/lib/content/text-limits'
 
 type ProductValues = {
   code: string
@@ -15,14 +24,24 @@ type ProductValues = {
 type Props = { productId?: string; initial?: ProductValues }
 const inputClass = 'w-full rounded-lg border border-brand-line px-3 py-2 text-sm'
 
-type TextField = { name: 'code' | 'name' | 'eyebrow' | 'shortDescription' | 'catalogUrl'; label: string; required: boolean; help?: string; type?: string }
+type FieldName = 'code' | 'name' | 'eyebrow' | 'shortDescription' | 'catalogUrl' | 'description' | 'whatsappMessageTemplate'
+type TextField = { name: FieldName; label: string; required: boolean; help?: string; type?: string; maxLength: number; textarea?: { rows: number } }
 
 const textFields: TextField[] = [
-  { name: 'code', label: 'Código', required: true, help: 'Identificador interno do produto, definido por você (ex.: ALM-001).' },
-  { name: 'name', label: 'Nome', required: true },
-  { name: 'eyebrow', label: 'Selo/eyebrow (opcional)', required: false },
-  { name: 'shortDescription', label: 'Descrição curta (opcional)', required: false },
-  { name: 'catalogUrl', label: 'Link do catálogo em PDF (opcional)', required: false, type: 'url' },
+  { name: 'code', label: 'Código', required: true, help: 'Identificador interno do produto, definido por você (ex.: ALM-001).', maxLength: MAX_PRODUCT_CODE_LENGTH },
+  { name: 'name', label: 'Nome', required: true, maxLength: MAX_PRODUCT_NAME_LENGTH },
+  { name: 'eyebrow', label: 'Selo/eyebrow (opcional)', required: false, maxLength: MAX_PRODUCT_EYEBROW_LENGTH },
+  { name: 'shortDescription', label: 'Descrição curta (opcional)', required: false, maxLength: MAX_PRODUCT_SHORT_DESCRIPTION_LENGTH },
+  { name: 'catalogUrl', label: 'Link do catálogo em PDF (opcional)', required: false, type: 'url', maxLength: 2048 },
+  { name: 'description', label: 'Descrição completa (opcional)', required: false, maxLength: MAX_PRODUCT_DESCRIPTION_LENGTH, textarea: { rows: 5 } },
+  {
+    name: 'whatsappMessageTemplate',
+    label: 'Mensagem do botão "Saiba mais" no WhatsApp (opcional)',
+    required: false,
+    maxLength: MAX_PRODUCT_WHATSAPP_MESSAGE_LENGTH,
+    textarea: { rows: 3 },
+    help: 'Use {produto} para inserir o nome do produto automaticamente. Deixe em branco para usar a mensagem padrão.',
+  },
 ]
 
 async function saveProduct(productId: string | undefined, body: Record<string, unknown>) {
@@ -41,6 +60,16 @@ export function ProductForm({ productId, initial }: Props) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [saved, setSaved] = useState(false)
+  const [counts, setCounts] = useState<Record<FieldName, number>>(() => {
+    const initialCounts = {} as Record<FieldName, number>
+    for (const field of textFields) initialCounts[field.name] = (initial?.[field.name] ?? '').length
+    return initialCounts
+  })
+
+  function handleCount(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const name = event.target.name as FieldName
+    setCounts((current) => ({ ...current, [name]: event.target.value.length }))
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -66,29 +95,37 @@ export function ProductForm({ productId, initial }: Props) {
       {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
       {saved && <p role="status" className="text-sm text-green-800">Produto salvo.</p>}
       <fieldset disabled={saving} className="min-w-0 space-y-5">
-        {textFields.map(({ name, label, required, help, ...rest }) => (
-          <div key={name}>
+        {textFields.map((field) => (
+          <div key={field.name}>
             <label className="block text-sm font-medium text-brand-blue-950">
-              {label}
-              <input
-                name={name}
-                required={required}
-                defaultValue={initial?.[name] ?? ''}
-                className={inputClass}
-                aria-describedby={help ? `product-${name}-help` : undefined}
-                {...rest}
-              />
+              {field.label}
+              {field.textarea ? (
+                <textarea
+                  name={field.name}
+                  rows={field.textarea.rows}
+                  maxLength={field.maxLength}
+                  defaultValue={initial?.[field.name] ?? ''}
+                  onChange={handleCount}
+                  className={inputClass}
+                  aria-describedby={field.help ? `product-${field.name}-help` : undefined}
+                />
+              ) : (
+                <input
+                  name={field.name}
+                  type={field.type ?? 'text'}
+                  required={field.required}
+                  maxLength={field.maxLength}
+                  defaultValue={initial?.[field.name] ?? ''}
+                  onChange={handleCount}
+                  className={inputClass}
+                  aria-describedby={field.help ? `product-${field.name}-help` : undefined}
+                />
+              )}
             </label>
-            {help && <span id={`product-${name}-help`} className="mt-1 block text-xs text-brand-muted">{help}</span>}
+            {field.help && <span id={`product-${field.name}-help`} className="mt-1 block text-xs text-brand-muted">{field.help}</span>}
+            {field.name !== 'catalogUrl' && <CharCounter length={counts[field.name]} max={field.maxLength} />}
           </div>
         ))}
-        <label className="block text-sm font-medium text-brand-blue-950">Descrição completa (opcional)
-          <textarea name="description" rows={5} defaultValue={initial?.description ?? ''} className={inputClass} />
-        </label>
-        <label className="block text-sm font-medium text-brand-blue-950">Mensagem do botão &quot;Saiba mais&quot; no WhatsApp (opcional)
-          <textarea name="whatsappMessageTemplate" rows={3} defaultValue={initial?.whatsappMessageTemplate ?? ''} className={inputClass} aria-describedby="product-whatsapp-help" />
-        </label>
-        <span id="product-whatsapp-help" className="-mt-3 block text-xs text-brand-muted">Use {'{produto}'} para inserir o nome do produto automaticamente. Deixe em branco para usar a mensagem padrão.</span>
       </fieldset>
       <button disabled={saving} className="min-h-11 rounded-lg bg-brand-orange px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-orange-dark disabled:opacity-60">
         {saving ? 'Salvando…' : productId ? 'Salvar' : 'Criar produto'}

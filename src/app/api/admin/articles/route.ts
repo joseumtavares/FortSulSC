@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { readJsonObject } from '@/lib/auth/request-body'
 import { requireAdminRequest } from '@/lib/auth/admin-route-guard'
 import { createArticle, generateUniqueArticleSlug } from '@/lib/content/article-repository'
+import { parseArticleInput } from '@/lib/content/article-input'
 import { recordAuditEvent } from '@/lib/audit/audit-log-repository'
 import { logger } from '@/lib/logger'
 
@@ -14,20 +15,19 @@ export async function POST(request: NextRequest) {
   if (!guard.ok) return guard.response
 
   try {
-    const body = await readJsonObject(request)
-    const title = typeof body?.title === 'string' ? body.title.trim() : ''
-    const excerpt = typeof body?.excerpt === 'string' ? body.excerpt.trim() : ''
-    const articleBody = typeof body?.body === 'string' ? body.body.trim() : ''
+    let parsed
+    try {
+      parsed = parseArticleInput(await readJsonObject(request))
+    } catch (error) {
+      return errorResponse(error instanceof Error ? error.message : 'Dados inválidos.', 400)
+    }
 
-    if (!title) return errorResponse('Título obrigatório.', 400)
-    if (!articleBody) return errorResponse('Corpo do artigo obrigatório.', 400)
-
-    const slug = await generateUniqueArticleSlug(title)
+    const slug = await generateUniqueArticleSlug(parsed.title)
     const article = await createArticle({
       slug,
-      title,
-      excerpt: excerpt || null,
-      body: articleBody,
+      title: parsed.title,
+      excerpt: parsed.excerpt,
+      body: parsed.body,
       authorId: guard.session.user.id,
     })
 

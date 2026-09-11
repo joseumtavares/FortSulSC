@@ -1,7 +1,9 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { CharCounter } from './CharCounter'
+import { MAX_CATEGORY_NAME_LENGTH } from '@/lib/content/text-limits'
 
 type CategoryValues = { name: string; slug: string; order: number }
 type Props = { categoryId?: string; initial?: CategoryValues }
@@ -12,6 +14,11 @@ export function CategoryForm({ categoryId, initial }: Props) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [saved, setSaved] = useState(false)
+  const [nameLength, setNameLength] = useState(initial?.name?.length ?? 0)
+
+  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+    setNameLength(event.target.value.length)
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -41,8 +48,9 @@ export function CategoryForm({ categoryId, initial }: Props) {
       {saved && <p role="status" className="text-sm text-green-800">Categoria salva.</p>}
       <fieldset disabled={saving} className="min-w-0 space-y-5">
         <label className="block text-sm font-medium text-brand-blue-950">Nome
-          <input name="name" required defaultValue={initial?.name} className={inputClass} />
+          <input name="name" required maxLength={MAX_CATEGORY_NAME_LENGTH} defaultValue={initial?.name} onChange={handleNameChange} className={inputClass} />
         </label>
+        <CharCounter length={nameLength} max={MAX_CATEGORY_NAME_LENGTH} />
         <label className="block text-sm font-medium text-brand-blue-950">Slug
           <input name="slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" defaultValue={initial?.slug} className={inputClass} aria-describedby="category-slug-help" />
         </label>

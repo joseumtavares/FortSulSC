@@ -1,3 +1,12 @@
+import {
+  MAX_PRODUCT_CODE_LENGTH,
+  MAX_PRODUCT_DESCRIPTION_LENGTH,
+  MAX_PRODUCT_EYEBROW_LENGTH,
+  MAX_PRODUCT_NAME_LENGTH,
+  MAX_PRODUCT_SHORT_DESCRIPTION_LENGTH,
+  MAX_PRODUCT_WHATSAPP_MESSAGE_LENGTH,
+} from './text-limits'
+
 export type ProductTextInput = {
   code: string
   name: string
@@ -8,10 +17,12 @@ export type ProductTextInput = {
   whatsappMessageTemplate: string | null
 }
 
-function optionalText(value: unknown): string | null {
+function optionalText(value: unknown, max: number, fieldLabel: string): string | null {
   if (value == null) return null
   if (typeof value !== 'string') throw new Error('Campo de texto inválido.')
-  return value.trim() || null
+  const text = value.trim() || null
+  if (text && text.length > max) throw new Error(`${fieldLabel} deve ter no máximo ${max} caracteres.`)
+  return text
 }
 
 function optionalLink(value: unknown): string | null {
@@ -36,14 +47,16 @@ export function parseProductInput(value: unknown): ProductTextInput {
   const name = typeof body.name === 'string' ? body.name.trim() : ''
   if (!code) throw new Error('Código obrigatório.')
   if (!name) throw new Error('Nome obrigatório.')
+  if (code.length > MAX_PRODUCT_CODE_LENGTH) throw new Error(`Código deve ter no máximo ${MAX_PRODUCT_CODE_LENGTH} caracteres.`)
+  if (name.length > MAX_PRODUCT_NAME_LENGTH) throw new Error(`Nome deve ter no máximo ${MAX_PRODUCT_NAME_LENGTH} caracteres.`)
 
   return {
     code,
     name,
-    eyebrow: optionalText(body.eyebrow),
-    shortDescription: optionalText(body.shortDescription),
-    description: optionalText(body.description),
+    eyebrow: optionalText(body.eyebrow, MAX_PRODUCT_EYEBROW_LENGTH, 'Selo/eyebrow'),
+    shortDescription: optionalText(body.shortDescription, MAX_PRODUCT_SHORT_DESCRIPTION_LENGTH, 'Descrição curta'),
+    description: optionalText(body.description, MAX_PRODUCT_DESCRIPTION_LENGTH, 'Descrição'),
     catalogUrl: optionalLink(body.catalogUrl),
-    whatsappMessageTemplate: optionalText(body.whatsappMessageTemplate),
+    whatsappMessageTemplate: optionalText(body.whatsappMessageTemplate, MAX_PRODUCT_WHATSAPP_MESSAGE_LENGTH, 'Mensagem do WhatsApp'),
   }
 }

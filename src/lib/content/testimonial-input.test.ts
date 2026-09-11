@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { parseTestimonialInput } from './testimonial-input'
+import { MAX_TESTIMONIAL_AUTHOR_NAME_LENGTH } from './text-limits'
 
 describe('parseTestimonialInput', () => {
   it('accepts a valid link matching the platform domain', () => {
@@ -25,5 +26,15 @@ describe('parseTestimonialInput', () => {
     { platform: 'TIKTOK', url: '' },
   ])('rejects invalid input: %j', (input) => {
     expect(() => parseTestimonialInput(input)).toThrow()
+  })
+
+  it('rejects an author name longer than the character limit', () => {
+    expect(() =>
+      parseTestimonialInput({
+        platform: 'TIKTOK',
+        url: 'https://www.tiktok.com/@fortsul/video/123',
+        authorName: 'A'.repeat(MAX_TESTIMONIAL_AUTHOR_NAME_LENGTH + 1),
+      }),
+    ).toThrow()
   })
 })

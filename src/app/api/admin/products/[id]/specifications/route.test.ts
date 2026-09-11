@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { NextRequest } from 'next/server'
+import { MAX_PRODUCT_SPECIFICATION_LABEL_LENGTH, MAX_PRODUCT_SPECIFICATION_VALUE_LENGTH } from '@/lib/content/text-limits'
 
 const mocks = vi.hoisted(() => ({ guard: vi.fn(), find: vi.fn(), setSpecifications: vi.fn(), audit: vi.fn(), revalidatePath: vi.fn() }))
 vi.mock('@/lib/auth/admin-route-guard', () => ({ requireAdminRequest: mocks.guard }))
@@ -36,6 +37,15 @@ describe('PUT /api/admin/products/[id]/specifications', () => {
 
   it('rejects a specification missing label or value', async () => {
     expect((await PUT(request({ specifications: [{ label: 'Potência', value: '' }] }), context)).status).toBe(400)
+    expect(mocks.setSpecifications).not.toHaveBeenCalled()
+  })
+
+  it('rejects a specification label or value longer than the character limit', async () => {
+    const longLabel = { label: 'A'.repeat(MAX_PRODUCT_SPECIFICATION_LABEL_LENGTH + 1), value: '5 HP' }
+    expect((await PUT(request({ specifications: [longLabel] }), context)).status).toBe(400)
+
+    const longValue = { label: 'Potência', value: 'A'.repeat(MAX_PRODUCT_SPECIFICATION_VALUE_LENGTH + 1) }
+    expect((await PUT(request({ specifications: [longValue] }), context)).status).toBe(400)
     expect(mocks.setSpecifications).not.toHaveBeenCalled()
   })
 

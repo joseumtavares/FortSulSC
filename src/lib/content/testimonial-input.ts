@@ -1,3 +1,5 @@
+import { MAX_TESTIMONIAL_AUTHOR_NAME_LENGTH } from './text-limits'
+
 export const TESTIMONIAL_PLATFORMS = ['TIKTOK', 'FACEBOOK', 'INSTAGRAM'] as const
 export type TestimonialPlatform = (typeof TESTIMONIAL_PLATFORMS)[number]
 
@@ -49,6 +51,9 @@ export function parseTestimonialInput(value: unknown): TestimonialTextInput {
   const platform = parsePlatform(body.platform)
   const url = parseTestimonialUrl(body.url, platform)
   const authorName = typeof body.authorName === 'string' ? body.authorName.trim() || null : null
+  if (authorName && authorName.length > MAX_TESTIMONIAL_AUTHOR_NAME_LENGTH) {
+    throw new Error(`Nome do autor deve ter no máximo ${MAX_TESTIMONIAL_AUTHOR_NAME_LENGTH} caracteres.`)
+  }
 
   return { platform, url, authorName }
 }

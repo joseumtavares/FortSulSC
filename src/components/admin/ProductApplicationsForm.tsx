@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { CharCounter } from './CharCounter'
+import { MAX_PRODUCT_APPLICATION_LABEL_LENGTH } from '@/lib/content/text-limits'
 
 export function ProductApplicationsForm({ productId, initialLabels }: { productId: string; initialLabels: string[] }) {
   const router = useRouter()
@@ -46,14 +48,18 @@ export function ProductApplicationsForm({ productId, initialLabels }: { productI
       <fieldset disabled={saving} className="min-w-0 space-y-2">
         <legend className="sr-only">Lista de aplicações do produto</legend>
         {labels.map((label, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <input
-              value={label}
-              onChange={(event) => updateLabel(index, event.target.value)}
-              aria-label={`Aplicação ${index + 1}`}
-              className="w-full min-w-0 rounded-lg border border-brand-line px-3 py-2 text-sm"
-            />
-            <button type="button" onClick={() => removeRow(index)} aria-label={`Remover aplicação ${index + 1}`} className="min-h-11 shrink-0 px-2 text-sm font-semibold text-red-700">Remover</button>
+          <div key={index}>
+            <div className="flex items-center gap-2">
+              <input
+                value={label}
+                onChange={(event) => updateLabel(index, event.target.value)}
+                maxLength={MAX_PRODUCT_APPLICATION_LABEL_LENGTH}
+                aria-label={`Aplicação ${index + 1}`}
+                className="w-full min-w-0 rounded-lg border border-brand-line px-3 py-2 text-sm"
+              />
+              <button type="button" onClick={() => removeRow(index)} aria-label={`Remover aplicação ${index + 1}`} className="min-h-11 shrink-0 px-2 text-sm font-semibold text-red-700">Remover</button>
+            </div>
+            <CharCounter length={label.length} max={MAX_PRODUCT_APPLICATION_LABEL_LENGTH} />
           </div>
         ))}
       </fieldset>

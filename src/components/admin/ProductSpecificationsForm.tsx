@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { CharCounter } from './CharCounter'
+import { MAX_PRODUCT_SPECIFICATION_LABEL_LENGTH, MAX_PRODUCT_SPECIFICATION_VALUE_LENGTH } from '@/lib/content/text-limits'
 
 type Row = { label: string; value: string }
 
@@ -82,21 +84,29 @@ export function ProductSpecificationsForm({ productId, initialRows }: { productI
       <fieldset disabled={saving} className="min-w-0 space-y-2">
         <legend className="sr-only">Lista de especificações do produto</legend>
         {rows.map((row, index) => (
-          <div key={index} className="grid grid-cols-1 items-center gap-2 sm:grid-cols-[1fr_1fr_auto]">
-            <input
-              value={row.label}
-              onChange={(event) => updateRow(index, 'label', event.target.value)}
-              aria-label={`Rótulo da especificação ${index + 1}`}
-              placeholder="Ex.: Potência"
-              className="min-w-0 rounded-lg border border-brand-line px-3 py-2 text-sm"
-            />
-            <input
-              value={row.value}
-              onChange={(event) => updateRow(index, 'value', event.target.value)}
-              aria-label={`Valor da especificação ${index + 1}`}
-              placeholder={QUICK_ADD_SPECS.find((quickSpec) => quickSpec.label === row.label)?.placeholder ?? 'Ex.: 5 HP'}
-              className="min-w-0 rounded-lg border border-brand-line px-3 py-2 text-sm"
-            />
+          <div key={index} className="grid grid-cols-1 items-start gap-2 sm:grid-cols-[1fr_1fr_auto]">
+            <div>
+              <input
+                value={row.label}
+                onChange={(event) => updateRow(index, 'label', event.target.value)}
+                maxLength={MAX_PRODUCT_SPECIFICATION_LABEL_LENGTH}
+                aria-label={`Rótulo da especificação ${index + 1}`}
+                placeholder="Ex.: Potência"
+                className="min-w-0 rounded-lg border border-brand-line px-3 py-2 text-sm"
+              />
+              <CharCounter length={row.label.length} max={MAX_PRODUCT_SPECIFICATION_LABEL_LENGTH} />
+            </div>
+            <div>
+              <input
+                value={row.value}
+                onChange={(event) => updateRow(index, 'value', event.target.value)}
+                maxLength={MAX_PRODUCT_SPECIFICATION_VALUE_LENGTH}
+                aria-label={`Valor da especificação ${index + 1}`}
+                placeholder={QUICK_ADD_SPECS.find((quickSpec) => quickSpec.label === row.label)?.placeholder ?? 'Ex.: 5 HP'}
+                className="min-w-0 rounded-lg border border-brand-line px-3 py-2 text-sm"
+              />
+              <CharCounter length={row.value.length} max={MAX_PRODUCT_SPECIFICATION_VALUE_LENGTH} />
+            </div>
             <button type="button" onClick={() => removeRow(index)} aria-label={`Remover especificação ${index + 1}`} className="min-h-11 w-fit shrink-0 justify-self-start px-2 text-sm font-semibold text-red-700">Remover</button>
           </div>
         ))}

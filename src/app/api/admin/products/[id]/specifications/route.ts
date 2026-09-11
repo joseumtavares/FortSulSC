@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache'
 import { requireAdminRequest } from '@/lib/auth/admin-route-guard'
 import { readJsonObject } from '@/lib/auth/request-body'
 import { findProductForAdmin, setProductSpecifications } from '@/lib/content/product-repository'
+import { MAX_PRODUCT_SPECIFICATION_LABEL_LENGTH, MAX_PRODUCT_SPECIFICATION_VALUE_LENGTH } from '@/lib/content/text-limits'
 import { recordAuditEvent } from '@/lib/audit/audit-log-repository'
 import { logger } from '@/lib/logger'
 
@@ -16,6 +17,12 @@ function parseSpecifications(body: Record<string, unknown> | null): Specificatio
     const label = typeof record?.label === 'string' ? record.label.trim() : ''
     const value = typeof record?.value === 'string' ? record.value.trim() : ''
     if (!label || !value) throw new Error('Cada especificação precisa de rótulo e valor.')
+    if (label.length > MAX_PRODUCT_SPECIFICATION_LABEL_LENGTH) {
+      throw new Error(`Rótulo da especificação deve ter no máximo ${MAX_PRODUCT_SPECIFICATION_LABEL_LENGTH} caracteres.`)
+    }
+    if (value.length > MAX_PRODUCT_SPECIFICATION_VALUE_LENGTH) {
+      throw new Error(`Valor da especificação deve ter no máximo ${MAX_PRODUCT_SPECIFICATION_VALUE_LENGTH} caracteres.`)
+    }
     return { label, value, order: index }
   })
 }
