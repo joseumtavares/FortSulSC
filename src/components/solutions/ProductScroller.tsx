@@ -1,20 +1,22 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { SolutionCard } from './SolutionCard'
-import type { Solution, SolutionFilterId } from './solutions-data'
+import { ProductDialog } from './ProductDialog'
+import type { SolutionCardData } from './solutions-data'
 
 type ProductScrollerProps = {
-  products: Solution[]
-  activeFilter: SolutionFilterId
+  products: SolutionCardData[]
+  activeFilter: string
 }
 
 export function ProductScroller({ products, activeFilter }: ProductScrollerProps) {
   const shouldReduceMotion = useReducedMotion()
   const sectionRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
-  const previousFilterRef = useRef<SolutionFilterId | null>(null)
+  const previousFilterRef = useRef<string | null>(null)
+  const [activeItem, setActiveItem] = useState<SolutionCardData | null>(null)
 
   function scroll(direction: 'left' | 'right') {
     const track = trackRef.current
@@ -57,15 +59,19 @@ export function ProductScroller({ products, activeFilter }: ProductScrollerProps
   }
 
   return (
-    <div ref={sectionRef} id="solution-panel" role="tabpanel" aria-label="Soluções" className="solution-carousel">
-      {products.length > 1 && <button type="button" className="solution-carousel-control is-previous" aria-label="Ver produtos anteriores" onClick={() => scroll('left')}><Chevron direction="left" /></button>}
-      <div ref={trackRef} className="solution-carousel-track">
-        {products.map((solution) => (
-          <div key={solution.id} className="solution-carousel-item"><SolutionCard solution={solution} /></div>
-        ))}
+    <>
+      <div ref={sectionRef} id="solution-panel" role="tabpanel" aria-label="Soluções" className="solution-carousel">
+        {products.length > 1 && <button type="button" className="solution-carousel-control is-previous" aria-label="Ver produtos anteriores" onClick={() => scroll('left')}><Chevron direction="left" /></button>}
+        <div ref={trackRef} className="solution-carousel-track">
+          {products.map((solution) => (
+            <div key={solution.id} className="solution-carousel-item"><SolutionCard solution={solution} onSelect={() => setActiveItem(solution)} /></div>
+          ))}
+        </div>
+        {products.length > 1 && <button type="button" className="solution-carousel-control is-next" aria-label="Ver próximos produtos" onClick={() => scroll('right')}><Chevron direction="right" /></button>}
       </div>
-      {products.length > 1 && <button type="button" className="solution-carousel-control is-next" aria-label="Ver próximos produtos" onClick={() => scroll('right')}><Chevron direction="right" /></button>}
-    </div>
+
+      <ProductDialog item={activeItem} onClose={() => setActiveItem(null)} />
+    </>
   )
 }
 

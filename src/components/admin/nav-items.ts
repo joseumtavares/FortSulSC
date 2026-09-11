@@ -22,8 +22,8 @@ export type NavItem = {
 
 export const NAV_ITEMS: NavItem[] = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
-  { key: 'produtos', label: 'Produtos', icon: Package },
-  { key: 'categorias', label: 'Categorias', icon: Boxes },
+  { key: 'produtos', label: 'Produtos', icon: Package, href: '/admin/products' },
+  { key: 'categorias', label: 'Categorias', icon: Boxes, href: '/admin/categories' },
   { key: 'representantes', label: 'Representantes', icon: Users, badge: 3 },
   { key: 'revendas', label: 'Revendas', icon: Store },
   { key: 'regioes', label: 'Regiões', icon: MapPin },

@@ -1,12 +1,32 @@
 import { describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { solutions, solutionFilters } from './solutions-data'
 import { SolutionsGrid } from './SolutionsGrid'
-import { WhatsAppProvider } from '@/components/whatsapp/WhatsAppProvider'
+import type { SolutionCardData, SolutionFilter } from './solutions-data'
+
+const filters: SolutionFilter[] = [
+  { id: 'todos', label: 'Todos' },
+  { id: 'aviario', label: 'Aviário' },
+  { id: 'equipamentos', label: 'Equipamentos' },
+  { id: 'fumageiro', label: 'Fumageiro' },
+]
+
+function makeProduct(id: string, categorySlugs: string[]): SolutionCardData {
+  return {
+    id, code: id.toUpperCase(), name: `Produto ${id}`, eyebrow: null, shortDescription: null, description: null,
+    catalogUrl: null, categorySlugs, applications: [], specifications: [],
+    heroImage: null, gallery: [], testimonials: [], whatsappLink: 'https://wa.me/554836600818?text=x',
+  }
+}
+
+const solutions: SolutionCardData[] = [
+  makeProduct('alimentador', ['equipamentos', 'fumageiro']),
+  makeProduct('queimador', ['fumageiro', 'equipamentos']),
+  makeProduct('biomassa', ['equipamentos']),
+]
 
 function renderGrid() {
-  return render(<WhatsAppProvider><SolutionsGrid filters={solutionFilters} solutions={solutions} /></WhatsAppProvider>)
+  return render(<SolutionsGrid filters={filters} solutions={solutions} />)
 }
 
 describe('SolutionsGrid', () => {

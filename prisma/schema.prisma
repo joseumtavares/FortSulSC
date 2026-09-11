@@ -13,6 +13,7 @@ model Category {
   name      String
   slug      String            @unique
   order     Int               @default(0)
+  active    Boolean           @default(true)
   createdAt DateTime          @default(now()) @map("created_at")
   updatedAt DateTime          @updatedAt @map("updated_at")
   products  ProductCategory[]
@@ -21,21 +22,24 @@ model Category {
 }
 
 model Product {
-  id               String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  slug             String                 @unique
-  name             String
-  eyebrow          String?
-  shortDescription String?                @map("short_description")
-  description      String?
-  catalogUrl       String?                @map("catalog_url")
-  active           Boolean                @default(false)
-  hasDetailPage    Boolean                @default(false) @map("has_detail_page")
-  createdAt        DateTime               @default(now()) @map("created_at")
-  updatedAt        DateTime               @updatedAt @map("updated_at")
-  categories       ProductCategory[]
-  applications     ProductApplication[]
-  specifications   ProductSpecification[]
-  images           ProductImage[]
+  id                      String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug                    String                 @unique
+  code                    String                 @unique
+  name                    String
+  eyebrow                 String?
+  shortDescription        String?                @map("short_description")
+  description             String?
+  catalogUrl              String?                @map("catalog_url")
+  whatsappMessageTemplate String?                @map("whatsapp_message_template")
+  active                  Boolean                @default(false)
+  hasDetailPage           Boolean                @default(false) @map("has_detail_page")
+  createdAt               DateTime               @default(now()) @map("created_at")
+  updatedAt               DateTime               @updatedAt @map("updated_at")
+  categories              ProductCategory[]
+  applications            ProductApplication[]
+  specifications          ProductSpecification[]
+  images                  ProductImage[]
+  testimonials            ProductTestimonial[]
 
   @@map("products")
 }
@@ -90,6 +94,25 @@ model ProductImage {
   product   Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@map("product_images")
+}
+
+enum TestimonialPlatform {
+  TIKTOK
+  FACEBOOK
+  INSTAGRAM
+}
+
+model ProductTestimonial {
+  id         String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId  String              @map("product_id") @db.Uuid
+  platform   TestimonialPlatform
+  url        String
+  authorName String?             @map("author_name")
+  order      Int                 @default(0)
+  createdAt  DateTime            @default(now()) @map("created_at")
+  product    Product             @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_testimonials")
 }
 
 model Region {

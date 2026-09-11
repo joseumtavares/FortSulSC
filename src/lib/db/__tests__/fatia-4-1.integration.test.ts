@@ -19,7 +19,11 @@ describe('Fase 3 — Fatia 4.1: fundação Category/Product', () => {
   })
 
   it('seed cria as seis categorias oficiais, na ordem aprovada', async () => {
-    const categories = await prisma.category.findMany({ orderBy: { order: 'asc' } })
+    // Filtra pelas seis categorias oficiais (por nome), em vez de assumir que
+    // a tabela inteira só contém elas — outras fatias/testes de integração
+    // também criam categorias reais (ex.: Fase 4, Fatia 5) na mesma janela.
+    const officialSlugs = ['fumicultura', 'equipamentos', 'aviario', 'piscicultura', 'secadores', 'acessorios']
+    const categories = await prisma.category.findMany({ where: { slug: { in: officialSlugs } }, orderBy: { order: 'asc' } })
     expect(categories.map((category) => category.slug)).toEqual([
       'fumicultura',
       'equipamentos',
@@ -45,6 +49,7 @@ describe('Fase 3 — Fatia 4.1: fundação Category/Product', () => {
     const product = await prisma.product.create({
       data: {
         slug: 'test-produto-multi-categoria',
+        code: 'TEST-MULTI-CATEGORIA',
         name: 'Produto teste',
         categories: { create: [{ categoryId: cat1.id }, { categoryId: cat2.id }] },
       },
@@ -54,15 +59,22 @@ describe('Fase 3 — Fatia 4.1: fundação Category/Product', () => {
   })
 
   it('slug de produto é único', async () => {
-    await prisma.product.create({ data: { slug: 'test-produto-unico', name: 'Produto único' } })
+    await prisma.product.create({ data: { slug: 'test-produto-unico', code: 'TEST-UNICO-1', name: 'Produto único' } })
     await expect(
-      prisma.product.create({ data: { slug: 'test-produto-unico', name: 'Duplicado' } }),
+      prisma.product.create({ data: { slug: 'test-produto-unico', code: 'TEST-UNICO-2', name: 'Duplicado' } }),
+    ).rejects.toThrow()
+  })
+
+  it('código de produto é único', async () => {
+    await prisma.product.create({ data: { slug: 'test-produto-codigo-1', code: 'TEST-CODIGO-UNICO', name: 'Produto código 1' } })
+    await expect(
+      prisma.product.create({ data: { slug: 'test-produto-codigo-2', code: 'TEST-CODIGO-UNICO', name: 'Produto código 2' } }),
     ).rejects.toThrow()
   })
 
   it('produto nasce inativo (active=false) por padrão', async () => {
     const product = await prisma.product.create({
-      data: { slug: 'test-produto-draft', name: 'Produto rascunho' },
+      data: { slug: 'test-produto-draft', code: 'TEST-DRAFT', name: 'Produto rascunho' },
     })
     expect(product.active).toBe(false)
     expect(product.hasDetailPage).toBe(false)
@@ -72,6 +84,7 @@ describe('Fase 3 — Fatia 4.1: fundação Category/Product', () => {
     const product = await prisma.product.create({
       data: {
         slug: 'test-produto-catalogo',
+        code: 'TEST-CATALOGO',
         name: 'Produto com catálogo',
         catalogUrl: 'https://cdn.example/catalogo-produto.pdf',
       },
@@ -84,6 +97,7 @@ describe('Fase 3 — Fatia 4.1: fundação Category/Product', () => {
     const product = await prisma.product.create({
       data: {
         slug: 'test-produto-cascade',
+        code: 'TEST-CASCADE',
         name: 'Produto cascade',
         categories: { create: [{ categoryId: category.id }] },
         applications: { create: [{ label: 'Aplicação teste', order: 0 }] },
@@ -118,6 +132,7 @@ describe('Fase 3 — Fatia 4.1: fundação Category/Product', () => {
     await prisma.product.create({
       data: {
         slug: 'test-produto-restrict',
+        code: 'TEST-RESTRICT',
         name: 'Produto restrict',
         categories: { create: [{ categoryId: category.id }] },
       },
@@ -126,7 +141,7 @@ describe('Fase 3 — Fatia 4.1: fundação Category/Product', () => {
   })
 
   it('imagem de produto exige altText (regra de acessibilidade obrigatória)', async () => {
-    const product = await prisma.product.create({ data: { slug: 'test-produto-alt', name: 'Produto alt' } })
+    const product = await prisma.product.create({ data: { slug: 'test-produto-alt', code: 'TEST-ALT', name: 'Produto alt' } })
     await expect(
       prisma.productImage.create({
         // @ts-expect-error — altText omitido de propósito para provar que o schema recusa a gravação

@@ -2,14 +2,12 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
-import type { SolutionFilterId } from './solutions-data'
-
-type Filter = { id: SolutionFilterId; label: string }
+import type { SolutionFilter } from './solutions-data'
 
 type CategoryTabsProps = {
-  filters: Filter[]
-  activeFilter: SolutionFilterId
-  onFilterChange: (id: SolutionFilterId) => void
+  filters: SolutionFilter[]
+  activeFilter: string
+  onFilterChange: (id: string) => void
 }
 
 export function CategoryTabs({ filters, activeFilter, onFilterChange }: CategoryTabsProps) {
