@@ -1,4 +1,5 @@
 import { AboutSection } from '@/components/sections/AboutSection'
+import { BannerStrip } from '@/components/sections/BannerStrip'
 import { CategoryStrip } from '@/components/sections/CategoryStrip'
 import { ContentSection } from '@/components/sections/ContentSection'
 import { CtaSection } from '@/components/sections/CtaSection'
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <main id="conteudo">
       <HeroSection />
+      <BannerStrip />
       <CategoryStrip />
       <AboutSection />
       <SolutionsSection />

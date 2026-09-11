@@ -1,11 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { NextRequest } from 'next/server'
-const mocks = vi.hoisted(() => ({ guard: vi.fn(), list: vi.fn(), create: vi.fn(), find: vi.fn(), update: vi.fn(), audit: vi.fn(), upload: vi.fn(), remove: vi.fn() }))
+const mocks = vi.hoisted(() => ({ guard: vi.fn(), list: vi.fn(), create: vi.fn(), find: vi.fn(), update: vi.fn(), audit: vi.fn(), upload: vi.fn(), remove: vi.fn(), revalidatePath: vi.fn() }))
 vi.mock('@/lib/auth/admin-route-guard', () => ({ requireAdminRequest: mocks.guard }))
 vi.mock('@/lib/content/banner-repository', () => ({ listBannersForAdmin: mocks.list, createBanner: mocks.create, findBannerForAdmin: mocks.find, updateBanner: mocks.update }))
 vi.mock('@/lib/audit/audit-log-repository', () => ({ recordAuditEvent: mocks.audit }))
 vi.mock('@/lib/storage/image-storage', () => ({ getImageStorage: () => ({ upload: mocks.upload, delete: mocks.remove }) }))
 vi.mock('@/lib/logger', () => ({ logger: { error: vi.fn() } }))
+vi.mock('next/cache', () => ({ revalidatePath: mocks.revalidatePath }))
 const id = '12345678-1234-1234-1234-123456789abc'
 const context = { params: Promise.resolve({ id }) }
 beforeEach(() => {
@@ -34,5 +35,6 @@ describe('activate', () => {
     expect((await POST(request('POST'), context)).status).toBe(200)
     expect(mocks.update).toHaveBeenCalledWith(id, { active: true })
     expect(mocks.audit).toHaveBeenCalledWith({ adminUserId: 'admin-1', action: 'ACTIVATE', entityType: 'BANNER', entityId: id, result: 'SUCCESS' })
+    expect(mocks.revalidatePath).toHaveBeenCalledWith('/')
   })
 })

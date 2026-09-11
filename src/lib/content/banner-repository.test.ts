@@ -58,6 +58,22 @@ describe('banner-repository', () => {
     expect(call?.orderBy).toMatchObject({ order: 'asc' })
   })
 
+  it('never selects internal storage details in the public query', async () => {
+    await findActiveBannersPublic()
+
+    const call = bannerMock.findMany.mock.calls[0]?.[0]
+    expect(call?.select).toEqual({
+      id: true,
+      title: true,
+      linkUrl: true,
+      imageUrl: true,
+      altText: true,
+      startAt: true,
+      endAt: true,
+      order: true,
+    })
+  })
+
   it('fetches banner by id for admin', async () => {
     await findBannerForAdmin('banner-id')
 
