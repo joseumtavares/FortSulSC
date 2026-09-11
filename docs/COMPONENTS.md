@@ -99,34 +99,29 @@ Exemplo futuro:
 - Dados: o Server Component entrega o conteúdo estático de `about-tabs-data.ts` ao Client Component `AboutTabs`; não há CMS ou regra de negócio nesta etapa.
 - Observação: as imagens do alimentador e do selo de qualidade não fazem mais parte da Home e ficam reservadas ao futuro cadastro do produto.
 
-### 3.5 SolutionFilters
+### 3.5 CategoryTabs / SolutionsGrid / ProductScroller
 
-- Nome atual: `solution-filters`, `filter-button`.
-- Objetivo: permitir filtro visual de soluções na página.
-- Quando utilizar: listas pequenas de soluções/produtos.
-- Quando não utilizar: filtros com busca, paginação ou dados remotos sem backend aprovado.
-- Props futuras:
-  - `filters`;
-  - `activeFilter`;
-  - `onFilterChange`.
-- Observação: hoje é interação de frontend estático.
+- Status: implementado (`src/components/solutions/CategoryTabs.tsx`, `SolutionsGrid.tsx`, `ProductScroller.tsx`).
+- Objetivo: menu de categorias (`role="tablist"`, navegação por seta/Home/End) + carrossel horizontal com setas (mesmo padrão de `ContentCarousel`) dos produtos ativos da categoria selecionada.
+- Quando utilizar: `SolutionsSection`, seção "Soluções" da Home.
+- Props: `filters`/`activeFilter`/`solutions` prontos (tipos em `src/components/solutions/solutions-data.ts`), vindos de `listActiveCategoriesPublic()`/`listActiveProductsPublic()`.
+- Observação: `ProductScroller` mantém o `activeItem` do popup (`ProductDialog`) e não decide regra de negócio — só repassa o item selecionado.
 
 ### 3.6 SolutionCard
 
-- Nome atual: `solution-card`, `card-media`, `card-body`, `card-tag`.
-- Objetivo: destacar produto, solução ou categoria.
-- Quando utilizar: grids de produtos/soluções.
-- Quando não utilizar: listas administrativas densas.
-- Props futuras:
-  - `title`;
-  - `category`;
-  - `image`;
-  - `href`;
-  - `featured`;
-  - `tag`.
-- Componentes relacionados:
-  - `Button`;
-  - `ProductCard`.
+- Status: implementado (`src/components/solutions/SolutionCard.tsx`).
+- Objetivo: card de produto — imagem de destaque, eyebrow opcional, nome; clique abre o popup do produto (`ProductDialog`).
+- Quando utilizar: dentro de `ProductScroller`.
+- Props: `solution` (dado pronto), `onSelect` (callback, sem lógica própria).
+- Observação: o card inteiro é um `<button className="card-trigger">` (mesmo padrão de `.content-card-trigger`), não mais um link para a página estática legada `produto-alimentador.html` nem um gatilho do diálogo genérico de WhatsApp — essa página legada (Fase 1) fica órfã, fora do escopo desta fatia.
+
+### 3.6.1 ProductDialog
+
+- Status: implementado (`src/components/solutions/ProductDialog.tsx`).
+- Objetivo: popup do produto — descrição, aplicações, especificações, galeria de fotos (rotação, mesmo padrão de `ContentArticleDialog`), depoimentos (link por rede social) e botão "Saiba mais" com link `wa.me` pré-preenchido.
+- Quando utilizar: só via `ProductScroller`.
+- Props: `item` (`SolutionCardData | null`), `onClose`.
+- Observação: mesmo padrão de acessibilidade de `ContentArticleDialog` — `<dialog>` nativo, foco preso, `Escape`, clique fora, foco inicial no botão fechar.
 
 ### 3.7 SupportSection
 
@@ -281,7 +276,7 @@ Exemplo futuro:
 - Quando utilizar: rotas protegidas `/admin` (real, autenticada) e a prévia visual `/admin/preview-dashboard`.
 - Quando não utilizar: site público.
 - Props: `children`.
-- Observação: `AdminSidebar` navega de verdade (via `next/link` + `usePathname`) só nos itens de `NAV_ITEMS` que já têm página própria (hoje: Dashboard e Novidades e dicas); os demais domínios (Produtos, Categorias, Representantes, Revendas, Regiões, Banners, Configurações, Documentação) continuam como botões inertes de seleção local até terem rota real. A classe `admin-panel` na raiz do shell corrige o tamanho de `h1`/`h2` herdado do CSS institucional do site público (ver `src/app/admin/admin-tailwind.css`).
+- Observação: `AdminSidebar` navega de verdade (via `next/link` + `usePathname`) só nos itens de `NAV_ITEMS` que já têm página própria (hoje: Dashboard, Produtos, Categorias, Novidades e dicas, Banners, Configurações); os demais domínios (Representantes, Revendas, Regiões, Documentação) continuam como botões inertes de seleção local até terem rota real. A classe `admin-panel` na raiz do shell corrige o tamanho de `h1`/`h2` herdado do CSS institucional do site público (ver `src/app/admin/admin-tailwind.css`).
 
 ### 3.18 ArticleTextForm
 
@@ -364,6 +359,69 @@ Exemplo futuro:
 - Quando utilizar: só via `BannerStrip`; não chama Prisma diretamente.
 - Props: `items` (lista pronta: `id`, `imageUrl`, `altText`, `linkUrl`).
 - Observação: sem banner ativo, não renderiza nada (sem espaço vazio nem título). Com 2+ banners, mostra setas de navegação (scroll nativo + `scrollBy`, mesmo padrão de `ContentCarousel`/`.solution-carousel`) — sem rotação automática, decisão já validada nas fatias anteriores por causar cortes visuais em testes reais de celular. Setas ocultas em telas pequenas (relia em `scroll-snap` + gesto de deslizar).
+
+### 3.28 CategoryForm
+
+- Status: implementado (`src/components/admin/CategoryForm.tsx`).
+- Objetivo: formulário de nome/slug/ordem de uma categoria, usado na criação e na edição.
+- Quando utilizar: telas `/admin/categories/novo` e `/admin/categories/[id]`.
+- Props: `categoryId?`, `initial?` (nome, slug, ordem).
+
+### 3.29 CategoryActiveToggle
+
+- Status: implementado (`src/components/admin/CategoryActiveToggle.tsx`).
+- Objetivo: alternar uma categoria entre ativa e inativa (mesmo padrão de `BannerActiveToggle`). Categoria inativa esconde, na consulta pública, os produtos que só têm essa categoria.
+- Quando utilizar: tela `/admin/categories/[id]`.
+- Props: `categoryId`, `initialActive`.
+
+### 3.30 CategoryDeleteButton
+
+- Status: implementado (`src/components/admin/CategoryDeleteButton.tsx`).
+- Objetivo: excluir fisicamente uma categoria, com confirmação (`window.confirm`). O servidor bloqueia a exclusão (409, mensagem clara) enquanto houver produto vinculado — restrição já garantida pelo banco (`onDelete: Restrict`), não recalculada no componente.
+- Quando utilizar: tela `/admin/categories/[id]`.
+- Props: `categoryId`.
+
+### 3.31 ProductForm
+
+- Status: implementado (`src/components/admin/ProductForm.tsx`).
+- Objetivo: formulário de texto do produto (código, nome, eyebrow, descrições, link de catálogo, mensagem de WhatsApp customizada), usado na criação e na edição.
+- Quando utilizar: telas `/admin/products/novo` e `/admin/products/[id]`.
+- Props: `productId?`, `initial?`.
+- Observação: `code` é inserido manualmente pelo admin (não derivado do nome), único no banco. `whatsappMessageTemplate` aceita `{produto}` como placeholder, substituído pelo nome do produto (`buildProductWhatsAppLink`, `src/lib/content/product-whatsapp.ts`); vazio usa uma mensagem padrão.
+
+### 3.32 ProductActiveToggle / ProductDeleteButton
+
+- Status: implementado (`src/components/admin/ProductActiveToggle.tsx`, `ProductDeleteButton.tsx`).
+- Objetivo: ativar/desativar (mesmo padrão de `BannerActiveToggle`) e excluir fisicamente um produto (com confirmação) — diferente do padrão "sem exclusão" de `Article`/`Banner`, decisão explícita de Jose para esta fatia. A exclusão remove em cascata (já garantido pelo schema) categorias vinculadas, aplicações, especificações, imagens e depoimentos, e limpa as imagens do storage.
+- Quando utilizar: tela `/admin/products/[id]`.
+
+### 3.33 ProductCategoriesForm
+
+- Status: implementado (`src/components/admin/ProductCategoriesForm.tsx`).
+- Objetivo: selecionar (checkbox) as categorias vinculadas ao produto, substituindo a lista inteira de uma vez (`PUT /api/admin/products/[id]/categories`).
+- Quando utilizar: tela `/admin/products/[id]`.
+- Props: `productId`, `categories` (lista pronta com `active`, para indicar categoria inativa), `initialSelectedIds`.
+
+### 3.34 ProductImagesForm
+
+- Status: implementado (`src/components/admin/ProductImagesForm.tsx`).
+- Objetivo: upload de imagens do produto (JPEG/PNG/WEBP, até 5 MB), com papel "Principal" (`HERO`) ou "Galeria" (`GALLERY`) — mesmo padrão de `ArticleGallery`, sem limite fixo de quantidade.
+- Quando utilizar: tela `/admin/products/[id]`.
+- Props: `productId`, `images`.
+
+### 3.35 ProductApplicationsForm / ProductSpecificationsForm
+
+- Status: implementado (`src/components/admin/ProductApplicationsForm.tsx`, `ProductSpecificationsForm.tsx`).
+- Objetivo: editores de lista dinâmica (adicionar/remover linhas) para as aplicações (só rótulo) e especificações (rótulo + valor) do produto, salvos como substituição da lista inteira (`PUT`).
+- Quando utilizar: tela `/admin/products/[id]`.
+- Props: `productId`, `initialLabels`/`initialRows`.
+
+### 3.36 ProductTestimonialsForm
+
+- Status: implementado (`src/components/admin/ProductTestimonialsForm.tsx`).
+- Objetivo: depoimentos de parceiros/influenciadores — rede social (TikTok/Facebook/Instagram), link da publicação, nome do autor opcional. Limite de 3 por produto (reforçado no cliente só para UX; a validação de verdade é no servidor, `MAX_PRODUCT_TESTIMONIALS` em `src/lib/content/testimonial-input.ts`).
+- Quando utilizar: tela `/admin/products/[id]`.
+- Props: `productId`, `testimonials`.
 
 ## 4. Regra para novos componentes
 

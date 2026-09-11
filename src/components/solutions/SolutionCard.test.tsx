@@ -1,21 +1,43 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { solutions } from './solutions-data'
+import userEvent from '@testing-library/user-event'
 import { SolutionCard } from './SolutionCard'
-import { WhatsAppProvider } from '@/components/whatsapp/WhatsAppProvider'
+import type { SolutionCardData } from './solutions-data'
+
+const solution: SolutionCardData = {
+  id: 'produto-1',
+  code: 'ALM-001',
+  name: 'Alimentador de Cavaco',
+  eyebrow: 'Lançamento',
+  shortDescription: 'Alimenta fornalhas com cavaco, briquete e pellets.',
+  description: null,
+  catalogUrl: null,
+  categorySlugs: ['equipamentos', 'fumageiro'],
+  applications: [],
+  specifications: [],
+  heroImage: { src: '/image/alimentador.webp', alt: 'Alimentador de cavaco, briquete e pellets em operação' },
+  gallery: [],
+  testimonials: [],
+  whatsappLink: 'https://wa.me/554836600818?text=teste',
+}
 
 describe('SolutionCard', () => {
-  it('preserva o link real do produto destacado', () => {
-    render(<WhatsAppProvider><SolutionCard solution={solutions[0]} /></WhatsAppProvider>)
-    expect(screen.getByRole('article').classList.contains('featured')).toBe(true)
-    expect(screen.getByRole('link', { name: /ver detalhes do alimentador/i }).getAttribute('href')).toBe('produto-alimentador.html')
+  it('mostra eyebrow, nome e imagem de destaque', () => {
+    render(<SolutionCard solution={solution} onSelect={vi.fn()} />)
+    expect(screen.getByRole('heading', { level: 3, name: 'Alimentador de Cavaco' })).toBeTruthy()
     expect(screen.getByText('Lançamento')).toBeTruthy()
+    expect(screen.getByAltText('Alimentador de cavaco, briquete e pellets em operação')).toBeTruthy()
   })
 
-  it('usa gatilho WhatsApp para um card não destacado e preserva imagens split', () => {
-    render(<WhatsAppProvider><SolutionCard solution={solutions[2]} /></WhatsAppProvider>)
-    expect(screen.getByRole('button', { name: /solicitar informações sobre soluções/i }).getAttribute('aria-haspopup')).toBe('dialog')
-    expect(screen.getByAltText('Cavaco de madeira').getAttribute('width')).toBe('640')
-    expect(screen.getByAltText('Pellets de madeira').getAttribute('height')).toBe('640')
+  it('abre o popup do produto ao clicar', async () => {
+    const user = userEvent.setup()
+    const onSelect = vi.fn()
+    render(<SolutionCard solution={solution} onSelect={onSelect} />)
+
+    const trigger = screen.getByRole('button', { name: /Alimentador de Cavaco/ })
+    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog')
+
+    await user.click(trigger)
+    expect(onSelect).toHaveBeenCalledTimes(1)
   })
 })

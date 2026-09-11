@@ -2,11 +2,20 @@ import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { CategoryTabs } from './CategoryTabs'
-import { solutionFilters } from './solutions-data'
+import type { SolutionFilter } from './solutions-data'
+
+const filters: SolutionFilter[] = [
+  { id: 'todos', label: 'Todos' },
+  { id: 'aviario', label: 'Aviário' },
+  { id: 'equipamentos', label: 'Equipamentos' },
+  { id: 'fumageiro', label: 'Fumageiro' },
+  { id: 'piscicultura', label: 'Piscicultura' },
+  { id: 'secadores', label: 'Secadores' },
+]
 
 describe('CategoryTabs', () => {
   it('expõe tabs acessíveis e seleciona a categoria ativa', () => {
-    render(<CategoryTabs filters={solutionFilters} activeFilter="todos" onFilterChange={vi.fn()} />)
+    render(<CategoryTabs filters={filters} activeFilter="todos" onFilterChange={vi.fn()} />)
 
     expect(screen.getByRole('tablist', { name: 'Filtrar soluções' })).toBeTruthy()
     expect(screen.getAllByRole('tab').map((tab) => tab.textContent)).toEqual([
@@ -20,7 +29,7 @@ describe('CategoryTabs', () => {
   it('solicita a troca ao clicar em uma categoria', async () => {
     const user = userEvent.setup()
     const onFilterChange = vi.fn()
-    render(<CategoryTabs filters={solutionFilters} activeFilter="todos" onFilterChange={onFilterChange} />)
+    render(<CategoryTabs filters={filters} activeFilter="todos" onFilterChange={onFilterChange} />)
 
     await user.click(screen.getByRole('tab', { name: 'Fumageiro' }))
     expect(onFilterChange).toHaveBeenCalledWith('fumageiro')
@@ -29,7 +38,7 @@ describe('CategoryTabs', () => {
   it('navega com setas, Home e End como as tabs institucionais', async () => {
     const user = userEvent.setup()
     const onFilterChange = vi.fn()
-    render(<CategoryTabs filters={solutionFilters} activeFilter="todos" onFilterChange={onFilterChange} />)
+    render(<CategoryTabs filters={filters} activeFilter="todos" onFilterChange={onFilterChange} />)
 
     const todos = screen.getByRole('tab', { name: 'Todos' })
     todos.focus()
