@@ -40,16 +40,30 @@ export function securityHeaders(
   const scriptSource = isDevelopment
     ? "'self' 'unsafe-inline' 'unsafe-eval'"
     : "'self' 'unsafe-inline'"
-  const imgSource = ["'self'", 'data:', 'blob:', ...imageStorageOrigins.filter((origin): origin is string => Boolean(origin))].join(' ')
+  // Ladrilhos do mapa de representantes (Fase 5, `LeafletMap`) vêm dos
+  // subdomínios a/b/c do OpenStreetMap — precisam estar sempre liberados,
+  // independente do storage de imagens configurado no ambiente.
+  const imgSource = [
+    "'self'",
+    'data:',
+    'blob:',
+    'https://*.tile.openstreetmap.org',
+    ...imageStorageOrigins.filter((origin): origin is string => Boolean(origin)),
+  ].join(' ')
   const headers: SecurityHeader[] = [
     {
       key: 'Content-Security-Policy',
       // O Next.js precisa de scripts e estilos inline para a renderização atual.
       // Não permitimos domínios externos nem plugins/objetos executáveis,
-      // exceto o storage de imagens configurado (ver imgSource acima).
+      // exceto o storage de imagens configurado e os ladrilhos do mapa (ver
+      // imgSource acima).
       value: `default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self' data:; form-action 'self'; frame-ancestors 'none'; img-src ${imgSource}; object-src 'none'; script-src ${scriptSource}; style-src 'self' 'unsafe-inline'`,
     },
-    { key: 'Permissions-Policy', value: 'camera=(), geolocation=(), microphone=()' },
+    // `geolocation=(self)`: o mapa de representantes (Fase 5) pede a
+    // localização do visitante para centralizar o mapa — precisa estar
+    // liberada para a própria origem, senão o navegador bloqueia a API antes
+    // mesmo do usuário ver o prompt de permissão.
+    { key: 'Permissions-Policy', value: 'camera=(), geolocation=(self), microphone=()' },
     { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
     { key: 'X-Content-Type-Options', value: 'nosniff' },
     { key: 'X-Frame-Options', value: 'DENY' },

@@ -35,6 +35,7 @@ const textInput = {
   websiteUrl: null,
   approximateLat: null,
   approximateLng: null,
+  locationLink: null,
 }
 
 describe('partner-repository', () => {
@@ -67,6 +68,12 @@ describe('partner-repository', () => {
     expect(call.data.name).toBe('Fulano de Tal')
     expect(call.data.socialLinks).not.toBeNull()
     expect(String(call.data.socialLinks)).toContain('DbNull')
+  })
+
+  it('never sends locationLink to Prisma (it is not a column)', async () => {
+    await createPartner({ ...textInput, locationLink: 'https://www.google.com/maps/@-27.5,-48.5' })
+    const call = partnerMock.create.mock.calls[0]?.[0]
+    expect(call.data).not.toHaveProperty('locationLink')
   })
 
   it('updates a partner text fields', async () => {

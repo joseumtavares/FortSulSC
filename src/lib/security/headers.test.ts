@@ -9,7 +9,7 @@ describe('securityHeaders', () => {
     expect(headers).toContainEqual({ key: 'X-Content-Type-Options', value: 'nosniff' })
     expect(headers).toContainEqual({ key: 'X-Frame-Options', value: 'DENY' })
     expect(headers).toContainEqual({ key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' })
-    expect(headers).toContainEqual({ key: 'Permissions-Policy', value: 'camera=(), geolocation=(), microphone=()' })
+    expect(headers).toContainEqual({ key: 'Permissions-Policy', value: 'camera=(), geolocation=(self), microphone=()' })
   })
 
   it('inclui HSTS somente em produção', () => {
@@ -33,9 +33,9 @@ describe('securityHeaders', () => {
     expect(productionCsp).not.toContain("'unsafe-eval'")
   })
 
-  it('sem provedor de storage configurado, img-src permanece restrito a self/data/blob', () => {
+  it('sem provedor de storage configurado, img-src permanece restrito a self/data/blob/ladrilhos do mapa', () => {
     const csp = securityHeaders(false, false, []).find((header) => header.key === 'Content-Security-Policy')?.value
-    expect(csp).toContain("img-src 'self' data: blob:;")
+    expect(csp).toContain("img-src 'self' data: blob: https://*.tile.openstreetmap.org;")
   })
 
   it('inclui a origem do storage de imagens configurado em img-src', () => {
@@ -43,7 +43,7 @@ describe('securityHeaders', () => {
       (header) => header.key === 'Content-Security-Policy',
     )?.value
 
-    expect(csp).toContain("img-src 'self' data: blob: https://qhttphrfozrwgurnlmni.supabase.co;")
+    expect(csp).toContain("img-src 'self' data: blob: https://*.tile.openstreetmap.org https://qhttphrfozrwgurnlmni.supabase.co;")
   })
 
   it('ignora origens nulas/indefinidas sem quebrar a política', () => {
@@ -51,6 +51,16 @@ describe('securityHeaders', () => {
       (header) => header.key === 'Content-Security-Policy',
     )?.value
 
-    expect(csp).toContain("img-src 'self' data: blob:;")
+    expect(csp).toContain("img-src 'self' data: blob: https://*.tile.openstreetmap.org;")
+  })
+
+  it('sempre libera os ladrilhos do mapa de representantes em img-src, mesmo sem storage configurado', () => {
+    const csp = securityHeaders(false).find((header) => header.key === 'Content-Security-Policy')?.value
+    expect(csp).toContain('https://*.tile.openstreetmap.org')
+  })
+
+  it('libera geolocalização para a própria origem (mapa de representantes)', () => {
+    const permissionsPolicy = securityHeaders(false).find((header) => header.key === 'Permissions-Policy')?.value
+    expect(permissionsPolicy).toContain('geolocation=(self)')
   })
 })

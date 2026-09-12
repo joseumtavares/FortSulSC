@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { requireAdminRequest } from '@/lib/auth/admin-route-guard'
 import { readJsonObject } from '@/lib/auth/request-body'
 import { createPartner, listPartnersForAdmin } from '@/lib/content/partner-repository'
-import { PARTNER_TYPES, parsePartnerInput, type PartnerType } from '@/lib/content/partner-input'
+import { PARTNER_TYPES, applyLocationLink, parsePartnerInput, type PartnerType } from '@/lib/content/partner-input'
 import { recordAuditEvent } from '@/lib/audit/audit-log-repository'
 import { logger } from '@/lib/logger'
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   if (!guard.ok) return guard.response
   let input
   try {
-    input = parsePartnerInput(await readJsonObject(request))
+    input = await applyLocationLink(parsePartnerInput(await readJsonObject(request)))
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Dados inválidos.' }, { status: 400 })
   }

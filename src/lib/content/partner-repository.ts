@@ -3,9 +3,16 @@ import { prisma } from '@/lib/db/client'
 import type { PartnerTextInput, PartnerType } from './partner-input'
 import type { PartnerPrivateInput } from './partner-private-input'
 
-/** `null` explícito precisa do sentinela do Prisma para um campo Json anulável — mesmo padrão de `upsertInstitutionalSettings`. */
+/**
+ * `locationLink` não é coluna do banco — é só o link colado pelo admin, que
+ * a rota já resolveu para `approximateLat`/`approximateLng` antes de chegar
+ * aqui (`resolveLocationLink`, em `location-link.ts`), então é descartado.
+ * `null` explícito precisa do sentinela do Prisma para um campo Json
+ * anulável — mesmo padrão de `upsertInstitutionalSettings`.
+ */
 function toPartnerData(input: PartnerTextInput) {
-  return { ...input, socialLinks: input.socialLinks === null ? Prisma.DbNull : input.socialLinks }
+  const { locationLink: _locationLink, ...rest } = input
+  return { ...rest, socialLinks: input.socialLinks === null ? Prisma.DbNull : input.socialLinks }
 }
 
 export function listPartnersForAdmin(type?: PartnerType) {

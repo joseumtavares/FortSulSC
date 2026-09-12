@@ -26,22 +26,32 @@ function request(body?: unknown) {
 }
 
 import { PUT } from './route'
+import { PARTNER_DOCUMENT_SIGNED_TEXT, PARTNER_LGPD_AUTHORIZATION_TEXT } from '@/lib/content/partner-private-input'
 
 describe('PUT /api/admin/partners/[id]/private', () => {
   it('returns 404 for a missing partner', async () => {
     mocks.find.mockResolvedValue(null)
-    expect((await PUT(request({ document: '123' }), context)).status).toBe(404)
+    expect((await PUT(request({ documentSigned: true }), context)).status).toBe(404)
   })
 
-  it('rejects an overly long document', async () => {
-    expect((await PUT(request({ document: 'A'.repeat(31) }), context)).status).toBe(400)
+  it('rejects a non-object body', async () => {
+    expect((await PUT(request(null), context)).status).toBe(400)
     expect(mocks.upsertPrivate).not.toHaveBeenCalled()
   })
 
   it('saves private data and audits', async () => {
-    const response = await PUT(request({ document: '123', consentNotes: 'ok' }), context)
+    const response = await PUT(request({ documentSigned: true, lgpdAuthorized: true }), context)
     expect(response.status).toBe(200)
-    expect(mocks.upsertPrivate).toHaveBeenCalledWith(id, { document: '123', consentNotes: 'ok' })
+    expect(mocks.upsertPrivate).toHaveBeenCalledWith(id, {
+      document: PARTNER_DOCUMENT_SIGNED_TEXT,
+      consentNotes: PARTNER_LGPD_AUTHORIZATION_TEXT,
+    })
     expect(mocks.audit).toHaveBeenCalledWith(expect.objectContaining({ action: 'UPDATE', entityType: 'PARTNER' }))
+  })
+
+  it('unchecked boxes clear the stored values', async () => {
+    const response = await PUT(request({ documentSigned: false, lgpdAuthorized: false }), context)
+    expect(response.status).toBe(200)
+    expect(mocks.upsertPrivate).toHaveBeenCalledWith(id, { document: null, consentNotes: null })
   })
 })

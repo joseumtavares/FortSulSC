@@ -407,6 +407,35 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 .whatsapp-dialog-phone { display: block; margin-bottom: 22px; color: var(--blue-900); font-size: 21px; font-weight: 900; }
 body.dialog-open { overflow: hidden; }
 
+/* ===== Fase 5 — Painel de mapa de representantes ===== */
+.map-trigger { display: flex; justify-content: center; width: 100%; border: 0; background: none; padding: 0; cursor: pointer; }
+.rep-panel { position: fixed; inset: 0; z-index: 200; visibility: hidden; }
+.rep-panel[data-open="true"] { visibility: visible; }
+.rep-panel-backdrop { position: absolute; inset: 0; border: 0; background: rgba(4, 22, 54, .55); opacity: 0; transition: opacity .35s ease; }
+.rep-panel[data-open="true"] .rep-panel-backdrop { opacity: 1; }
+.rep-panel-sheet { position: absolute; top: 0; right: 0; bottom: 0; display: flex; flex-direction: column; width: min(100%, 1180px); background: var(--white); box-shadow: -24px 0 60px rgba(6, 27, 66, .25); transform: translateX(100%); transition: transform .4s cubic-bezier(.22, 1, .36, 1); }
+.rep-panel[data-open="true"] .rep-panel-sheet { transform: translateX(0); }
+.rep-panel-close { position: absolute; top: 16px; right: 16px; z-index: 2; display: grid; width: 40px; aspect-ratio: 1; place-items: center; border: 0; border-radius: 50%; background: var(--surface); color: var(--blue-900); font-size: 26px; line-height: 1; cursor: pointer; }
+.rep-panel-close:hover { background: #e6ebf2; }
+.rep-panel-body { flex: 1; display: grid; grid-template-columns: 1.2fr 1fr; min-height: 0; }
+.rep-panel-map { position: relative; min-height: 320px; background: var(--surface); }
+.rep-panel-map .leaflet-container { width: 100%; height: 100%; font-family: inherit; }
+.rep-panel-side { display: flex; flex-direction: column; min-height: 0; padding: 32px; overflow-y: auto; }
+.rep-panel-side h2 { margin: 0 48px 6px 0; color: var(--blue-900); font-size: 24px; }
+.rep-geo-status { margin: 0 0 16px; color: var(--muted); font-size: 13px; }
+.rep-search { display: block; width: 100%; height: 48px; padding: 0 16px; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 10px; font-size: 15px; }
+.rep-results { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; }
+.rep-result-button { display: flex; width: 100%; min-height: 44px; align-items: center; justify-content: space-between; gap: 8px; padding: 0 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--white); text-align: left; font-size: 14px; cursor: pointer; transition: border-color .2s, background .2s; }
+.rep-result-button:hover, .rep-result-button[aria-current="true"] { border-color: var(--orange); background: #fff6f0; }
+.rep-empty { color: var(--muted); font-size: 14px; }
+.rep-card { display: flex; flex-direction: column; gap: 10px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.rep-card-header { display: flex; align-items: center; gap: 14px; }
+.rep-card-logo { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; background: var(--white); }
+.rep-card h3 { color: var(--blue-900); font-size: 19px; }
+.rep-card p { margin: 0; color: var(--muted); font-size: 14px; }
+.rep-card-municipalities { color: var(--muted); font-size: 13px; }
+.rep-card .button { align-self: flex-start; }
+
 @media (max-width: 560px) {
   :root { --container: calc(100% - 32px); --radius: 14px; }
   .brand img { width: 166px; }
@@ -460,4 +489,8 @@ body.dialog-open { overflow: hidden; }
   .admin-login-card { padding: 40px 20px; }
   .admin-session-check { padding: 24px; }
   .admin-session-check-card { padding: 26px; }
+  .rep-panel-sheet { width: 100%; }
+  .rep-panel-body { grid-template-columns: 1fr; grid-template-rows: 260px 1fr; overflow-y: auto; }
+  .rep-panel-map { min-height: 260px; }
+  .rep-panel-side { padding: 20px; }
 }

@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { requireAdminRequest } from '@/lib/auth/admin-route-guard'
 import { readJsonObject } from '@/lib/auth/request-body'
 import { deletePartner, findPartnerForAdmin, updatePartner } from '@/lib/content/partner-repository'
-import { parsePartnerInput } from '@/lib/content/partner-input'
+import { applyLocationLink, parsePartnerInput } from '@/lib/content/partner-input'
 import { recordAuditEvent } from '@/lib/audit/audit-log-repository'
 import { logger } from '@/lib/logger'
 
@@ -15,7 +15,7 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
     if (!partner) return NextResponse.json({ error: 'Parceiro não encontrado.' }, { status: 404 })
     let parsed
     try {
-      parsed = parsePartnerInput(await readJsonObject(request))
+      parsed = await applyLocationLink(parsePartnerInput(await readJsonObject(request)))
     } catch (error) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Dados inválidos.' }, { status: 400 })
     }

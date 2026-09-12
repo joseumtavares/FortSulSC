@@ -4,12 +4,8 @@ import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { CountedField } from './CountedField'
 import type { SocialLinks } from '@/lib/content/social-links'
-import {
-  MAX_PARTNER_CONSENT_NOTES_LENGTH,
-  MAX_PARTNER_DESCRIPTION_LENGTH,
-  MAX_PARTNER_DOCUMENT_LENGTH,
-  MAX_PARTNER_NAME_LENGTH,
-} from '@/lib/content/text-limits'
+import { MAX_PARTNER_DESCRIPTION_LENGTH, MAX_PARTNER_NAME_LENGTH } from '@/lib/content/text-limits'
+import { PARTNER_DOCUMENT_SIGNED_TEXT, PARTNER_LGPD_AUTHORIZATION_TEXT } from '@/lib/content/partner-private-input'
 
 type PartnerValues = {
   type: 'REPRESENTATIVE' | 'RESELLER'
@@ -27,12 +23,12 @@ type Props = { partnerId?: string; initial?: PartnerValues; defaultType?: 'REPRE
 const inputClass = 'w-full rounded-lg border border-brand-line px-3 py-2 text-sm'
 const networks = [{ name: 'facebook', label: 'Facebook' }, { name: 'instagram', label: 'Instagram' }, { name: 'linkedin', label: 'LinkedIn' }, { name: 'youtube', label: 'YouTube' }] as const
 
-async function savePartnerPrivate(partnerId: string, document: string, consentNotes: string) {
+async function savePartnerPrivate(partnerId: string, documentSigned: boolean, lgpdAuthorized: boolean) {
   const response = await fetch(`/api/admin/partners/${partnerId}/private`, {
     method: 'PUT',
     credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ document, consentNotes }),
+    body: JSON.stringify({ documentSigned, lgpdAuthorized }),
   })
   const data = (await response.json()) as { error?: string }
   return { ok: response.ok, data }
@@ -59,6 +55,7 @@ function buildPartnerBody(form: FormData) {
     websiteUrl: form.get('websiteUrl'),
     approximateLat: form.get('approximateLat'),
     approximateLng: form.get('approximateLng'),
+    locationLink: form.get('locationLink'),
     socialLinks,
   }
 }
@@ -87,8 +84,8 @@ function withPartnerFieldDefaults(initial: PartnerValues | undefined, defaultTyp
 function withPartnerPrivateDefaults(initial: PartnerValues | undefined) {
   return {
     socialLinks: initial?.socialLinks ?? {},
-    document: initial?.private?.document ?? '',
-    consentNotes: initial?.private?.consentNotes ?? '',
+    documentSigned: Boolean(initial?.private?.document),
+    lgpdAuthorized: Boolean(initial?.private?.consentNotes),
   }
 }
 
@@ -97,15 +94,15 @@ function withPartnerDefaults(initial: PartnerValues | undefined, defaultType: 'R
 }
 
 async function savePartnerAndPrivate(partnerId: string | undefined, form: FormData, hasExistingPrivate: boolean) {
-  const document = String(form.get('document') ?? '').trim()
-  const consentNotes = String(form.get('consentNotes') ?? '').trim()
+  const documentSigned = form.get('documentSigned') === 'on'
+  const lgpdAuthorized = form.get('lgpdAuthorized') === 'on'
 
   const { ok, data } = await savePartner(partnerId, buildPartnerBody(form))
   if (!ok) return { ok: false, error: data.error ?? 'Não foi possível salvar o parceiro.' }
 
   const id = partnerId ?? data.id
-  if (id && (document || consentNotes || hasExistingPrivate)) {
-    const privateResult = await savePartnerPrivate(id, document, consentNotes)
+  if (id && (documentSigned || lgpdAuthorized || hasExistingPrivate)) {
+    const privateResult = await savePartnerPrivate(id, documentSigned, lgpdAuthorized)
     if (!privateResult.ok) return { ok: false, error: privateResult.data.error ?? 'Não foi possível salvar os dados privados.' }
   }
 
@@ -164,6 +161,10 @@ export function PartnerForm({ partnerId, initial, defaultType }: Props) {
       <fieldset disabled={saving} className="min-w-0 space-y-4">
         <legend className="mb-2 font-semibold text-brand-blue-950">Localização aproximada (opcional)</legend>
         <p className="text-sm text-brand-muted">Coordenadas são sempre arredondadas para ~1km de precisão ao salvar, para preservar a privacidade de representantes pessoa física.</p>
+        <label className="block text-sm font-medium text-brand-blue-950">Link de localização (opcional)
+          <input name="locationLink" type="url" placeholder="Cole aqui o link compartilhado pelo Google Maps ou Apple Maps" className={inputClass} />
+        </label>
+        <p className="text-sm text-brand-muted">Se preenchido, este link substitui a latitude e a longitude digitadas abaixo.</p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <label className="block text-sm font-medium text-brand-blue-950">Latitude
             <input name="approximateLat" type="number" step="any" min={-90} max={90} defaultValue={defaults.approximateLat} className={inputClass} />
@@ -186,9 +187,15 @@ export function PartnerForm({ partnerId, initial, defaultType }: Props) {
 
       <fieldset disabled={saving} className="min-w-0 space-y-4 rounded-lg border border-amber-300 bg-amber-50 p-4">
         <legend className="font-semibold text-amber-900">Dados privados (LGPD)</legend>
-        <p className="text-sm text-amber-800">Documento e observações de consentimento — nunca aparecem em nenhuma consulta pública. Deixe em branco se não se aplicar.</p>
-        <CountedField name="document" label="Documento (opcional)" maxLength={MAX_PARTNER_DOCUMENT_LENGTH} defaultValue={defaults.document} />
-        <CountedField name="consentNotes" label="Observações de consentimento (opcional)" type="textarea" rows={2} maxLength={MAX_PARTNER_CONSENT_NOTES_LENGTH} defaultValue={defaults.consentNotes} />
+        <p className="text-sm text-amber-800">Nunca aparecem em nenhuma consulta pública.</p>
+        <label className="flex min-h-11 items-start gap-2 text-sm font-medium text-brand-blue-950">
+          <input name="documentSigned" type="checkbox" defaultChecked={defaults.documentSigned} className="mt-1 h-4 w-4 accent-brand-orange" />
+          {PARTNER_DOCUMENT_SIGNED_TEXT}
+        </label>
+        <label className="flex min-h-11 items-start gap-2 text-sm font-medium text-brand-blue-950">
+          <input name="lgpdAuthorized" type="checkbox" defaultChecked={defaults.lgpdAuthorized} className="mt-1 h-4 w-4 accent-brand-orange" />
+          {PARTNER_LGPD_AUTHORIZATION_TEXT}
+        </label>
       </fieldset>
 
       <button disabled={saving} className="min-h-11 rounded-lg bg-brand-orange px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-orange-dark disabled:opacity-60">

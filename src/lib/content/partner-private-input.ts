@@ -1,26 +1,20 @@
-import { MAX_PARTNER_CONSENT_NOTES_LENGTH, MAX_PARTNER_DOCUMENT_LENGTH } from './text-limits'
+/**
+ * Documento e observações deixaram de ser texto livre — viraram caixas de
+ * seleção com uma frase fixa cada, decisão do Jose (11/09/2026): mais simples
+ * de preencher e sem ambiguidade sobre o que está sendo declarado.
+ */
+export const PARTNER_DOCUMENT_SIGNED_TEXT = 'Documento físico assinado, arquivado na empresa.'
+export const PARTNER_LGPD_AUTHORIZATION_TEXT =
+  'Representante autoriza a divulgação de seus dados de contato, em conformidade com a LGPD.'
 
 export type PartnerPrivateInput = { document: string | null; consentNotes: string | null }
 
-function optionalText(value: unknown, max: number, fieldLabel: string): string | null {
-  if (value == null) return null
-  if (typeof value !== 'string') throw new Error('Campo de texto inválido.')
-  const text = value.trim() || null
-  if (text && text.length > max) throw new Error(`${fieldLabel} deve ter no máximo ${max} caracteres.`)
-  return text
-}
-
-/**
- * `consentGivenAt` é sempre "agora", definido pelo servidor no momento em
- * que o admin registra o consentimento — nunca aceito do cliente, para não
- * permitir datar retroativamente uma prova de consentimento (LGPD).
- */
 export function parsePartnerPrivateInput(value: unknown): PartnerPrivateInput {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Dados inválidos.')
   const body = value as Record<string, unknown>
 
   return {
-    document: optionalText(body.document, MAX_PARTNER_DOCUMENT_LENGTH, 'Documento'),
-    consentNotes: optionalText(body.consentNotes, MAX_PARTNER_CONSENT_NOTES_LENGTH, 'Observações de consentimento'),
+    document: body.documentSigned === true ? PARTNER_DOCUMENT_SIGNED_TEXT : null,
+    consentNotes: body.lgpdAuthorized === true ? PARTNER_LGPD_AUTHORIZATION_TEXT : null,
   }
 }

@@ -1,4 +1,5 @@
 import { parseSocialLinks, type SocialLinks } from './social-links'
+import { parseLocationLinkInput, resolveLocationLink } from './location-link'
 import { MAX_PARTNER_DESCRIPTION_LENGTH, MAX_PARTNER_NAME_LENGTH } from './text-limits'
 
 export const PARTNER_TYPES = ['REPRESENTATIVE', 'RESELLER'] as const
@@ -13,6 +14,8 @@ export type PartnerTextInput = {
   websiteUrl: string | null
   approximateLat: number | null
   approximateLng: number | null
+  /** Validado aqui (formato/host); a extração de coordenadas em si é assíncrona — feita pela rota via `resolveLocationLink`, nunca aqui. */
+  locationLink: string | null
 }
 
 function parsePartnerType(value: unknown): PartnerType {
@@ -50,12 +53,16 @@ function optionalLink(value: unknown): string | null {
  * roda sempre no servidor, independente do que foi digitado, para não
  * depender de disciplina manual de quem preenche o formulário.
  */
+export function roundApproximateCoordinate(num: number): number {
+  return Math.round(num * 100) / 100
+}
+
 function parseApproximateCoordinate(value: unknown, min: number, max: number, fieldLabel: string): number | null {
   if (value == null || value === '') return null
   const num = typeof value === 'number' ? value : Number(value)
   if (!Number.isFinite(num)) throw new Error(`${fieldLabel} inválida.`)
   if (num < min || num > max) throw new Error(`${fieldLabel} fora do intervalo válido.`)
-  return Math.round(num * 100) / 100
+  return roundApproximateCoordinate(num)
 }
 
 export function parsePartnerInput(value: unknown): PartnerTextInput {
@@ -76,5 +83,28 @@ export function parsePartnerInput(value: unknown): PartnerTextInput {
     websiteUrl: optionalLink(body.websiteUrl),
     approximateLat: parseApproximateCoordinate(body.approximateLat, -90, 90, 'Latitude'),
     approximateLng: parseApproximateCoordinate(body.approximateLng, -180, 180, 'Longitude'),
+    locationLink: parseLocationLinkInput(body.locationLink),
+  }
+}
+
+/**
+ * Quando o admin cola um link de localização, ele sempre vence os campos de
+ * latitude/longitude digitados manualmente — extrai e arredonda as
+ * coordenadas antes de salvar. Sem link, o input volta sem alteração.
+ */
+export async function applyLocationLink(input: PartnerTextInput): Promise<PartnerTextInput> {
+  if (!input.locationLink) return input
+
+  let coordinates: { lat: number; lng: number }
+  try {
+    coordinates = await resolveLocationLink(input.locationLink)
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : 'Não foi possível extrair as coordenadas do link de localização.')
+  }
+
+  return {
+    ...input,
+    approximateLat: roundApproximateCoordinate(coordinates.lat),
+    approximateLng: roundApproximateCoordinate(coordinates.lng),
   }
 }

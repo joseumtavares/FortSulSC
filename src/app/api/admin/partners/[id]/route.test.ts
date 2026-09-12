@@ -46,6 +46,13 @@ describe('PATCH /api/admin/partners/[id]', () => {
     expect(response.status).toBe(200)
     expect(mocks.audit).toHaveBeenCalledWith(expect.objectContaining({ action: 'UPDATE', entityType: 'PARTNER' }))
   })
+
+  it('resolves a pasted location link into rounded coordinates before updating', async () => {
+    const body = { ...validPartner, locationLink: 'https://www.google.com/maps/place/Foo/@-27.595378,-48.548123,15z' }
+    const response = await PATCH(request('PATCH', body), context)
+    expect(response.status).toBe(200)
+    expect(mocks.update).toHaveBeenCalledWith(id, expect.objectContaining({ approximateLat: -27.6, approximateLng: -48.55 }))
+  })
 })
 
 describe('DELETE /api/admin/partners/[id]', () => {

@@ -62,4 +62,18 @@ describe('POST /api/admin/partners', () => {
     expect(response.status).toBe(201)
     expect(mocks.audit).toHaveBeenCalledWith(expect.objectContaining({ action: 'CREATE', entityType: 'PARTNER', entityId: 'p1' }))
   })
+
+  it('resolves a pasted location link into rounded coordinates before creating', async () => {
+    const body = { ...validPartner, locationLink: 'https://www.google.com/maps/place/Foo/@-27.595378,-48.548123,15z' }
+    const response = await POST(request('POST', { body }))
+    expect(response.status).toBe(201)
+    expect(mocks.create).toHaveBeenCalledWith(expect.objectContaining({ approximateLat: -27.6, approximateLng: -48.55 }))
+  })
+
+  it('rejects a location link from an untrusted host', async () => {
+    const body = { ...validPartner, locationLink: 'https://evil.example.com/@-27.5,-48.5' }
+    const response = await POST(request('POST', { body }))
+    expect(response.status).toBe(400)
+    expect(mocks.create).not.toHaveBeenCalled()
+  })
 })

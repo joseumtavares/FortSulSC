@@ -445,6 +445,7 @@ enum RateLimitContext {
   PASSWORD_STEP
   CODE_STEP
   CODE_SEND
+  PARTNERS_READ
 }
 
 model RateLimitCounter {

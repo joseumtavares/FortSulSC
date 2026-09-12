@@ -24,6 +24,7 @@ describe('parsePartnerInput', () => {
       approximateLat: -27.12,
       approximateLng: -49.65,
       socialLinks: { instagram: 'https://instagram.com/fulano' },
+      locationLink: null,
     })
   })
 
@@ -37,6 +38,7 @@ describe('parsePartnerInput', () => {
       approximateLat: null,
       approximateLng: null,
       socialLinks: undefined,
+      locationLink: null,
     })
   })
 
@@ -53,6 +55,8 @@ describe('parsePartnerInput', () => {
     { ...valid, approximateLat: 'north' },
     { ...valid, approximateLat: 200 },
     { ...valid, approximateLng: -200 },
+    { ...valid, locationLink: 'not a url' },
+    { ...valid, locationLink: 'https://evil.example.com/@-27.5,-48.5' },
   ])('rejects invalid input: %j', (input) => {
     expect(() => parsePartnerInput(input)).toThrow()
   })

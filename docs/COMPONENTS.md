@@ -253,21 +253,16 @@ Exemplo futuro:
   - `title`;
   - `description`.
 
-### 3.16 RepresentativeMap
+### 3.16 RepresentativeMapPanel / LeafletMap (RepresentativeMap)
 
-- Status: planejado, não implementado.
-- Objetivo: exibir representantes/revendas em mapa interativo.
-- Quando utilizar: página de representantes e revendas.
-- Quando não utilizar: antes de aprovar dados públicos, privacidade e regras de localização.
-- Tecnologia prevista: Leaflet + OpenStreetMap, na Fase 5 do Plano Mestre.
-- Fluxo previsto: marcadores interativos com popup de dados públicos aprovados e, quando disponível, logotipo público do representante ou da revenda. Dados e logotipos de teste não podem ser promovidos a conteúdo público sem aprovação específica.
-- Regra temporária de CTA: até a página e o mapa interativo serem implementados e aprovados, o botão "Encontrar representante" da `PresenceSection` continua abrindo o diálogo do WhatsApp.
-- Props futuras:
-  - `markers`;
-  - `initialState`;
-  - `filters`;
-  - `onMarkerClick`.
-- Observação de segurança: representantes e revendas permanecem entidades distintas; representantes pessoa física devem usar localização pública aproximada.
+- Status: implementado (`src/components/representatives/RepresentativeMapPanel.tsx`, `LeafletMap.tsx`). Substitui a especificação original de página dedicada mapa-à-esquerda/dados-à-direita (Parte II, 30/08/2026) por um painel deslizante sobre a Home — decisão confirmada por Jose em 12/09/2026 (Plano Mestre) junto com a aprovação dos pontos 1-4 desta fatia.
+- Objetivo: painel modal (`role="dialog"`, foco preso, ESC fecha, `body.dialog-open` trava o scroll — mesmo padrão obrigatório de `WhatsAppDialog`/`ContentArticleDialog`, ver `DESIGN-SYSTEM.md` §13) que desliza da direita cobrindo a tela: metade mapa interativo Leaflet/OpenStreetMap (`LeafletMap`, dynamic import `ssr:false`), metade busca por cidade/nome + lista de resultados + card do representante selecionado (nome, tipo, descrição, municípios atendidos, link `wa.me` próprio do parceiro).
+- Quando utilizar: acionado pelos dois pontos de entrada da `PresenceSection` — botão "Encontrar representante" e clique na imagem estática do mapa (`.map-trigger`).
+- Quando não utilizar: fora do contexto de busca de representante/revenda na Home.
+- Dados: consome `GET /api/public/partners` (primeira rota pública dinâmica do projeto), que expõe só os campos aprovados por Jose em 12/09/2026 — nome, tipo, WhatsApp, site, redes sociais, descrição, coordenada aproximada, logo, municípios atendidos — nunca dados de `PartnerPrivate`. Rate limiting básico por IP (`RateLimitContext.PARTNERS_READ`, 30 req/min, reaproveitando `src/lib/auth/rate-limit.ts`).
+- Geolocalização: `navigator.geolocation` captura a posição do visitante ao abrir (marcador azul "Minha localização"); negada/indisponível cai para a visão padrão da Região Sul, nunca bloqueia o uso do painel. Requer `Permissions-Policy: geolocation=(self)` e `img-src` liberando `https://*.tile.openstreetmap.org` (`src/lib/security/headers.ts`) — sem isso o navegador bloqueia a API e os ladrilhos do mapa nunca carregam (achado desta sessão, verificado e corrigido antes da entrega).
+- Props: `RepresentativeMapPanel({ open, onClose })`; `LeafletMap({ partners, userPosition, selectedPartnerId, onSelectPartner })`.
+- Observação de segurança: coordenadas de representante pessoa física já chegam arredondadas do servidor (`roundApproximateCoordinate`, ver 3.40); a posição do visitante nunca é enviada ao servidor nem logada, fica só no cliente.
 
 ### 3.17 AdminShell
 
@@ -440,14 +435,14 @@ Exemplo futuro:
 ### 3.39 CommercialAreaMunicipalitiesForm
 
 - Status: implementado (`src/components/admin/CommercialAreaMunicipalitiesForm.tsx`).
-- Objetivo: checklist de municípios (até ~1.191 itens, Região Sul) agrupados por estado em `<details>` colapsáveis, com busca client-side. Os checkboxes ficam sempre montados no DOM — a busca só alterna `hidden`, nunca remove item do array (removê-lo desmontava o checkbox e perdia a marcação ao limpar a busca, achado do `ui-reviewer`).
+- Objetivo: busca-e-adiciona de municípios (Região Sul, ~1.191 no total) via combobox acessível (`role="combobox"`/`listbox`/`option`, navegação por setas/Enter/Escape) — digitar filtra por nome, selecionar adiciona um chip removível à lista. Substituiu a versão anterior (grade de checkboxes com `hidden` para filtrar) a pedido do Jose ("os valores confusos" era, na prática, dado de teste vazado em produção — ver Plano Mestre 12/09/2026 — mas a oportunidade foi usada para simplificar a UI); a seleção agora é estado controlado (array de IDs), o que elimina de raiz a classe de bug já corrigida antes (perda de marcação ao filtrar com item desmontado do DOM).
 - Quando utilizar: tela `/admin/commercial-areas/[id]`.
 - Props: `commercialAreaId`, `states` (via `listStatesWithMunicipalities()`, somente leitura), `initialSelectedIds`.
 
 ### 3.40 PartnerForm
 
 - Status: implementado (`src/components/admin/PartnerForm.tsx`).
-- Objetivo: formulário único de parceiro (representante/revenda) combinando dados públicos (tipo, nome, descrição, WhatsApp, site, coordenadas aproximadas, redes sociais) e dados privados LGPD (documento, observações de consentimento) — decisão explícita do Jose de manter os dois no mesmo formulário, com a seção privada destacada visualmente (fundo âmbar). Coordenadas são sempre arredondadas no servidor (`src/lib/content/partner-input.ts`), nunca no cliente. Usa `CountedField` para todo campo com limite de caracteres.
+- Objetivo: formulário único de parceiro (representante/revenda) combinando dados públicos (tipo, nome, descrição, WhatsApp, site, coordenadas aproximadas — com campo opcional de link de localização do Google/Apple Maps, que sempre vence lat/lng digitados manualmente — e redes sociais) e dados privados LGPD (duas caixas de seleção com frase fixa: documento físico assinado e autorização de divulgação de dados, ver `src/lib/content/partner-private-input.ts`) — decisão explícita do Jose de manter os dois no mesmo formulário, com a seção privada destacada visualmente (fundo âmbar). Coordenadas são sempre arredondadas no servidor (`src/lib/content/partner-input.ts`), nunca no cliente; a extração de coordenadas do link também é só servidor (`src/lib/content/location-link.ts`, allowlist de host, segue redirect de link curto uma única vez). Usa `CountedField` para todo campo com limite de caracteres.
 - Quando utilizar: telas `/admin/partners/novo`, `/admin/partners/[id]`.
 - Props: `partnerId?`, `initial?`, `defaultType?` (`'REPRESENTATIVE' | 'RESELLER'`, usado só na criação).
 
