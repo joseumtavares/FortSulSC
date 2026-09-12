@@ -5,6 +5,9 @@ import dynamic from 'next/dynamic'
 import type { PublicPartner } from '@/lib/content/partner-public-repository'
 import { buildPartnerWhatsAppLink } from '@/lib/content/partner-whatsapp'
 import { buildFortSulSearchWhatsAppLink } from '@/lib/content/fortsul-whatsapp'
+import { searchMunicipios } from '@/lib/content/regiao-sul-municipios'
+
+const CITY_SUGGESTIONS_LIMIT = 6
 
 const LeafletMap = dynamic(() => import('./LeafletMap').then((module_) => module_.LeafletMap), { ssr: false })
 
@@ -59,6 +62,48 @@ function NoResultsFallback({ query, open }: { query: string; open: boolean }) {
       <a className="button button-sm" href={buildFortSulSearchWhatsAppLink(query)} target="_blank" rel="noopener noreferrer" tabIndex={open ? 0 : -1}>
         Falar no WhatsApp
       </a>
+    </div>
+  )
+}
+
+function CitySearchBox({ value, onChange, open }: { value: string; onChange: (value: string) => void; open: boolean }) {
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const suggestions = useMemo(() => (showSuggestions ? searchMunicipios(value, CITY_SUGGESTIONS_LIMIT) : []), [value, showSuggestions])
+
+  function selectSuggestion(name: string) {
+    onChange(name)
+    setShowSuggestions(false)
+  }
+
+  return (
+    <div className="rep-search-wrap">
+      <input
+        id="rep-search"
+        type="search"
+        className="rep-search"
+        placeholder="Buscar por cidade ou nome"
+        value={value}
+        onChange={(event) => { onChange(event.target.value); setShowSuggestions(true) }}
+        onFocus={() => setShowSuggestions(true)}
+        onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+        role="combobox"
+        aria-expanded={suggestions.length > 0}
+        aria-controls="rep-city-suggestions"
+        autoComplete="off"
+        tabIndex={open ? 0 : -1}
+      />
+      {suggestions.length > 0 && (
+        <ul id="rep-city-suggestions" role="listbox" aria-label="Cidades da Região Sul" className="rep-suggestions">
+          {suggestions.map((municipio) => (
+            <li key={`${municipio.name}-${municipio.uf}`} role="option" aria-selected={false}>
+              <button type="button" className="rep-suggestion-button" onMouseDown={() => selectSuggestion(municipio.name)} tabIndex={open ? 0 : -1}>
+                <span>{municipio.name}</span>
+                <span>{municipio.uf}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
@@ -180,15 +225,7 @@ export function RepresentativeMapPanel({ open, onClose }: { open: boolean; onClo
             <h2 id="rep-panel-title">Encontre um representante</h2>
             <p className="rep-geo-status">{geoStatusMessage(geoStatus)}</p>
             <label className="sr-only" htmlFor="rep-search">Buscar por cidade ou representante</label>
-            <input
-              id="rep-search"
-              type="search"
-              className="rep-search"
-              placeholder="Buscar por cidade ou nome"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              tabIndex={open ? 0 : -1}
-            />
+            <CitySearchBox value={search} onChange={setSearch} open={open} />
             {loadError && <p className="rep-empty">Não foi possível carregar os representantes agora.</p>}
             {!loadError && results.length === 0 && (searchTerm
               ? <NoResultsFallback query={search.trim()} open={open} />

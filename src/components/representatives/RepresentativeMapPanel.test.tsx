@@ -59,6 +59,28 @@ describe('RepresentativeMapPanel', () => {
     expect(screen.queryByText('Fulano de Tal')).toBeNull()
   })
 
+  it('suggests real Região Sul municipality names while typing', async () => {
+    const user = userEvent.setup()
+    render(<RepresentativeMapPanel open onClose={vi.fn()} />)
+    await screen.findByText('Fulano de Tal')
+
+    await user.type(screen.getByLabelText('Buscar por cidade ou representante'), 'orlea')
+
+    expect(await screen.findByRole('option', { name: /Orleans/ })).toBeTruthy()
+  })
+
+  it('fills the search box when a city suggestion is selected', async () => {
+    const user = userEvent.setup()
+    render(<RepresentativeMapPanel open onClose={vi.fn()} />)
+    await screen.findByText('Fulano de Tal')
+
+    const input = screen.getByLabelText('Buscar por cidade ou representante') as HTMLInputElement
+    await user.type(input, 'orlea')
+    await user.click(await screen.findByRole('button', { name: /Orleans/ }))
+
+    expect(input.value).toBe('Orleans')
+  })
+
   it('shows the representative card with a WhatsApp link when a result is selected', async () => {
     const user = userEvent.setup()
     render(<RepresentativeMapPanel open onClose={vi.fn()} />)
