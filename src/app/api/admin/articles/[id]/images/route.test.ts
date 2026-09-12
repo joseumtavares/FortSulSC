@@ -55,7 +55,7 @@ function callRoute(formData: FormData) {
 
 function buildFormData(overrides: Partial<{ file: File; alt: string }> = {}): FormData {
   const formData = new FormData()
-  const file = overrides.file ?? new File([new Uint8Array([1, 2, 3])], 'foto.jpg', { type: 'image/jpeg' })
+  const file = overrides.file ?? new File([new Uint8Array([0xff, 0xd8, 0xff])], 'foto.jpg', { type: 'image/jpeg' })
   formData.set('file', file)
   formData.set('alt', overrides.alt ?? 'Foto do artigo')
   return formData
@@ -111,6 +111,13 @@ describe('POST /api/admin/articles/[id]/images', () => {
   it('rejeita sem texto alternativo', async () => {
     const response = await callRoute(buildFormData({ alt: '' }))
     expect(response.status).toBe(400)
+  })
+
+  it('rejeita arquivo cujo conteúdo não corresponde ao tipo declarado', async () => {
+    const file = new File([new Uint8Array([1, 2, 3])], 'foto.jpg', { type: 'image/jpeg' })
+    const response = await callRoute(buildFormData({ file }))
+    expect(response.status).toBe(400)
+    expect(storageUpload).not.toHaveBeenCalled()
   })
 
   it('envia a imagem, cria o registro e audita como UPDATE', async () => {

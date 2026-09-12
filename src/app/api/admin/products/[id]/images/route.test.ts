@@ -23,9 +23,17 @@ beforeEach(() => {
   mocks.create.mockResolvedValue({ id: 'img-1', imageUrl: 'https://example.com/new.webp', altText: 'Alt', role: 'GALLERY' })
 })
 
-function uploadForm({ type = 'image/webp', size = 5, alt = 'Imagem', role }: { type?: string; size?: number; alt?: string; role?: string } = {}) {
+function fileBytes(type: string, size: number): Uint8Array<ArrayBuffer> {
+  const bytes = new Uint8Array(new ArrayBuffer(size))
+  if (type === 'image/webp' && size >= 12) bytes.set([0x52, 0x49, 0x46, 0x46, 0, 0, 0, 0, 0x57, 0x45, 0x42, 0x50])
+  else if (type === 'image/jpeg' && size >= 3) bytes.set([0xff, 0xd8, 0xff])
+  else if (type === 'image/png' && size >= 8) bytes.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
+  return bytes
+}
+
+function uploadForm({ type = 'image/webp', size = 16, alt = 'Imagem', role }: { type?: string; size?: number; alt?: string; role?: string } = {}) {
   const form = new FormData()
-  form.set('file', new File([new Uint8Array(size)], 'produto.webp', { type }))
+  form.set('file', new File([fileBytes(type, size)], 'produto.webp', { type }))
   form.set('alt', alt)
   if (role) form.set('role', role)
   return form
@@ -47,6 +55,15 @@ describe('POST /api/admin/products/[id]/images', () => {
   it('returns 404 for a missing product', async () => {
     mocks.find.mockResolvedValue(null)
     expect((await POST(request(uploadForm()), context)).status).toBe(404)
+  })
+
+  it('rejects a file whose content does not match the declared type', async () => {
+    const form = new FormData()
+    form.set('file', new File([new Uint8Array(16)], 'produto.webp', { type: 'image/webp' }))
+    form.set('alt', 'Imagem')
+    const response = await POST(request(form), context)
+    expect(response.status).toBe(400)
+    expect(mocks.upload).not.toHaveBeenCalled()
   })
 
   it('rejects uploads once the product reaches the image limit', async () => {

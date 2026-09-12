@@ -22,10 +22,18 @@ function request(method: string, body?: BodyInit, json = false) {
   return new NextRequest('http://localhost:3000/api/admin/banners', { method, body, headers: json ? { 'content-type': 'application/json' } : undefined })
 }
 import { POST } from './route'
-function uploadForm(type = 'image/webp', size = 5) {
+function fileBytes(type: string, size: number): Uint8Array<ArrayBuffer> {
+  const bytes = new Uint8Array(new ArrayBuffer(size))
+  if (type === 'image/webp' && size >= 12) bytes.set([0x52, 0x49, 0x46, 0x46, 0, 0, 0, 0, 0x57, 0x45, 0x42, 0x50])
+  else if (type === 'image/jpeg' && size >= 3) bytes.set([0xff, 0xd8, 0xff])
+  else if (type === 'image/png' && size >= 8) bytes.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
+  return bytes
+}
+
+function uploadForm(type = 'image/webp', size = 16) {
   const form = new FormData()
-  
-  form.set('file', new File([new Uint8Array(size)], 'banner.webp', { type }))
+
+  form.set('file', new File([fileBytes(type, size)], 'banner.webp', { type }))
   return form
 }
 describe('banner upload', () => {

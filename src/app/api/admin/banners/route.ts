@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 async function readInput(request: NextRequest) {
   try {
     const form = await request.formData()
-    return { text: parseBannerInput(Object.fromEntries(form)), file: parseBannerFile(form) }
+    return { text: parseBannerInput(Object.fromEntries(form)), file: await parseBannerFile(form) }
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Dados inválidos.' }, { status: 400 })
   }

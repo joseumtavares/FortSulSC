@@ -9,6 +9,7 @@ import {
 } from '@/lib/content/article-image-repository'
 import { recordAuditEvent } from '@/lib/audit/audit-log-repository'
 import { getImageStorage } from '@/lib/storage/image-storage'
+import { matchesDeclaredImageType } from '@/lib/storage/image-signature'
 import { logger } from '@/lib/logger'
 
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024
@@ -22,9 +23,9 @@ function errorResponse(message: string, status: number): NextResponse {
   return NextResponse.json({ error: message }, { status })
 }
 
-type ParsedUpload = { file: File; alt: string }
+type ParsedUpload = { file: File; buffer: Buffer; alt: string }
 
-function parseUploadForm(formData: FormData): ParsedUpload | string {
+async function parseUploadForm(formData: FormData): Promise<ParsedUpload | string> {
   const file = formData.get('file')
   if (!(file instanceof File) || file.size === 0) return 'Arquivo obrigatório.'
 
@@ -34,15 +35,17 @@ function parseUploadForm(formData: FormData): ParsedUpload | string {
   if (!ALLOWED_MIME_EXTENSIONS[file.type]) return 'Tipo de arquivo não suportado. Use JPEG, PNG ou WEBP.'
   if (file.size > MAX_FILE_SIZE_BYTES) return 'Arquivo maior que 5 MB.'
 
-  return { file, alt: alt.trim() }
+  const buffer = Buffer.from(await file.arrayBuffer())
+  if (!matchesDeclaredImageType(buffer, file.type)) return 'Arquivo não corresponde ao tipo declarado.'
+
+  return { file, buffer, alt: alt.trim() }
 }
 
 async function uploadArticleImage(articleId: string, parsed: ParsedUpload) {
-  const buffer = Buffer.from(await parsed.file.arrayBuffer())
   const extension = ALLOWED_MIME_EXTENSIONS[parsed.file.type]
   const key = `articles/${articleId}/gallery/${randomUUID()}.${extension}`
 
-  const uploaded = await getImageStorage().upload({ key, body: buffer, contentType: parsed.file.type })
+  const uploaded = await getImageStorage().upload({ key, body: parsed.buffer, contentType: parsed.file.type })
 
   return createArticleImage({
     articleId,
@@ -68,7 +71,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       return errorResponse(`Limite de ${MAX_ARTICLE_IMAGES} imagens por artigo atingido.`, 400)
     }
 
-    const parsed = parseUploadForm(await request.formData())
+    const parsed = await parseUploadForm(await request.formData())
     if (typeof parsed === 'string') return errorResponse(parsed, 400)
 
     const image = await uploadArticleImage(id, parsed)

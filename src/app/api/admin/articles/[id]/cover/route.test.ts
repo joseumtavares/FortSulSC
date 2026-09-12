@@ -39,7 +39,7 @@ function buildRequest(formData: FormData): NextRequest {
 
 function buildFormData(overrides: { file?: File | null; alt?: string | null } = {}): FormData {
   const formData = new FormData()
-  const file = overrides.file === undefined ? new File([new Uint8Array([1, 2, 3])], 'capa.jpg', { type: 'image/jpeg' }) : overrides.file
+  const file = overrides.file === undefined ? new File([new Uint8Array([0xff, 0xd8, 0xff])], 'capa.jpg', { type: 'image/jpeg' }) : overrides.file
   const alt = overrides.alt === undefined ? 'Descrição da capa' : overrides.alt
 
   if (file) formData.set('file', file)
@@ -110,6 +110,12 @@ describe('POST /api/admin/articles/[id]/cover', () => {
 
   it('rejeita tipo de arquivo não suportado', async () => {
     const file = new File([new Uint8Array([1])], 'capa.gif', { type: 'image/gif' })
+    const response = await callRoute(buildFormData({ file }))
+    expect(response.status).toBe(400)
+  })
+
+  it('rejeita arquivo cujo conteúdo não corresponde ao tipo declarado', async () => {
+    const file = new File([new Uint8Array([1, 2, 3])], 'capa.jpg', { type: 'image/jpeg' })
     const response = await callRoute(buildFormData({ file }))
     expect(response.status).toBe(400)
   })

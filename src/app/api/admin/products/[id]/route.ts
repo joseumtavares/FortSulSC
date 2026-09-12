@@ -32,7 +32,7 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
 }
 
 export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const guard = await requireAdminRequest(request)
+  const guard = await requireAdminRequest(request, ['ADMIN'])
   if (!guard.ok) return guard.response
   try {
     const { id } = await context.params

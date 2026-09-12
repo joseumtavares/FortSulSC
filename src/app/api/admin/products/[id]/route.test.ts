@@ -62,4 +62,9 @@ describe('DELETE /api/admin/products/[id]', () => {
     expect(mocks.audit).toHaveBeenCalledWith(expect.objectContaining({ action: 'DELETE', entityType: 'PRODUCT' }))
     expect(mocks.revalidatePath).toHaveBeenCalledWith('/')
   })
+
+  it('restricts deletion to ADMIN', async () => {
+    await DELETE(request('DELETE'), context)
+    expect(mocks.guard).toHaveBeenCalledWith(expect.anything(), ['ADMIN'])
+  })
 })

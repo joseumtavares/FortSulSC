@@ -14,7 +14,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     const banner = await findBannerForAdmin(id)
     if (!banner) return NextResponse.json({ error: 'Banner não encontrado.' }, { status: 404 })
     let file
-    try { file = parseBannerFile(await request.formData()) } catch {
+    try { file = await parseBannerFile(await request.formData()) } catch {
       return NextResponse.json({ error: 'Envie uma imagem JPEG, PNG ou WEBP de até 5 MB.' }, { status: 400 })
     }
     const image = await uploadBannerImage(file)

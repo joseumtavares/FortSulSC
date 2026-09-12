@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const guard = await requireAdminRequest(request)
+  const guard = await requireAdminRequest(request, ['ADMIN'])
   if (!guard.ok) return guard.response
   let input
   try { input = parseInstitutionalSettings(await readJsonObject(request)) } catch (error) {

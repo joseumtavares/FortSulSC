@@ -29,6 +29,10 @@ describe('institutional settings', () => {
     expect(mocks.upsert).toHaveBeenCalledTimes(2)
     expect(mocks.audit).toHaveBeenCalledWith({ adminUserId: 'admin-1', action: 'UPDATE', entityType: 'INSTITUTIONAL_SETTINGS', entityId: 'settings-1', result: 'SUCCESS' })
   })
+  it('restricts editing to ADMIN', async () => {
+    await PUT(request(valid))
+    expect(mocks.guard).toHaveBeenCalledWith(expect.anything(), ['ADMIN'])
+  })
   it('does not allow overwriting singleton identity', async () => {
     await PUT(request({ ...valid, id: 'injected', singletonKey: 2 }))
     expect(mocks.upsert).toHaveBeenCalledWith({ ...valid, phone: null, cnpj: null, address: null, socialLinks: undefined })
