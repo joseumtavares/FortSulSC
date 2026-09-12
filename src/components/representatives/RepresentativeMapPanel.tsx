@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import type { PublicPartner } from '@/lib/content/partner-public-repository'
 import { buildPartnerWhatsAppLink } from '@/lib/content/partner-whatsapp'
+import { buildFortSulSearchWhatsAppLink } from '@/lib/content/fortsul-whatsapp'
 
 const LeafletMap = dynamic(() => import('./LeafletMap').then((module_) => module_.LeafletMap), { ssr: false })
 
@@ -47,6 +48,19 @@ function RepresentativeCard({ partner, open }: { partner: PublicPartner; open: b
 
 function matchesSearch(partner: PublicPartner, term: string): boolean {
   return partner.name.toLowerCase().includes(term) || partner.municipalities.some((city) => city.toLowerCase().includes(term))
+}
+
+/** Sem resultado para uma busca ativa: encaminha para o contato geral da FortSul, com a busca na mensagem. */
+function NoResultsFallback({ query, open }: { query: string; open: boolean }) {
+  return (
+    <div className="rep-card">
+      <h3>Ainda não temos representante em &ldquo;{query}&rdquo;</h3>
+      <p>Fale direto com a FortSul — vamos te ajudar a encontrar a solução certa.</p>
+      <a className="button button-sm" href={buildFortSulSearchWhatsAppLink(query)} target="_blank" rel="noopener noreferrer" tabIndex={open ? 0 : -1}>
+        Falar no WhatsApp
+      </a>
+    </div>
+  )
 }
 
 const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -160,6 +174,9 @@ export function RepresentativeMapPanel({ open, onClose }: { open: boolean; onClo
             {open && <LeafletMap partners={partners} userPosition={userPosition} selectedPartnerId={selectedId} onSelectPartner={setSelectedId} />}
           </div>
           <div className="rep-panel-side">
+            <button type="button" className="rep-panel-back" onClick={onClose} tabIndex={open ? 0 : -1}>
+              <span aria-hidden="true">←</span> Voltar ao site
+            </button>
             <h2 id="rep-panel-title">Encontre um representante</h2>
             <p className="rep-geo-status">{geoStatusMessage(geoStatus)}</p>
             <label className="sr-only" htmlFor="rep-search">Buscar por cidade ou representante</label>
@@ -173,7 +190,9 @@ export function RepresentativeMapPanel({ open, onClose }: { open: boolean; onClo
               tabIndex={open ? 0 : -1}
             />
             {loadError && <p className="rep-empty">Não foi possível carregar os representantes agora.</p>}
-            {!loadError && results.length === 0 && <p className="rep-empty">Nenhum representante encontrado.</p>}
+            {!loadError && results.length === 0 && (searchTerm
+              ? <NoResultsFallback query={search.trim()} open={open} />
+              : <p className="rep-empty">Nenhum representante encontrado.</p>)}
             <ul className="rep-results">
               {results.map((partner) => (
                 <li key={partner.id}>

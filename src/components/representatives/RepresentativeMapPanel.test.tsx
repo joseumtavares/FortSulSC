@@ -79,6 +79,16 @@ describe('RepresentativeMapPanel', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
+  it('closes when "Voltar ao site" is clicked (redundant close affordance for mobile)', async () => {
+    const user = userEvent.setup()
+    const onClose = vi.fn()
+    render(<RepresentativeMapPanel open onClose={onClose} />)
+    await waitFor(() => expect(fetch).toHaveBeenCalled())
+
+    await user.click(screen.getByRole('button', { name: /Voltar ao site/ }))
+    expect(onClose).toHaveBeenCalled()
+  })
+
   it('closes on Escape', async () => {
     const user = userEvent.setup()
     const onClose = vi.fn()
@@ -87,6 +97,27 @@ describe('RepresentativeMapPanel', () => {
 
     await user.keyboard('{Escape}')
     expect(onClose).toHaveBeenCalled()
+  })
+
+  it('offers the FortSul WhatsApp contact, with the search term in the message, when a search finds nothing', async () => {
+    const user = userEvent.setup()
+    render(<RepresentativeMapPanel open onClose={vi.fn()} />)
+    await screen.findByText('Fulano de Tal')
+
+    await user.type(screen.getByLabelText('Buscar por cidade ou representante'), 'Blumenau')
+
+    expect(screen.getByText('Ainda não temos representante em “Blumenau”')).toBeTruthy()
+    const whatsappLink = screen.getByRole('link', { name: 'Falar no WhatsApp' }) as HTMLAnchorElement
+    expect(whatsappLink.href).not.toContain('5548999990000')
+    const message = decodeURIComponent(new URL(whatsappLink.href).searchParams.get('text') ?? '')
+    expect(message).toContain('Blumenau')
+  })
+
+  it('shows a plain empty state (no WhatsApp fallback) when there is no active search', async () => {
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify([]), { status: 200 }))
+    render(<RepresentativeMapPanel open onClose={vi.fn()} />)
+    expect(await screen.findByText('Nenhum representante encontrado.')).toBeTruthy()
+    expect(screen.queryByRole('link', { name: 'Falar no WhatsApp' })).toBeNull()
   })
 
   it('shows an empty state when the request fails', async () => {

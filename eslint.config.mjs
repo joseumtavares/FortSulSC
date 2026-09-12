@@ -121,6 +121,7 @@ export default defineConfig([
   },
   globalIgnores([
     ".agents/**",
+    ".claude/**",
     ".github/agents/**",
     ".github/hooks/**",
     ".github/skills/**",

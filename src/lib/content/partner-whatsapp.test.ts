@@ -7,9 +7,9 @@ describe('buildPartnerWhatsAppLink', () => {
     expect(link.startsWith('https://wa.me/5548999990000?text=')).toBe(true)
   })
 
-  it('includes the partner name in the message', () => {
+  it('greets the partner by name and asks for more information', () => {
     const link = buildPartnerWhatsAppLink({ name: 'Fulano de Tal', whatsapp: '5548999990000' })
     const message = decodeURIComponent(new URL(link).searchParams.get('text') ?? '')
-    expect(message).toContain('Fulano de Tal')
+    expect(message).toBe('Olá, Fulano de Tal! Encontrei seu contato no site da FortSul, gostaria de mais informações.')
   })
 })

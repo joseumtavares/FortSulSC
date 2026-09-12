@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth/config'
 import { AdminShell } from '@/components/admin/AdminShell'
 import { LogoutButton } from '@/components/admin/LogoutButton'
+import { DashboardStatCards } from '@/components/admin/DashboardStatCards'
+import { getDashboardCounts } from '@/lib/content/dashboard-repository'
 import '../admin-tailwind.css'
 
 export const metadata: Metadata = {
@@ -15,6 +17,7 @@ export default async function AdminDashboardPage() {
   if (!session?.user) {
     redirect('/admin/login')
   }
+  const counts = await getDashboardCounts()
 
   return (
     <AdminShell>
@@ -27,7 +30,9 @@ export default async function AdminDashboardPage() {
           <LogoutButton />
         </header>
 
-        <div className="max-w-md rounded-brand border border-brand-line bg-white p-6 shadow-sm">
+        <DashboardStatCards counts={counts} />
+
+        <div className="mt-8 max-w-md rounded-brand border border-brand-line bg-white p-6 shadow-sm">
           <h2 className="mb-4 text-base font-semibold text-brand-blue-950">Sessão autenticada</h2>
           <dl className="space-y-3 text-sm">
             <div>

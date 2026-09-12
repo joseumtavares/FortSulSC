@@ -260,9 +260,13 @@ Exemplo futuro:
 - Quando utilizar: acionado pelos dois pontos de entrada da `PresenceSection` — botão "Encontrar representante" e clique na imagem estática do mapa (`.map-trigger`).
 - Quando não utilizar: fora do contexto de busca de representante/revenda na Home.
 - Dados: consome `GET /api/public/partners` (primeira rota pública dinâmica do projeto), que expõe só os campos aprovados por Jose em 12/09/2026 — nome, tipo, WhatsApp, site, redes sociais, descrição, coordenada aproximada, logo, municípios atendidos — nunca dados de `PartnerPrivate`. Rate limiting básico por IP (`RateLimitContext.PARTNERS_READ`, 30 req/min, reaproveitando `src/lib/auth/rate-limit.ts`).
-- Geolocalização: `navigator.geolocation` captura a posição do visitante ao abrir (marcador azul "Minha localização"); negada/indisponível cai para a visão padrão da Região Sul, nunca bloqueia o uso do painel. Requer `Permissions-Policy: geolocation=(self)` e `img-src` liberando `https://*.tile.openstreetmap.org` (`src/lib/security/headers.ts`) — sem isso o navegador bloqueia a API e os ladrilhos do mapa nunca carregam (achado desta sessão, verificado e corrigido antes da entrega).
+- Geolocalização: `navigator.geolocation` captura a posição do visitante ao abrir (marcador azul "Minha localização"); negada/indisponível cai para a visão padrão da Região Sul, nunca bloqueia o uso do painel. Requer `Permissions-Policy: geolocation=(self)` e `img-src` liberando `https://*.tile.openstreetmap.org` (`src/lib/security/headers.ts`) — sem isso o navegador bloqueia a API e os ladrilhos do mapa nunca carregam (achado desta sessão, verificado e corrigido antes da entrega). Ao resolver a localização sem nenhum parceiro selecionado, o mapa enquadra o visitante junto dos 5 parceiros mais próximos (`nearestPartners`/`haversineKm`, `src/lib/content/partner-geo.ts`, `map.flyToBounds`) em vez de só dar zoom fechado na posição dele, que podia deixar todo marcador fora da tela — achado do Jose testando em produção.
+- Marcadores: pin em SVG (não mais um círculo simples), laranja para parceiro e azul para "Minha localização" — cores da marca, pedido do Jose. O popup do marcador mostra só "Representante autorizado"/"Revendedor autorizado" (nunca o nome), já que os dados completos aparecem ao lado quando selecionado.
+- Fechar no mobile: além do "×" flutuante (`.rep-panel-close`), há um botão de texto redundante "← Voltar ao site" no topo do conteúdo do painel lateral (`.rep-panel-back`, alvo de toque de 44px) — Jose reportou não conseguir fechar o mapa no celular; em vez de depender de uma única causa-raiz de viewport não reproduzível, a segunda opção de fechar garante uma saída sempre no fluxo normal do documento. (Uma tentativa de usar `env(safe-area-inset-*)` no "×" foi revertida: só tem efeito real com `viewport-fit=cover` na tag de viewport, uma mudança de escopo maior — todo o site, não só o painel — que exigiria auditar outros elementos fixos/absolutos quanto a notch antes de ativar; fora do escopo deste lote de correções.)
+- Busca sem resultado: se a busca ativa (cidade ou nome) não encontra ninguém, aparece um card de fallback com o contato geral da FortSul e um link de WhatsApp (`buildFortSulSearchWhatsAppLink`, `src/lib/content/fortsul-whatsapp.ts`) já com o termo pesquisado na mensagem — pedido do Jose. Sem busca ativa (lista vazia por falta de dado), continua a mensagem simples "Nenhum representante encontrado."
 - Props: `RepresentativeMapPanel({ open, onClose })`; `LeafletMap({ partners, userPosition, selectedPartnerId, onSelectPartner })`.
 - Observação de segurança: coordenadas de representante pessoa física já chegam arredondadas do servidor (`roundApproximateCoordinate`, ver 3.40); a posição do visitante nunca é enviada ao servidor nem logada, fica só no cliente.
+- Pendência operacional (não é bug de código): busca por cidade só encontra parceiros cujo(s) área(s) comercial(is) já têm município vinculado via `CommercialAreaMunicipalitiesForm` no admin — verificado em produção que o único parceiro real ainda não tem nenhum município vinculado à sua área comercial, por isso a busca por cidade não retorna nada hoje (a busca por nome funciona normalmente). Precisa de cadastro no admin, não de correção de código.
 
 ### 3.17 AdminShell
 
@@ -460,12 +464,21 @@ Exemplo futuro:
 - Quando utilizar: tela `/admin/partners/[id]`.
 - Props: `PartnerCommercialAreasForm({ partnerId, commercialAreas, initialSelectedIds })`; `PartnerLogoForm({ partnerId, partnerName, logoUrl })`.
 
-### 3.43 PartnersTable / PartnerTypeTabs
+### 3.43 PartnersTable
 
-- Status: implementado (`src/components/admin/PartnersTable.tsx`, `PartnerTypeTabs.tsx`).
-- Objetivo: `PartnersTable` é a tabela de listagem (mesmo padrão visual de `products`/`categories`). `PartnerTypeTabs` são links de navegação entre `/admin/partners/representantes` e `/admin/partners/revendas` (páginas distintas, não troca de conteúdo na mesma tela) — por isso usa `aria-current="page"` como `AdminSidebar`, não `role="tablist"`/`role="tab"` (esse padrão é reservado a abas que trocam conteúdo na mesma página, ver `AboutTabs`/`CategoryTabs`).
-- Quando utilizar: telas `/admin/partners/representantes`, `/admin/partners/revendas`.
-- Props: `PartnersTable({ partners, emptyLabel })`; `PartnerTypeTabs({ activeHref })`.
+- Status: implementado (`src/components/admin/PartnersTable.tsx`).
+- Objetivo: tabela de listagem de parceiros (mesmo padrão visual de `products`/`categories`). Representantes e revendas passaram a ser cadastrados e listados em uma única área — decisão de Jose (12/09/2026, Plano Mestre): não há motivo para duas telas com formulário idêntico, o único diferencial é o campo "Tipo" do próprio `PartnerForm`. A tabela ganhou uma coluna "Tipo" (Representante/Revenda) para diferenciar as linhas na lista mista. O componente `PartnerTypeTabs` (navegação entre as duas páginas antigas) foi removido junto com as rotas `/admin/partners/representantes` e `/admin/partners/revendas`. Virou `'use client'` para ganhar um filtro local (`role="group"`, três botões `aria-pressed` — Todos/Representantes/Revendas, mutuamente exclusivos) sobre a lista já carregada — achado do `ui-reviewer`: sem filtro, uma lista mista de dezenas de parceiros fica difícil de escanear para uma tarefa comum ("ver só as revendas").
+- Quando utilizar: tela `/admin/partners`.
+- Props: `PartnersTable({ partners, emptyLabel })` — `partners` agora inclui `type`.
+
+### 3.44 DashboardStatCards
+
+- Status: implementado (`src/components/admin/DashboardStatCards.tsx`).
+- Objetivo: cards de contagem no topo do dashboard (`/admin`) — produtos, categorias, representantes, revendas, banners e artigos cadastrados. Pedido de Jose (12/09/2026, Plano Mestre): saber de relance quanto conteúdo existe em cada área, sem abrir cada tela. Contagens totais (`prisma.<model>.count()`, `src/lib/content/dashboard-repository.ts`), não só ativos.
+- Quando utilizar: tela `/admin` (dashboard).
+- Props: `DashboardStatCards({ counts })`, `counts: DashboardCounts`.
+- Nota de acessibilidade: cada card é um `<div>` com o ícone fora do agrupamento `dt`/`dd` e um `<dl>` próprio só com `dt`+`dd` dentro — colocar o ícone dentro do `<dl>` (versão original) violava o content model do elemento (achado do `ui-reviewer`).
+- Pendente (mesma decisão de Jose, ainda não implementado): gráfico de interações no site e calendário — dependem de definir a fonte de dado (não existe hoje nenhuma tabela de analytics/interação no schema), ver Plano Mestre.
 
 ## 4. Regra para novos componentes
 
