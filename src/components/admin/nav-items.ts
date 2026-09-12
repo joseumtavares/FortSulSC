@@ -24,9 +24,9 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
   { key: 'produtos', label: 'Produtos', icon: Package, href: '/admin/products' },
   { key: 'categorias', label: 'Categorias', icon: Boxes, href: '/admin/categories' },
-  { key: 'representantes', label: 'Representantes', icon: Users, badge: 3 },
-  { key: 'revendas', label: 'Revendas', icon: Store },
-  { key: 'regioes', label: 'Regiões', icon: MapPin },
+  { key: 'representantes', label: 'Representantes', icon: Users, href: '/admin/partners/representantes' },
+  { key: 'revendas', label: 'Revendas', icon: Store, href: '/admin/partners/revendas' },
+  { key: 'regioes', label: 'Áreas comerciais', icon: MapPin, href: '/admin/commercial-areas' },
   { key: 'artigos', label: 'Novidades e dicas', icon: Newspaper, href: '/admin/articles' },
   { key: 'banners', label: 'Banners', icon: ImageIcon, href: '/admin/banners' },
 ]

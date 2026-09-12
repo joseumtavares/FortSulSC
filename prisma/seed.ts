@@ -1,6 +1,45 @@
 import { PrismaClient } from '@prisma/client'
+import { slugify } from '../src/lib/content/slug'
+import geografiaSul from './data/geografia-sul.json'
 
 const prisma = new PrismaClient()
+
+/**
+ * Semeia a hierarquia geográfica oficial do IBGE (Região Sul: PR/SC/RS,
+ * ~1.191 municípios) — dado de referência, não editável pelo painel (ver
+ * `docs/Proposta_Fase4_Fatia_Representantes_Regioes.md`, seção 3). Rodar de
+ * novo é seguro: região/estados usam upsert por `ibgeCode`, municípios usam
+ * `createMany` com `skipDuplicates` (não há necessidade de atualizar nome de
+ * município já existente — geografia oficial não muda).
+ */
+async function seedGeography() {
+  const region = await prisma.region.upsert({
+    where: { ibgeCode: geografiaSul.region.ibgeCode },
+    update: {},
+    create: { name: geografiaSul.region.name, slug: slugify(geografiaSul.region.name), ibgeCode: geografiaSul.region.ibgeCode },
+  })
+
+  for (const stateData of geografiaSul.states) {
+    const state = await prisma.state.upsert({
+      where: { ibgeCode: stateData.ibgeCode },
+      update: {},
+      create: { name: stateData.name, uf: stateData.uf, slug: slugify(stateData.name), ibgeCode: stateData.ibgeCode, regionId: region.id },
+    })
+
+    await prisma.municipality.createMany({
+      data: stateData.municipalities.map((municipality) => ({
+        name: municipality.name,
+        slug: slugify(municipality.name),
+        ibgeCode: municipality.ibgeCode,
+        stateId: state.id,
+      })),
+      skipDuplicates: true,
+    })
+  }
+
+  const municipalityCount = await prisma.municipality.count()
+  console.log(`Geografia da Região Sul semeada (${municipalityCount} municípios no total).`)
+}
 
 const categories = [
   { name: 'Fumicultura', slug: 'fumicultura', order: 1 },
@@ -67,6 +106,7 @@ async function main() {
       }),
     ),
   )
+  await seedGeography()
   await seedInitialAdmin()
 }
 

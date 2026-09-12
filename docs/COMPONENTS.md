@@ -423,6 +423,55 @@ Exemplo futuro:
 - Quando utilizar: tela `/admin/products/[id]`.
 - Props: `productId`, `testimonials`.
 
+### 3.37 CharCounter / CountedField
+
+- Status: implementado (`src/components/admin/CharCounter.tsx`, `src/components/admin/CountedField.tsx`).
+- Objetivo: padronizar o contador de caracteres ("N/máximo caracteres", destacado em vermelho ao atingir o limite) em todo formulário administrativo com campo de texto limitado. `CharCounter` é a exibição pura (`length`, `max`); `CountedField` embrulha um `<input>`/`<textarea>` com seu próprio estado de contagem, para formulários que só precisam soltar o campo pronto sem gerenciar `useState` por campo (ver `PartnerForm`).
+- Quando utilizar: qualquer campo de texto com limite definido em `src/lib/content/text-limits.ts`. `CharCounter` quando o formulário já gerencia o valor do campo (ex.: `ArticleTextForm`, campos controlados); `CountedField` quando o formulário usa campos não controlados (`defaultValue`/`FormData`, ex.: `PartnerForm`, `CommercialAreaForm`).
+- Props de `CharCounter`: `length`, `max`. Props de `CountedField`: `name`, `label`, `maxLength`, `defaultValue?`, `required?`, `type?` (`'text' | 'tel' | 'url' | 'textarea'`), `rows?`.
+
+### 3.38 CommercialAreaForm / CommercialAreaDeleteButton
+
+- Status: implementado (`src/components/admin/CommercialAreaForm.tsx`, `CommercialAreaDeleteButton.tsx`).
+- Objetivo: CRUD de área comercial (agrupamento de negócio de municípios, usado para cobertura de parceiros — não confundir com a hierarquia geográfica oficial do IBGE, que não tem tela própria). Exclusão física, bloqueada pelo banco (`P2003`) enquanto houver parceiro vinculado.
+- Quando utilizar: telas `/admin/commercial-areas`, `/novo`, `/[id]`.
+- Props: `CommercialAreaForm({ commercialAreaId?, initial? })`; `CommercialAreaDeleteButton({ commercialAreaId })`.
+
+### 3.39 CommercialAreaMunicipalitiesForm
+
+- Status: implementado (`src/components/admin/CommercialAreaMunicipalitiesForm.tsx`).
+- Objetivo: checklist de municípios (até ~1.191 itens, Região Sul) agrupados por estado em `<details>` colapsáveis, com busca client-side. Os checkboxes ficam sempre montados no DOM — a busca só alterna `hidden`, nunca remove item do array (removê-lo desmontava o checkbox e perdia a marcação ao limpar a busca, achado do `ui-reviewer`).
+- Quando utilizar: tela `/admin/commercial-areas/[id]`.
+- Props: `commercialAreaId`, `states` (via `listStatesWithMunicipalities()`, somente leitura), `initialSelectedIds`.
+
+### 3.40 PartnerForm
+
+- Status: implementado (`src/components/admin/PartnerForm.tsx`).
+- Objetivo: formulário único de parceiro (representante/revenda) combinando dados públicos (tipo, nome, descrição, WhatsApp, site, coordenadas aproximadas, redes sociais) e dados privados LGPD (documento, observações de consentimento) — decisão explícita do Jose de manter os dois no mesmo formulário, com a seção privada destacada visualmente (fundo âmbar). Coordenadas são sempre arredondadas no servidor (`src/lib/content/partner-input.ts`), nunca no cliente. Usa `CountedField` para todo campo com limite de caracteres.
+- Quando utilizar: telas `/admin/partners/novo`, `/admin/partners/[id]`.
+- Props: `partnerId?`, `initial?`, `defaultType?` (`'REPRESENTATIVE' | 'RESELLER'`, usado só na criação).
+
+### 3.41 PartnerActiveToggle / PartnerDeleteButton
+
+- Status: implementado (`src/components/admin/PartnerActiveToggle.tsx`, `PartnerDeleteButton.tsx`).
+- Objetivo: mesmo padrão de `ProductActiveToggle`/`ProductDeleteButton`. Exclusão física, restrita à role `ADMIN` no servidor (achado da auditoria de segurança de 11/09/2026).
+- Quando utilizar: tela `/admin/partners/[id]`.
+- Props: `partnerId`, `initialActive` (só no toggle).
+
+### 3.42 PartnerCommercialAreasForm / PartnerLogoForm
+
+- Status: implementado (`src/components/admin/PartnerCommercialAreasForm.tsx`, `PartnerLogoForm.tsx`).
+- Objetivo: `PartnerCommercialAreasForm` é o checklist de áreas comerciais vinculadas (mesmo padrão de `ProductCategoriesForm`). `PartnerLogoForm` é o upload de logo (mesmo padrão de `ProductImagesForm`, com `image-signature.ts` validando os bytes reais do arquivo); o texto alternativo da imagem é derivado do nome do parceiro (`Logo de ${partnerName}`), não digitado pelo admin.
+- Quando utilizar: tela `/admin/partners/[id]`.
+- Props: `PartnerCommercialAreasForm({ partnerId, commercialAreas, initialSelectedIds })`; `PartnerLogoForm({ partnerId, partnerName, logoUrl })`.
+
+### 3.43 PartnersTable / PartnerTypeTabs
+
+- Status: implementado (`src/components/admin/PartnersTable.tsx`, `PartnerTypeTabs.tsx`).
+- Objetivo: `PartnersTable` é a tabela de listagem (mesmo padrão visual de `products`/`categories`). `PartnerTypeTabs` são links de navegação entre `/admin/partners/representantes` e `/admin/partners/revendas` (páginas distintas, não troca de conteúdo na mesma tela) — por isso usa `aria-current="page"` como `AdminSidebar`, não `role="tablist"`/`role="tab"` (esse padrão é reservado a abas que trocam conteúdo na mesma página, ver `AboutTabs`/`CategoryTabs`).
+- Quando utilizar: telas `/admin/partners/representantes`, `/admin/partners/revendas`.
+- Props: `PartnersTable({ partners, emptyLabel })`; `PartnerTypeTabs({ activeHref })`.
+
 ## 4. Regra para novos componentes
 
 Antes de criar componente novo:

@@ -1,0 +1,4793 @@
+{
+  "region": {
+    "ibgeCode": "4",
+    "name": "Sul"
+  },
+  "states": [
+    {
+      "uf": "PR",
+      "name": "Paraná",
+      "ibgeCode": "41",
+      "municipalities": [
+        {
+          "ibgeCode": "4100103",
+          "name": "Abatiá"
+        },
+        {
+          "ibgeCode": "4100202",
+          "name": "Adrianópolis"
+        },
+        {
+          "ibgeCode": "4100301",
+          "name": "Agudos do Sul"
+        },
+        {
+          "ibgeCode": "4100400",
+          "name": "Almirante Tamandaré"
+        },
+        {
+          "ibgeCode": "4100459",
+          "name": "Altamira do Paraná"
+        },
+        {
+          "ibgeCode": "4100509",
+          "name": "Altônia"
+        },
+        {
+          "ibgeCode": "4100608",
+          "name": "Alto Paraná"
+        },
+        {
+          "ibgeCode": "4100707",
+          "name": "Alto Piquiri"
+        },
+        {
+          "ibgeCode": "4100806",
+          "name": "Alvorada do Sul"
+        },
+        {
+          "ibgeCode": "4100905",
+          "name": "Amaporã"
+        },
+        {
+          "ibgeCode": "4101002",
+          "name": "Ampére"
+        },
+        {
+          "ibgeCode": "4101051",
+          "name": "Anahy"
+        },
+        {
+          "ibgeCode": "4101101",
+          "name": "Andirá"
+        },
+        {
+          "ibgeCode": "4101150",
+          "name": "Ângulo"
+        },
+        {
+          "ibgeCode": "4101200",
+          "name": "Antonina"
+        },
+        {
+          "ibgeCode": "4101309",
+          "name": "Antônio Olinto"
+        },
+        {
+          "ibgeCode": "4101408",
+          "name": "Apucarana"
+        },
+        {
+          "ibgeCode": "4101507",
+          "name": "Arapongas"
+        },
+        {
+          "ibgeCode": "4101606",
+          "name": "Arapoti"
+        },
+        {
+          "ibgeCode": "4101655",
+          "name": "Arapuã"
+        },
+        {
+          "ibgeCode": "4101705",
+          "name": "Araruna"
+        },
+        {
+          "ibgeCode": "4101804",
+          "name": "Araucária"
+        },
+        {
+          "ibgeCode": "4101853",
+          "name": "Ariranha do Ivaí"
+        },
+        {
+          "ibgeCode": "4101903",
+          "name": "Assaí"
+        },
+        {
+          "ibgeCode": "4102000",
+          "name": "Assis Chateaubriand"
+        },
+        {
+          "ibgeCode": "4102109",
+          "name": "Astorga"
+        },
+        {
+          "ibgeCode": "4102208",
+          "name": "Atalaia"
+        },
+        {
+          "ibgeCode": "4102307",
+          "name": "Balsa Nova"
+        },
+        {
+          "ibgeCode": "4102406",
+          "name": "Bandeirantes"
+        },
+        {
+          "ibgeCode": "4102505",
+          "name": "Barbosa Ferraz"
+        },
+        {
+          "ibgeCode": "4102604",
+          "name": "Barracão"
+        },
+        {
+          "ibgeCode": "4102703",
+          "name": "Barra do Jacaré"
+        },
+        {
+          "ibgeCode": "4102752",
+          "name": "Bela Vista da Caroba"
+        },
+        {
+          "ibgeCode": "4102802",
+          "name": "Bela Vista do Paraíso"
+        },
+        {
+          "ibgeCode": "4102901",
+          "name": "Bituruna"
+        },
+        {
+          "ibgeCode": "4103008",
+          "name": "Boa Esperança"
+        },
+        {
+          "ibgeCode": "4103024",
+          "name": "Boa Esperança do Iguaçu"
+        },
+        {
+          "ibgeCode": "4103040",
+          "name": "Boa Ventura de São Roque"
+        },
+        {
+          "ibgeCode": "4103057",
+          "name": "Boa Vista da Aparecida"
+        },
+        {
+          "ibgeCode": "4103107",
+          "name": "Bocaiúva do Sul"
+        },
+        {
+          "ibgeCode": "4103156",
+          "name": "Bom Jesus do Sul"
+        },
+        {
+          "ibgeCode": "4103206",
+          "name": "Bom Sucesso"
+        },
+        {
+          "ibgeCode": "4103222",
+          "name": "Bom Sucesso do Sul"
+        },
+        {
+          "ibgeCode": "4103305",
+          "name": "Borrazópolis"
+        },
+        {
+          "ibgeCode": "4103354",
+          "name": "Braganey"
+        },
+        {
+          "ibgeCode": "4103370",
+          "name": "Brasilândia do Sul"
+        },
+        {
+          "ibgeCode": "4103404",
+          "name": "Cafeara"
+        },
+        {
+          "ibgeCode": "4103453",
+          "name": "Cafelândia"
+        },
+        {
+          "ibgeCode": "4103479",
+          "name": "Cafezal do Sul"
+        },
+        {
+          "ibgeCode": "4103503",
+          "name": "Califórnia"
+        },
+        {
+          "ibgeCode": "4103602",
+          "name": "Cambará"
+        },
+        {
+          "ibgeCode": "4103701",
+          "name": "Cambé"
+        },
+        {
+          "ibgeCode": "4103800",
+          "name": "Cambira"
+        },
+        {
+          "ibgeCode": "4103909",
+          "name": "Campina da Lagoa"
+        },
+        {
+          "ibgeCode": "4103958",
+          "name": "Campina do Simão"
+        },
+        {
+          "ibgeCode": "4104006",
+          "name": "Campina Grande do Sul"
+        },
+        {
+          "ibgeCode": "4104055",
+          "name": "Campo Bonito"
+        },
+        {
+          "ibgeCode": "4104105",
+          "name": "Campo do Tenente"
+        },
+        {
+          "ibgeCode": "4104204",
+          "name": "Campo Largo"
+        },
+        {
+          "ibgeCode": "4104253",
+          "name": "Campo Magro"
+        },
+        {
+          "ibgeCode": "4104303",
+          "name": "Campo Mourão"
+        },
+        {
+          "ibgeCode": "4104402",
+          "name": "Cândido de Abreu"
+        },
+        {
+          "ibgeCode": "4104428",
+          "name": "Candói"
+        },
+        {
+          "ibgeCode": "4104451",
+          "name": "Cantagalo"
+        },
+        {
+          "ibgeCode": "4104501",
+          "name": "Capanema"
+        },
+        {
+          "ibgeCode": "4104600",
+          "name": "Capitão Leônidas Marques"
+        },
+        {
+          "ibgeCode": "4104659",
+          "name": "Carambeí"
+        },
+        {
+          "ibgeCode": "4104709",
+          "name": "Carlópolis"
+        },
+        {
+          "ibgeCode": "4104808",
+          "name": "Cascavel"
+        },
+        {
+          "ibgeCode": "4104907",
+          "name": "Castro"
+        },
+        {
+          "ibgeCode": "4105003",
+          "name": "Catanduvas"
+        },
+        {
+          "ibgeCode": "4105102",
+          "name": "Centenário do Sul"
+        },
+        {
+          "ibgeCode": "4105201",
+          "name": "Cerro Azul"
+        },
+        {
+          "ibgeCode": "4105300",
+          "name": "Céu Azul"
+        },
+        {
+          "ibgeCode": "4105409",
+          "name": "Chopinzinho"
+        },
+        {
+          "ibgeCode": "4105508",
+          "name": "Cianorte"
+        },
+        {
+          "ibgeCode": "4105607",
+          "name": "Cidade Gaúcha"
+        },
+        {
+          "ibgeCode": "4105706",
+          "name": "Clevelândia"
+        },
+        {
+          "ibgeCode": "4105805",
+          "name": "Colombo"
+        },
+        {
+          "ibgeCode": "4105904",
+          "name": "Colorado"
+        },
+        {
+          "ibgeCode": "4106001",
+          "name": "Congonhinhas"
+        },
+        {
+          "ibgeCode": "4106100",
+          "name": "Conselheiro Mairinck"
+        },
+        {
+          "ibgeCode": "4106209",
+          "name": "Contenda"
+        },
+        {
+          "ibgeCode": "4106308",
+          "name": "Corbélia"
+        },
+        {
+          "ibgeCode": "4106407",
+          "name": "Cornélio Procópio"
+        },
+        {
+          "ibgeCode": "4106456",
+          "name": "Coronel Domingos Soares"
+        },
+        {
+          "ibgeCode": "4106506",
+          "name": "Coronel Vivida"
+        },
+        {
+          "ibgeCode": "4106555",
+          "name": "Corumbataí do Sul"
+        },
+        {
+          "ibgeCode": "4106571",
+          "name": "Cruzeiro do Iguaçu"
+        },
+        {
+          "ibgeCode": "4106605",
+          "name": "Cruzeiro do Oeste"
+        },
+        {
+          "ibgeCode": "4106704",
+          "name": "Cruzeiro do Sul"
+        },
+        {
+          "ibgeCode": "4106803",
+          "name": "Cruz Machado"
+        },
+        {
+          "ibgeCode": "4106852",
+          "name": "Cruzmaltina"
+        },
+        {
+          "ibgeCode": "4106902",
+          "name": "Curitiba"
+        },
+        {
+          "ibgeCode": "4107009",
+          "name": "Curiúva"
+        },
+        {
+          "ibgeCode": "4107108",
+          "name": "Diamante do Norte"
+        },
+        {
+          "ibgeCode": "4107124",
+          "name": "Diamante do Sul"
+        },
+        {
+          "ibgeCode": "4107157",
+          "name": "Diamante D'Oeste"
+        },
+        {
+          "ibgeCode": "4107207",
+          "name": "Dois Vizinhos"
+        },
+        {
+          "ibgeCode": "4107256",
+          "name": "Douradina"
+        },
+        {
+          "ibgeCode": "4107306",
+          "name": "Doutor Camargo"
+        },
+        {
+          "ibgeCode": "4107405",
+          "name": "Enéas Marques"
+        },
+        {
+          "ibgeCode": "4107504",
+          "name": "Engenheiro Beltrão"
+        },
+        {
+          "ibgeCode": "4107520",
+          "name": "Esperança Nova"
+        },
+        {
+          "ibgeCode": "4107538",
+          "name": "Entre Rios do Oeste"
+        },
+        {
+          "ibgeCode": "4107546",
+          "name": "Espigão Alto do Iguaçu"
+        },
+        {
+          "ibgeCode": "4107553",
+          "name": "Farol"
+        },
+        {
+          "ibgeCode": "4107603",
+          "name": "Faxinal"
+        },
+        {
+          "ibgeCode": "4107652",
+          "name": "Fazenda Rio Grande"
+        },
+        {
+          "ibgeCode": "4107702",
+          "name": "Fênix"
+        },
+        {
+          "ibgeCode": "4107736",
+          "name": "Fernandes Pinheiro"
+        },
+        {
+          "ibgeCode": "4107751",
+          "name": "Figueira"
+        },
+        {
+          "ibgeCode": "4107801",
+          "name": "Floraí"
+        },
+        {
+          "ibgeCode": "4107850",
+          "name": "Flor da Serra do Sul"
+        },
+        {
+          "ibgeCode": "4107900",
+          "name": "Floresta"
+        },
+        {
+          "ibgeCode": "4108007",
+          "name": "Florestópolis"
+        },
+        {
+          "ibgeCode": "4108106",
+          "name": "Flórida"
+        },
+        {
+          "ibgeCode": "4108205",
+          "name": "Formosa do Oeste"
+        },
+        {
+          "ibgeCode": "4108304",
+          "name": "Foz do Iguaçu"
+        },
+        {
+          "ibgeCode": "4108320",
+          "name": "Francisco Alves"
+        },
+        {
+          "ibgeCode": "4108403",
+          "name": "Francisco Beltrão"
+        },
+        {
+          "ibgeCode": "4108452",
+          "name": "Foz do Jordão"
+        },
+        {
+          "ibgeCode": "4108502",
+          "name": "General Carneiro"
+        },
+        {
+          "ibgeCode": "4108551",
+          "name": "Godoy Moreira"
+        },
+        {
+          "ibgeCode": "4108601",
+          "name": "Goioerê"
+        },
+        {
+          "ibgeCode": "4108650",
+          "name": "Goioxim"
+        },
+        {
+          "ibgeCode": "4108700",
+          "name": "Grandes Rios"
+        },
+        {
+          "ibgeCode": "4108809",
+          "name": "Guaíra"
+        },
+        {
+          "ibgeCode": "4108908",
+          "name": "Guairaçá"
+        },
+        {
+          "ibgeCode": "4108957",
+          "name": "Guamiranga"
+        },
+        {
+          "ibgeCode": "4109005",
+          "name": "Guapirama"
+        },
+        {
+          "ibgeCode": "4109104",
+          "name": "Guaporema"
+        },
+        {
+          "ibgeCode": "4109203",
+          "name": "Guaraci"
+        },
+        {
+          "ibgeCode": "4109302",
+          "name": "Guaraniaçu"
+        },
+        {
+          "ibgeCode": "4109401",
+          "name": "Guarapuava"
+        },
+        {
+          "ibgeCode": "4109500",
+          "name": "Guaraqueçaba"
+        },
+        {
+          "ibgeCode": "4109609",
+          "name": "Guaratuba"
+        },
+        {
+          "ibgeCode": "4109658",
+          "name": "Honório Serpa"
+        },
+        {
+          "ibgeCode": "4109708",
+          "name": "Ibaiti"
+        },
+        {
+          "ibgeCode": "4109757",
+          "name": "Ibema"
+        },
+        {
+          "ibgeCode": "4109807",
+          "name": "Ibiporã"
+        },
+        {
+          "ibgeCode": "4109906",
+          "name": "Icaraíma"
+        },
+        {
+          "ibgeCode": "4110003",
+          "name": "Iguaraçu"
+        },
+        {
+          "ibgeCode": "4110052",
+          "name": "Iguatu"
+        },
+        {
+          "ibgeCode": "4110078",
+          "name": "Imbaú"
+        },
+        {
+          "ibgeCode": "4110102",
+          "name": "Imbituva"
+        },
+        {
+          "ibgeCode": "4110201",
+          "name": "Inácio Martins"
+        },
+        {
+          "ibgeCode": "4110300",
+          "name": "Inajá"
+        },
+        {
+          "ibgeCode": "4110409",
+          "name": "Indianópolis"
+        },
+        {
+          "ibgeCode": "4110508",
+          "name": "Ipiranga"
+        },
+        {
+          "ibgeCode": "4110607",
+          "name": "Iporã"
+        },
+        {
+          "ibgeCode": "4110656",
+          "name": "Iracema do Oeste"
+        },
+        {
+          "ibgeCode": "4110706",
+          "name": "Irati"
+        },
+        {
+          "ibgeCode": "4110805",
+          "name": "Iretama"
+        },
+        {
+          "ibgeCode": "4110904",
+          "name": "Itaguajé"
+        },
+        {
+          "ibgeCode": "4110953",
+          "name": "Itaipulândia"
+        },
+        {
+          "ibgeCode": "4111001",
+          "name": "Itambaracá"
+        },
+        {
+          "ibgeCode": "4111100",
+          "name": "Itambé"
+        },
+        {
+          "ibgeCode": "4111209",
+          "name": "Itapejara d'Oeste"
+        },
+        {
+          "ibgeCode": "4111258",
+          "name": "Itaperuçu"
+        },
+        {
+          "ibgeCode": "4111308",
+          "name": "Itaúna do Sul"
+        },
+        {
+          "ibgeCode": "4111407",
+          "name": "Ivaí"
+        },
+        {
+          "ibgeCode": "4111506",
+          "name": "Ivaiporã"
+        },
+        {
+          "ibgeCode": "4111555",
+          "name": "Ivaté"
+        },
+        {
+          "ibgeCode": "4111605",
+          "name": "Ivatuba"
+        },
+        {
+          "ibgeCode": "4111704",
+          "name": "Jaboti"
+        },
+        {
+          "ibgeCode": "4111803",
+          "name": "Jacarezinho"
+        },
+        {
+          "ibgeCode": "4111902",
+          "name": "Jaguapitã"
+        },
+        {
+          "ibgeCode": "4112009",
+          "name": "Jaguariaíva"
+        },
+        {
+          "ibgeCode": "4112108",
+          "name": "Jandaia do Sul"
+        },
+        {
+          "ibgeCode": "4112207",
+          "name": "Janiópolis"
+        },
+        {
+          "ibgeCode": "4112306",
+          "name": "Japira"
+        },
+        {
+          "ibgeCode": "4112405",
+          "name": "Japurá"
+        },
+        {
+          "ibgeCode": "4112504",
+          "name": "Jardim Alegre"
+        },
+        {
+          "ibgeCode": "4112603",
+          "name": "Jardim Olinda"
+        },
+        {
+          "ibgeCode": "4112702",
+          "name": "Jataizinho"
+        },
+        {
+          "ibgeCode": "4112751",
+          "name": "Jesuítas"
+        },
+        {
+          "ibgeCode": "4112801",
+          "name": "Joaquim Távora"
+        },
+        {
+          "ibgeCode": "4112900",
+          "name": "Jundiaí do Sul"
+        },
+        {
+          "ibgeCode": "4112959",
+          "name": "Juranda"
+        },
+        {
+          "ibgeCode": "4113007",
+          "name": "Jussara"
+        },
+        {
+          "ibgeCode": "4113106",
+          "name": "Kaloré"
+        },
+        {
+          "ibgeCode": "4113205",
+          "name": "Lapa"
+        },
+        {
+          "ibgeCode": "4113254",
+          "name": "Laranjal"
+        },
+        {
+          "ibgeCode": "4113304",
+          "name": "Laranjeiras do Sul"
+        },
+        {
+          "ibgeCode": "4113403",
+          "name": "Leópolis"
+        },
+        {
+          "ibgeCode": "4113429",
+          "name": "Lidianópolis"
+        },
+        {
+          "ibgeCode": "4113452",
+          "name": "Lindoeste"
+        },
+        {
+          "ibgeCode": "4113502",
+          "name": "Loanda"
+        },
+        {
+          "ibgeCode": "4113601",
+          "name": "Lobato"
+        },
+        {
+          "ibgeCode": "4113700",
+          "name": "Londrina"
+        },
+        {
+          "ibgeCode": "4113734",
+          "name": "Luiziana"
+        },
+        {
+          "ibgeCode": "4113759",
+          "name": "Lunardelli"
+        },
+        {
+          "ibgeCode": "4113809",
+          "name": "Lupionópolis"
+        },
+        {
+          "ibgeCode": "4113908",
+          "name": "Mallet"
+        },
+        {
+          "ibgeCode": "4114005",
+          "name": "Mamborê"
+        },
+        {
+          "ibgeCode": "4114104",
+          "name": "Mandaguaçu"
+        },
+        {
+          "ibgeCode": "4114203",
+          "name": "Mandaguari"
+        },
+        {
+          "ibgeCode": "4114302",
+          "name": "Mandirituba"
+        },
+        {
+          "ibgeCode": "4114351",
+          "name": "Manfrinópolis"
+        },
+        {
+          "ibgeCode": "4114401",
+          "name": "Mangueirinha"
+        },
+        {
+          "ibgeCode": "4114500",
+          "name": "Manoel Ribas"
+        },
+        {
+          "ibgeCode": "4114609",
+          "name": "Marechal Cândido Rondon"
+        },
+        {
+          "ibgeCode": "4114708",
+          "name": "Maria Helena"
+        },
+        {
+          "ibgeCode": "4114807",
+          "name": "Marialva"
+        },
+        {
+          "ibgeCode": "4114906",
+          "name": "Marilândia do Sul"
+        },
+        {
+          "ibgeCode": "4115002",
+          "name": "Marilena"
+        },
+        {
+          "ibgeCode": "4115101",
+          "name": "Mariluz"
+        },
+        {
+          "ibgeCode": "4115200",
+          "name": "Maringá"
+        },
+        {
+          "ibgeCode": "4115309",
+          "name": "Mariópolis"
+        },
+        {
+          "ibgeCode": "4115358",
+          "name": "Maripá"
+        },
+        {
+          "ibgeCode": "4115408",
+          "name": "Marmeleiro"
+        },
+        {
+          "ibgeCode": "4115457",
+          "name": "Marquinho"
+        },
+        {
+          "ibgeCode": "4115507",
+          "name": "Marumbi"
+        },
+        {
+          "ibgeCode": "4115606",
+          "name": "Matelândia"
+        },
+        {
+          "ibgeCode": "4115705",
+          "name": "Matinhos"
+        },
+        {
+          "ibgeCode": "4115739",
+          "name": "Mato Rico"
+        },
+        {
+          "ibgeCode": "4115754",
+          "name": "Mauá da Serra"
+        },
+        {
+          "ibgeCode": "4115804",
+          "name": "Medianeira"
+        },
+        {
+          "ibgeCode": "4115853",
+          "name": "Mercedes"
+        },
+        {
+          "ibgeCode": "4115903",
+          "name": "Mirador"
+        },
+        {
+          "ibgeCode": "4116000",
+          "name": "Miraselva"
+        },
+        {
+          "ibgeCode": "4116059",
+          "name": "Missal"
+        },
+        {
+          "ibgeCode": "4116109",
+          "name": "Moreira Sales"
+        },
+        {
+          "ibgeCode": "4116208",
+          "name": "Morretes"
+        },
+        {
+          "ibgeCode": "4116307",
+          "name": "Munhoz de Melo"
+        },
+        {
+          "ibgeCode": "4116406",
+          "name": "Nossa Senhora das Graças"
+        },
+        {
+          "ibgeCode": "4116505",
+          "name": "Nova Aliança do Ivaí"
+        },
+        {
+          "ibgeCode": "4116604",
+          "name": "Nova América da Colina"
+        },
+        {
+          "ibgeCode": "4116703",
+          "name": "Nova Aurora"
+        },
+        {
+          "ibgeCode": "4116802",
+          "name": "Nova Cantu"
+        },
+        {
+          "ibgeCode": "4116901",
+          "name": "Nova Esperança"
+        },
+        {
+          "ibgeCode": "4116950",
+          "name": "Nova Esperança do Sudoeste"
+        },
+        {
+          "ibgeCode": "4117008",
+          "name": "Nova Fátima"
+        },
+        {
+          "ibgeCode": "4117057",
+          "name": "Nova Laranjeiras"
+        },
+        {
+          "ibgeCode": "4117107",
+          "name": "Nova Londrina"
+        },
+        {
+          "ibgeCode": "4117206",
+          "name": "Nova Olímpia"
+        },
+        {
+          "ibgeCode": "4117214",
+          "name": "Nova Santa Bárbara"
+        },
+        {
+          "ibgeCode": "4117222",
+          "name": "Nova Santa Rosa"
+        },
+        {
+          "ibgeCode": "4117255",
+          "name": "Nova Prata do Iguaçu"
+        },
+        {
+          "ibgeCode": "4117271",
+          "name": "Nova Tebas"
+        },
+        {
+          "ibgeCode": "4117297",
+          "name": "Novo Itacolomi"
+        },
+        {
+          "ibgeCode": "4117305",
+          "name": "Ortigueira"
+        },
+        {
+          "ibgeCode": "4117404",
+          "name": "Ourizona"
+        },
+        {
+          "ibgeCode": "4117453",
+          "name": "Ouro Verde do Oeste"
+        },
+        {
+          "ibgeCode": "4117503",
+          "name": "Paiçandu"
+        },
+        {
+          "ibgeCode": "4117602",
+          "name": "Palmas"
+        },
+        {
+          "ibgeCode": "4117701",
+          "name": "Palmeira"
+        },
+        {
+          "ibgeCode": "4117800",
+          "name": "Palmital"
+        },
+        {
+          "ibgeCode": "4117909",
+          "name": "Palotina"
+        },
+        {
+          "ibgeCode": "4118006",
+          "name": "Paraíso do Norte"
+        },
+        {
+          "ibgeCode": "4118105",
+          "name": "Paranacity"
+        },
+        {
+          "ibgeCode": "4118204",
+          "name": "Paranaguá"
+        },
+        {
+          "ibgeCode": "4118303",
+          "name": "Paranapoema"
+        },
+        {
+          "ibgeCode": "4118402",
+          "name": "Paranavaí"
+        },
+        {
+          "ibgeCode": "4118451",
+          "name": "Pato Bragado"
+        },
+        {
+          "ibgeCode": "4118501",
+          "name": "Pato Branco"
+        },
+        {
+          "ibgeCode": "4118600",
+          "name": "Paula Freitas"
+        },
+        {
+          "ibgeCode": "4118709",
+          "name": "Paulo Frontin"
+        },
+        {
+          "ibgeCode": "4118808",
+          "name": "Peabiru"
+        },
+        {
+          "ibgeCode": "4118857",
+          "name": "Perobal"
+        },
+        {
+          "ibgeCode": "4118907",
+          "name": "Pérola"
+        },
+        {
+          "ibgeCode": "4119004",
+          "name": "Pérola d'Oeste"
+        },
+        {
+          "ibgeCode": "4119103",
+          "name": "Piên"
+        },
+        {
+          "ibgeCode": "4119152",
+          "name": "Pinhais"
+        },
+        {
+          "ibgeCode": "4119202",
+          "name": "Pinhalão"
+        },
+        {
+          "ibgeCode": "4119251",
+          "name": "Pinhal de São Bento"
+        },
+        {
+          "ibgeCode": "4119301",
+          "name": "Pinhão"
+        },
+        {
+          "ibgeCode": "4119400",
+          "name": "Piraí do Sul"
+        },
+        {
+          "ibgeCode": "4119509",
+          "name": "Piraquara"
+        },
+        {
+          "ibgeCode": "4119608",
+          "name": "Pitanga"
+        },
+        {
+          "ibgeCode": "4119657",
+          "name": "Pitangueiras"
+        },
+        {
+          "ibgeCode": "4119707",
+          "name": "Planaltina do Paraná"
+        },
+        {
+          "ibgeCode": "4119806",
+          "name": "Planalto"
+        },
+        {
+          "ibgeCode": "4119905",
+          "name": "Ponta Grossa"
+        },
+        {
+          "ibgeCode": "4119954",
+          "name": "Pontal do Paraná"
+        },
+        {
+          "ibgeCode": "4120002",
+          "name": "Porecatu"
+        },
+        {
+          "ibgeCode": "4120101",
+          "name": "Porto Amazonas"
+        },
+        {
+          "ibgeCode": "4120150",
+          "name": "Porto Barreiro"
+        },
+        {
+          "ibgeCode": "4120200",
+          "name": "Porto Rico"
+        },
+        {
+          "ibgeCode": "4120309",
+          "name": "Porto Vitória"
+        },
+        {
+          "ibgeCode": "4120333",
+          "name": "Prado Ferreira"
+        },
+        {
+          "ibgeCode": "4120358",
+          "name": "Pranchita"
+        },
+        {
+          "ibgeCode": "4120408",
+          "name": "Presidente Castelo Branco"
+        },
+        {
+          "ibgeCode": "4120507",
+          "name": "Primeiro de Maio"
+        },
+        {
+          "ibgeCode": "4120606",
+          "name": "Prudentópolis"
+        },
+        {
+          "ibgeCode": "4120655",
+          "name": "Quarto Centenário"
+        },
+        {
+          "ibgeCode": "4120705",
+          "name": "Quatiguá"
+        },
+        {
+          "ibgeCode": "4120804",
+          "name": "Quatro Barras"
+        },
+        {
+          "ibgeCode": "4120853",
+          "name": "Quatro Pontes"
+        },
+        {
+          "ibgeCode": "4120903",
+          "name": "Quedas do Iguaçu"
+        },
+        {
+          "ibgeCode": "4121000",
+          "name": "Querência do Norte"
+        },
+        {
+          "ibgeCode": "4121109",
+          "name": "Quinta do Sol"
+        },
+        {
+          "ibgeCode": "4121208",
+          "name": "Quitandinha"
+        },
+        {
+          "ibgeCode": "4121257",
+          "name": "Ramilândia"
+        },
+        {
+          "ibgeCode": "4121307",
+          "name": "Rancho Alegre"
+        },
+        {
+          "ibgeCode": "4121356",
+          "name": "Rancho Alegre D'Oeste"
+        },
+        {
+          "ibgeCode": "4121406",
+          "name": "Realeza"
+        },
+        {
+          "ibgeCode": "4121505",
+          "name": "Rebouças"
+        },
+        {
+          "ibgeCode": "4121604",
+          "name": "Renascença"
+        },
+        {
+          "ibgeCode": "4121703",
+          "name": "Reserva"
+        },
+        {
+          "ibgeCode": "4121752",
+          "name": "Reserva do Iguaçu"
+        },
+        {
+          "ibgeCode": "4121802",
+          "name": "Ribeirão Claro"
+        },
+        {
+          "ibgeCode": "4121901",
+          "name": "Ribeirão do Pinhal"
+        },
+        {
+          "ibgeCode": "4122008",
+          "name": "Rio Azul"
+        },
+        {
+          "ibgeCode": "4122107",
+          "name": "Rio Bom"
+        },
+        {
+          "ibgeCode": "4122156",
+          "name": "Rio Bonito do Iguaçu"
+        },
+        {
+          "ibgeCode": "4122172",
+          "name": "Rio Branco do Ivaí"
+        },
+        {
+          "ibgeCode": "4122206",
+          "name": "Rio Branco do Sul"
+        },
+        {
+          "ibgeCode": "4122305",
+          "name": "Rio Negro"
+        },
+        {
+          "ibgeCode": "4122404",
+          "name": "Rolândia"
+        },
+        {
+          "ibgeCode": "4122503",
+          "name": "Roncador"
+        },
+        {
+          "ibgeCode": "4122602",
+          "name": "Rondon"
+        },
+        {
+          "ibgeCode": "4122651",
+          "name": "Rosário do Ivaí"
+        },
+        {
+          "ibgeCode": "4122701",
+          "name": "Sabáudia"
+        },
+        {
+          "ibgeCode": "4122800",
+          "name": "Salgado Filho"
+        },
+        {
+          "ibgeCode": "4122909",
+          "name": "Salto do Itararé"
+        },
+        {
+          "ibgeCode": "4123006",
+          "name": "Salto do Lontra"
+        },
+        {
+          "ibgeCode": "4123105",
+          "name": "Santa Amélia"
+        },
+        {
+          "ibgeCode": "4123204",
+          "name": "Santa Cecília do Pavão"
+        },
+        {
+          "ibgeCode": "4123303",
+          "name": "Santa Cruz de Monte Castelo"
+        },
+        {
+          "ibgeCode": "4123402",
+          "name": "Santa Fé"
+        },
+        {
+          "ibgeCode": "4123501",
+          "name": "Santa Helena"
+        },
+        {
+          "ibgeCode": "4123600",
+          "name": "Santa Inês"
+        },
+        {
+          "ibgeCode": "4123709",
+          "name": "Santa Isabel do Ivaí"
+        },
+        {
+          "ibgeCode": "4123808",
+          "name": "Santa Izabel do Oeste"
+        },
+        {
+          "ibgeCode": "4123824",
+          "name": "Santa Lúcia"
+        },
+        {
+          "ibgeCode": "4123857",
+          "name": "Santa Maria do Oeste"
+        },
+        {
+          "ibgeCode": "4123907",
+          "name": "Santa Mariana"
+        },
+        {
+          "ibgeCode": "4123956",
+          "name": "Santa Mônica"
+        },
+        {
+          "ibgeCode": "4124004",
+          "name": "Santana do Itararé"
+        },
+        {
+          "ibgeCode": "4124020",
+          "name": "Santa Tereza do Oeste"
+        },
+        {
+          "ibgeCode": "4124053",
+          "name": "Santa Terezinha de Itaipu"
+        },
+        {
+          "ibgeCode": "4124103",
+          "name": "Santo Antônio da Platina"
+        },
+        {
+          "ibgeCode": "4124202",
+          "name": "Santo Antônio do Caiuá"
+        },
+        {
+          "ibgeCode": "4124301",
+          "name": "Santo Antônio do Paraíso"
+        },
+        {
+          "ibgeCode": "4124400",
+          "name": "Santo Antônio do Sudoeste"
+        },
+        {
+          "ibgeCode": "4124509",
+          "name": "Santo Inácio"
+        },
+        {
+          "ibgeCode": "4124608",
+          "name": "São Carlos do Ivaí"
+        },
+        {
+          "ibgeCode": "4124707",
+          "name": "São Jerônimo da Serra"
+        },
+        {
+          "ibgeCode": "4124806",
+          "name": "São João"
+        },
+        {
+          "ibgeCode": "4124905",
+          "name": "São João do Caiuá"
+        },
+        {
+          "ibgeCode": "4125001",
+          "name": "São João do Ivaí"
+        },
+        {
+          "ibgeCode": "4125100",
+          "name": "São João do Triunfo"
+        },
+        {
+          "ibgeCode": "4125209",
+          "name": "São Jorge d'Oeste"
+        },
+        {
+          "ibgeCode": "4125308",
+          "name": "São Jorge do Ivaí"
+        },
+        {
+          "ibgeCode": "4125357",
+          "name": "São Jorge do Patrocínio"
+        },
+        {
+          "ibgeCode": "4125407",
+          "name": "São José da Boa Vista"
+        },
+        {
+          "ibgeCode": "4125456",
+          "name": "São José das Palmeiras"
+        },
+        {
+          "ibgeCode": "4125506",
+          "name": "São José dos Pinhais"
+        },
+        {
+          "ibgeCode": "4125555",
+          "name": "São Manoel do Paraná"
+        },
+        {
+          "ibgeCode": "4125605",
+          "name": "São Mateus do Sul"
+        },
+        {
+          "ibgeCode": "4125704",
+          "name": "São Miguel do Iguaçu"
+        },
+        {
+          "ibgeCode": "4125753",
+          "name": "São Pedro do Iguaçu"
+        },
+        {
+          "ibgeCode": "4125803",
+          "name": "São Pedro do Ivaí"
+        },
+        {
+          "ibgeCode": "4125902",
+          "name": "São Pedro do Paraná"
+        },
+        {
+          "ibgeCode": "4126009",
+          "name": "São Sebastião da Amoreira"
+        },
+        {
+          "ibgeCode": "4126108",
+          "name": "São Tomé"
+        },
+        {
+          "ibgeCode": "4126207",
+          "name": "Sapopema"
+        },
+        {
+          "ibgeCode": "4126256",
+          "name": "Sarandi"
+        },
+        {
+          "ibgeCode": "4126272",
+          "name": "Saudade do Iguaçu"
+        },
+        {
+          "ibgeCode": "4126306",
+          "name": "Sengés"
+        },
+        {
+          "ibgeCode": "4126355",
+          "name": "Serranópolis do Iguaçu"
+        },
+        {
+          "ibgeCode": "4126405",
+          "name": "Sertaneja"
+        },
+        {
+          "ibgeCode": "4126504",
+          "name": "Sertanópolis"
+        },
+        {
+          "ibgeCode": "4126603",
+          "name": "Siqueira Campos"
+        },
+        {
+          "ibgeCode": "4126652",
+          "name": "Sulina"
+        },
+        {
+          "ibgeCode": "4126678",
+          "name": "Tamarana"
+        },
+        {
+          "ibgeCode": "4126702",
+          "name": "Tamboara"
+        },
+        {
+          "ibgeCode": "4126801",
+          "name": "Tapejara"
+        },
+        {
+          "ibgeCode": "4126900",
+          "name": "Tapira"
+        },
+        {
+          "ibgeCode": "4127007",
+          "name": "Teixeira Soares"
+        },
+        {
+          "ibgeCode": "4127106",
+          "name": "Telêmaco Borba"
+        },
+        {
+          "ibgeCode": "4127205",
+          "name": "Terra Boa"
+        },
+        {
+          "ibgeCode": "4127304",
+          "name": "Terra Rica"
+        },
+        {
+          "ibgeCode": "4127403",
+          "name": "Terra Roxa"
+        },
+        {
+          "ibgeCode": "4127502",
+          "name": "Tibagi"
+        },
+        {
+          "ibgeCode": "4127601",
+          "name": "Tijucas do Sul"
+        },
+        {
+          "ibgeCode": "4127700",
+          "name": "Toledo"
+        },
+        {
+          "ibgeCode": "4127809",
+          "name": "Tomazina"
+        },
+        {
+          "ibgeCode": "4127858",
+          "name": "Três Barras do Paraná"
+        },
+        {
+          "ibgeCode": "4127882",
+          "name": "Tunas do Paraná"
+        },
+        {
+          "ibgeCode": "4127908",
+          "name": "Tuneiras do Oeste"
+        },
+        {
+          "ibgeCode": "4127957",
+          "name": "Tupãssi"
+        },
+        {
+          "ibgeCode": "4127965",
+          "name": "Turvo"
+        },
+        {
+          "ibgeCode": "4128005",
+          "name": "Ubiratã"
+        },
+        {
+          "ibgeCode": "4128104",
+          "name": "Umuarama"
+        },
+        {
+          "ibgeCode": "4128203",
+          "name": "União da Vitória"
+        },
+        {
+          "ibgeCode": "4128302",
+          "name": "Uniflor"
+        },
+        {
+          "ibgeCode": "4128401",
+          "name": "Uraí"
+        },
+        {
+          "ibgeCode": "4128500",
+          "name": "Wenceslau Braz"
+        },
+        {
+          "ibgeCode": "4128534",
+          "name": "Ventania"
+        },
+        {
+          "ibgeCode": "4128559",
+          "name": "Vera Cruz do Oeste"
+        },
+        {
+          "ibgeCode": "4128609",
+          "name": "Verê"
+        },
+        {
+          "ibgeCode": "4128625",
+          "name": "Alto Paraíso"
+        },
+        {
+          "ibgeCode": "4128633",
+          "name": "Doutor Ulysses"
+        },
+        {
+          "ibgeCode": "4128658",
+          "name": "Virmond"
+        },
+        {
+          "ibgeCode": "4128708",
+          "name": "Vitorino"
+        },
+        {
+          "ibgeCode": "4128807",
+          "name": "Xambrê"
+        }
+      ]
+    },
+    {
+      "uf": "SC",
+      "name": "Santa Catarina",
+      "ibgeCode": "42",
+      "municipalities": [
+        {
+          "ibgeCode": "4200051",
+          "name": "Abdon Batista"
+        },
+        {
+          "ibgeCode": "4200101",
+          "name": "Abelardo Luz"
+        },
+        {
+          "ibgeCode": "4200200",
+          "name": "Agrolândia"
+        },
+        {
+          "ibgeCode": "4200309",
+          "name": "Agronômica"
+        },
+        {
+          "ibgeCode": "4200408",
+          "name": "Água Doce"
+        },
+        {
+          "ibgeCode": "4200507",
+          "name": "Águas de Chapecó"
+        },
+        {
+          "ibgeCode": "4200556",
+          "name": "Águas Frias"
+        },
+        {
+          "ibgeCode": "4200606",
+          "name": "Águas Mornas"
+        },
+        {
+          "ibgeCode": "4200705",
+          "name": "Alfredo Wagner"
+        },
+        {
+          "ibgeCode": "4200754",
+          "name": "Alto Bela Vista"
+        },
+        {
+          "ibgeCode": "4200804",
+          "name": "Anchieta"
+        },
+        {
+          "ibgeCode": "4200903",
+          "name": "Angelina"
+        },
+        {
+          "ibgeCode": "4201000",
+          "name": "Anita Garibaldi"
+        },
+        {
+          "ibgeCode": "4201109",
+          "name": "Anitápolis"
+        },
+        {
+          "ibgeCode": "4201208",
+          "name": "Antônio Carlos"
+        },
+        {
+          "ibgeCode": "4201257",
+          "name": "Apiúna"
+        },
+        {
+          "ibgeCode": "4201273",
+          "name": "Arabutã"
+        },
+        {
+          "ibgeCode": "4201307",
+          "name": "Araquari"
+        },
+        {
+          "ibgeCode": "4201406",
+          "name": "Araranguá"
+        },
+        {
+          "ibgeCode": "4201505",
+          "name": "Armazém"
+        },
+        {
+          "ibgeCode": "4201604",
+          "name": "Arroio Trinta"
+        },
+        {
+          "ibgeCode": "4201653",
+          "name": "Arvoredo"
+        },
+        {
+          "ibgeCode": "4201703",
+          "name": "Ascurra"
+        },
+        {
+          "ibgeCode": "4201802",
+          "name": "Atalanta"
+        },
+        {
+          "ibgeCode": "4201901",
+          "name": "Aurora"
+        },
+        {
+          "ibgeCode": "4201950",
+          "name": "Balneário Arroio do Silva"
+        },
+        {
+          "ibgeCode": "4202008",
+          "name": "Balneário Camboriú"
+        },
+        {
+          "ibgeCode": "4202057",
+          "name": "Balneário Barra do Sul"
+        },
+        {
+          "ibgeCode": "4202073",
+          "name": "Balneário Gaivota"
+        },
+        {
+          "ibgeCode": "4202081",
+          "name": "Bandeirante"
+        },
+        {
+          "ibgeCode": "4202099",
+          "name": "Barra Bonita"
+        },
+        {
+          "ibgeCode": "4202107",
+          "name": "Barra Velha"
+        },
+        {
+          "ibgeCode": "4202131",
+          "name": "Bela Vista do Toldo"
+        },
+        {
+          "ibgeCode": "4202156",
+          "name": "Belmonte"
+        },
+        {
+          "ibgeCode": "4202206",
+          "name": "Benedito Novo"
+        },
+        {
+          "ibgeCode": "4202305",
+          "name": "Biguaçu"
+        },
+        {
+          "ibgeCode": "4202404",
+          "name": "Blumenau"
+        },
+        {
+          "ibgeCode": "4202438",
+          "name": "Bocaina do Sul"
+        },
+        {
+          "ibgeCode": "4202453",
+          "name": "Bombinhas"
+        },
+        {
+          "ibgeCode": "4202503",
+          "name": "Bom Jardim da Serra"
+        },
+        {
+          "ibgeCode": "4202537",
+          "name": "Bom Jesus"
+        },
+        {
+          "ibgeCode": "4202578",
+          "name": "Bom Jesus do Oeste"
+        },
+        {
+          "ibgeCode": "4202602",
+          "name": "Bom Retiro"
+        },
+        {
+          "ibgeCode": "4202701",
+          "name": "Botuverá"
+        },
+        {
+          "ibgeCode": "4202800",
+          "name": "Braço do Norte"
+        },
+        {
+          "ibgeCode": "4202859",
+          "name": "Braço do Trombudo"
+        },
+        {
+          "ibgeCode": "4202875",
+          "name": "Brunópolis"
+        },
+        {
+          "ibgeCode": "4202909",
+          "name": "Brusque"
+        },
+        {
+          "ibgeCode": "4203006",
+          "name": "Caçador"
+        },
+        {
+          "ibgeCode": "4203105",
+          "name": "Caibi"
+        },
+        {
+          "ibgeCode": "4203154",
+          "name": "Calmon"
+        },
+        {
+          "ibgeCode": "4203204",
+          "name": "Camboriú"
+        },
+        {
+          "ibgeCode": "4203253",
+          "name": "Capão Alto"
+        },
+        {
+          "ibgeCode": "4203303",
+          "name": "Campo Alegre"
+        },
+        {
+          "ibgeCode": "4203402",
+          "name": "Campo Belo do Sul"
+        },
+        {
+          "ibgeCode": "4203501",
+          "name": "Campo Erê"
+        },
+        {
+          "ibgeCode": "4203600",
+          "name": "Campos Novos"
+        },
+        {
+          "ibgeCode": "4203709",
+          "name": "Canelinha"
+        },
+        {
+          "ibgeCode": "4203808",
+          "name": "Canoinhas"
+        },
+        {
+          "ibgeCode": "4203907",
+          "name": "Capinzal"
+        },
+        {
+          "ibgeCode": "4203956",
+          "name": "Capivari de Baixo"
+        },
+        {
+          "ibgeCode": "4204004",
+          "name": "Catanduvas"
+        },
+        {
+          "ibgeCode": "4204103",
+          "name": "Caxambu do Sul"
+        },
+        {
+          "ibgeCode": "4204152",
+          "name": "Celso Ramos"
+        },
+        {
+          "ibgeCode": "4204178",
+          "name": "Cerro Negro"
+        },
+        {
+          "ibgeCode": "4204194",
+          "name": "Chapadão do Lageado"
+        },
+        {
+          "ibgeCode": "4204202",
+          "name": "Chapecó"
+        },
+        {
+          "ibgeCode": "4204251",
+          "name": "Cocal do Sul"
+        },
+        {
+          "ibgeCode": "4204301",
+          "name": "Concórdia"
+        },
+        {
+          "ibgeCode": "4204350",
+          "name": "Cordilheira Alta"
+        },
+        {
+          "ibgeCode": "4204400",
+          "name": "Coronel Freitas"
+        },
+        {
+          "ibgeCode": "4204459",
+          "name": "Coronel Martins"
+        },
+        {
+          "ibgeCode": "4204509",
+          "name": "Corupá"
+        },
+        {
+          "ibgeCode": "4204558",
+          "name": "Correia Pinto"
+        },
+        {
+          "ibgeCode": "4204608",
+          "name": "Criciúma"
+        },
+        {
+          "ibgeCode": "4204707",
+          "name": "Cunha Porã"
+        },
+        {
+          "ibgeCode": "4204756",
+          "name": "Cunhataí"
+        },
+        {
+          "ibgeCode": "4204806",
+          "name": "Curitibanos"
+        },
+        {
+          "ibgeCode": "4204905",
+          "name": "Descanso"
+        },
+        {
+          "ibgeCode": "4205001",
+          "name": "Dionísio Cerqueira"
+        },
+        {
+          "ibgeCode": "4205100",
+          "name": "Dona Emma"
+        },
+        {
+          "ibgeCode": "4205159",
+          "name": "Doutor Pedrinho"
+        },
+        {
+          "ibgeCode": "4205175",
+          "name": "Entre Rios"
+        },
+        {
+          "ibgeCode": "4205191",
+          "name": "Ermo"
+        },
+        {
+          "ibgeCode": "4205209",
+          "name": "Erval Velho"
+        },
+        {
+          "ibgeCode": "4205308",
+          "name": "Faxinal dos Guedes"
+        },
+        {
+          "ibgeCode": "4205357",
+          "name": "Flor do Sertão"
+        },
+        {
+          "ibgeCode": "4205407",
+          "name": "Florianópolis"
+        },
+        {
+          "ibgeCode": "4205431",
+          "name": "Formosa do Sul"
+        },
+        {
+          "ibgeCode": "4205456",
+          "name": "Forquilhinha"
+        },
+        {
+          "ibgeCode": "4205506",
+          "name": "Fraiburgo"
+        },
+        {
+          "ibgeCode": "4205555",
+          "name": "Frei Rogério"
+        },
+        {
+          "ibgeCode": "4205605",
+          "name": "Galvão"
+        },
+        {
+          "ibgeCode": "4205704",
+          "name": "Garopaba"
+        },
+        {
+          "ibgeCode": "4205803",
+          "name": "Garuva"
+        },
+        {
+          "ibgeCode": "4205902",
+          "name": "Gaspar"
+        },
+        {
+          "ibgeCode": "4206009",
+          "name": "Governador Celso Ramos"
+        },
+        {
+          "ibgeCode": "4206108",
+          "name": "Grão-Pará"
+        },
+        {
+          "ibgeCode": "4206207",
+          "name": "Gravatal"
+        },
+        {
+          "ibgeCode": "4206306",
+          "name": "Guabiruba"
+        },
+        {
+          "ibgeCode": "4206405",
+          "name": "Guaraciaba"
+        },
+        {
+          "ibgeCode": "4206504",
+          "name": "Guaramirim"
+        },
+        {
+          "ibgeCode": "4206603",
+          "name": "Guarujá do Sul"
+        },
+        {
+          "ibgeCode": "4206652",
+          "name": "Guatambú"
+        },
+        {
+          "ibgeCode": "4206702",
+          "name": "Herval d'Oeste"
+        },
+        {
+          "ibgeCode": "4206751",
+          "name": "Ibiam"
+        },
+        {
+          "ibgeCode": "4206801",
+          "name": "Ibicaré"
+        },
+        {
+          "ibgeCode": "4206900",
+          "name": "Ibirama"
+        },
+        {
+          "ibgeCode": "4207007",
+          "name": "Içara"
+        },
+        {
+          "ibgeCode": "4207106",
+          "name": "Ilhota"
+        },
+        {
+          "ibgeCode": "4207205",
+          "name": "Imaruí"
+        },
+        {
+          "ibgeCode": "4207304",
+          "name": "Imbituba"
+        },
+        {
+          "ibgeCode": "4207403",
+          "name": "Imbuia"
+        },
+        {
+          "ibgeCode": "4207502",
+          "name": "Indaial"
+        },
+        {
+          "ibgeCode": "4207577",
+          "name": "Iomerê"
+        },
+        {
+          "ibgeCode": "4207601",
+          "name": "Ipira"
+        },
+        {
+          "ibgeCode": "4207650",
+          "name": "Iporã do Oeste"
+        },
+        {
+          "ibgeCode": "4207684",
+          "name": "Ipuaçu"
+        },
+        {
+          "ibgeCode": "4207700",
+          "name": "Ipumirim"
+        },
+        {
+          "ibgeCode": "4207759",
+          "name": "Iraceminha"
+        },
+        {
+          "ibgeCode": "4207809",
+          "name": "Irani"
+        },
+        {
+          "ibgeCode": "4207858",
+          "name": "Irati"
+        },
+        {
+          "ibgeCode": "4207908",
+          "name": "Irineópolis"
+        },
+        {
+          "ibgeCode": "4208005",
+          "name": "Itá"
+        },
+        {
+          "ibgeCode": "4208104",
+          "name": "Itaiópolis"
+        },
+        {
+          "ibgeCode": "4208203",
+          "name": "Itajaí"
+        },
+        {
+          "ibgeCode": "4208302",
+          "name": "Itapema"
+        },
+        {
+          "ibgeCode": "4208401",
+          "name": "Itapiranga"
+        },
+        {
+          "ibgeCode": "4208450",
+          "name": "Itapoá"
+        },
+        {
+          "ibgeCode": "4208500",
+          "name": "Ituporanga"
+        },
+        {
+          "ibgeCode": "4208609",
+          "name": "Jaborá"
+        },
+        {
+          "ibgeCode": "4208708",
+          "name": "Jacinto Machado"
+        },
+        {
+          "ibgeCode": "4208807",
+          "name": "Jaguaruna"
+        },
+        {
+          "ibgeCode": "4208906",
+          "name": "Jaraguá do Sul"
+        },
+        {
+          "ibgeCode": "4208955",
+          "name": "Jardinópolis"
+        },
+        {
+          "ibgeCode": "4209003",
+          "name": "Joaçaba"
+        },
+        {
+          "ibgeCode": "4209102",
+          "name": "Joinville"
+        },
+        {
+          "ibgeCode": "4209151",
+          "name": "José Boiteux"
+        },
+        {
+          "ibgeCode": "4209177",
+          "name": "Jupiá"
+        },
+        {
+          "ibgeCode": "4209201",
+          "name": "Lacerdópolis"
+        },
+        {
+          "ibgeCode": "4209300",
+          "name": "Lages"
+        },
+        {
+          "ibgeCode": "4209409",
+          "name": "Laguna"
+        },
+        {
+          "ibgeCode": "4209458",
+          "name": "Lajeado Grande"
+        },
+        {
+          "ibgeCode": "4209508",
+          "name": "Laurentino"
+        },
+        {
+          "ibgeCode": "4209607",
+          "name": "Lauro Müller"
+        },
+        {
+          "ibgeCode": "4209706",
+          "name": "Lebon Régis"
+        },
+        {
+          "ibgeCode": "4209805",
+          "name": "Leoberto Leal"
+        },
+        {
+          "ibgeCode": "4209854",
+          "name": "Lindóia do Sul"
+        },
+        {
+          "ibgeCode": "4209904",
+          "name": "Lontras"
+        },
+        {
+          "ibgeCode": "4210001",
+          "name": "Luiz Alves"
+        },
+        {
+          "ibgeCode": "4210035",
+          "name": "Luzerna"
+        },
+        {
+          "ibgeCode": "4210050",
+          "name": "Macieira"
+        },
+        {
+          "ibgeCode": "4210100",
+          "name": "Mafra"
+        },
+        {
+          "ibgeCode": "4210209",
+          "name": "Major Gercino"
+        },
+        {
+          "ibgeCode": "4210308",
+          "name": "Major Vieira"
+        },
+        {
+          "ibgeCode": "4210407",
+          "name": "Maracajá"
+        },
+        {
+          "ibgeCode": "4210506",
+          "name": "Maravilha"
+        },
+        {
+          "ibgeCode": "4210555",
+          "name": "Marema"
+        },
+        {
+          "ibgeCode": "4210605",
+          "name": "Massaranduba"
+        },
+        {
+          "ibgeCode": "4210704",
+          "name": "Matos Costa"
+        },
+        {
+          "ibgeCode": "4210803",
+          "name": "Meleiro"
+        },
+        {
+          "ibgeCode": "4210852",
+          "name": "Mirim Doce"
+        },
+        {
+          "ibgeCode": "4210902",
+          "name": "Modelo"
+        },
+        {
+          "ibgeCode": "4211009",
+          "name": "Mondaí"
+        },
+        {
+          "ibgeCode": "4211058",
+          "name": "Monte Carlo"
+        },
+        {
+          "ibgeCode": "4211108",
+          "name": "Monte Castelo"
+        },
+        {
+          "ibgeCode": "4211207",
+          "name": "Morro da Fumaça"
+        },
+        {
+          "ibgeCode": "4211256",
+          "name": "Morro Grande"
+        },
+        {
+          "ibgeCode": "4211306",
+          "name": "Navegantes"
+        },
+        {
+          "ibgeCode": "4211405",
+          "name": "Nova Erechim"
+        },
+        {
+          "ibgeCode": "4211454",
+          "name": "Nova Itaberaba"
+        },
+        {
+          "ibgeCode": "4211504",
+          "name": "Nova Trento"
+        },
+        {
+          "ibgeCode": "4211603",
+          "name": "Nova Veneza"
+        },
+        {
+          "ibgeCode": "4211652",
+          "name": "Novo Horizonte"
+        },
+        {
+          "ibgeCode": "4211702",
+          "name": "Orleans"
+        },
+        {
+          "ibgeCode": "4211751",
+          "name": "Otacílio Costa"
+        },
+        {
+          "ibgeCode": "4211801",
+          "name": "Ouro"
+        },
+        {
+          "ibgeCode": "4211850",
+          "name": "Ouro Verde"
+        },
+        {
+          "ibgeCode": "4211876",
+          "name": "Paial"
+        },
+        {
+          "ibgeCode": "4211892",
+          "name": "Painel"
+        },
+        {
+          "ibgeCode": "4211900",
+          "name": "Palhoça"
+        },
+        {
+          "ibgeCode": "4212007",
+          "name": "Palma Sola"
+        },
+        {
+          "ibgeCode": "4212056",
+          "name": "Palmeira"
+        },
+        {
+          "ibgeCode": "4212106",
+          "name": "Palmitos"
+        },
+        {
+          "ibgeCode": "4212205",
+          "name": "Papanduva"
+        },
+        {
+          "ibgeCode": "4212239",
+          "name": "Paraíso"
+        },
+        {
+          "ibgeCode": "4212254",
+          "name": "Passo de Torres"
+        },
+        {
+          "ibgeCode": "4212270",
+          "name": "Passos Maia"
+        },
+        {
+          "ibgeCode": "4212304",
+          "name": "Paulo Lopes"
+        },
+        {
+          "ibgeCode": "4212403",
+          "name": "Pedras Grandes"
+        },
+        {
+          "ibgeCode": "4212502",
+          "name": "Penha"
+        },
+        {
+          "ibgeCode": "4212601",
+          "name": "Peritiba"
+        },
+        {
+          "ibgeCode": "4212650",
+          "name": "Pescaria Brava"
+        },
+        {
+          "ibgeCode": "4212700",
+          "name": "Petrolândia"
+        },
+        {
+          "ibgeCode": "4212809",
+          "name": "Balneário Piçarras"
+        },
+        {
+          "ibgeCode": "4212908",
+          "name": "Pinhalzinho"
+        },
+        {
+          "ibgeCode": "4213005",
+          "name": "Pinheiro Preto"
+        },
+        {
+          "ibgeCode": "4213104",
+          "name": "Piratuba"
+        },
+        {
+          "ibgeCode": "4213153",
+          "name": "Planalto Alegre"
+        },
+        {
+          "ibgeCode": "4213203",
+          "name": "Pomerode"
+        },
+        {
+          "ibgeCode": "4213302",
+          "name": "Ponte Alta"
+        },
+        {
+          "ibgeCode": "4213351",
+          "name": "Ponte Alta do Norte"
+        },
+        {
+          "ibgeCode": "4213401",
+          "name": "Ponte Serrada"
+        },
+        {
+          "ibgeCode": "4213500",
+          "name": "Porto Belo"
+        },
+        {
+          "ibgeCode": "4213609",
+          "name": "Porto União"
+        },
+        {
+          "ibgeCode": "4213708",
+          "name": "Pouso Redondo"
+        },
+        {
+          "ibgeCode": "4213807",
+          "name": "Praia Grande"
+        },
+        {
+          "ibgeCode": "4213906",
+          "name": "Presidente Castello Branco"
+        },
+        {
+          "ibgeCode": "4214003",
+          "name": "Presidente Getúlio"
+        },
+        {
+          "ibgeCode": "4214102",
+          "name": "Presidente Nereu"
+        },
+        {
+          "ibgeCode": "4214151",
+          "name": "Princesa"
+        },
+        {
+          "ibgeCode": "4214201",
+          "name": "Quilombo"
+        },
+        {
+          "ibgeCode": "4214300",
+          "name": "Rancho Queimado"
+        },
+        {
+          "ibgeCode": "4214409",
+          "name": "Rio das Antas"
+        },
+        {
+          "ibgeCode": "4214508",
+          "name": "Rio do Campo"
+        },
+        {
+          "ibgeCode": "4214607",
+          "name": "Rio do Oeste"
+        },
+        {
+          "ibgeCode": "4214706",
+          "name": "Rio dos Cedros"
+        },
+        {
+          "ibgeCode": "4214805",
+          "name": "Rio do Sul"
+        },
+        {
+          "ibgeCode": "4214904",
+          "name": "Rio Fortuna"
+        },
+        {
+          "ibgeCode": "4215000",
+          "name": "Rio Negrinho"
+        },
+        {
+          "ibgeCode": "4215059",
+          "name": "Rio Rufino"
+        },
+        {
+          "ibgeCode": "4215075",
+          "name": "Riqueza"
+        },
+        {
+          "ibgeCode": "4215109",
+          "name": "Rodeio"
+        },
+        {
+          "ibgeCode": "4215208",
+          "name": "Romelândia"
+        },
+        {
+          "ibgeCode": "4215307",
+          "name": "Salete"
+        },
+        {
+          "ibgeCode": "4215356",
+          "name": "Saltinho"
+        },
+        {
+          "ibgeCode": "4215406",
+          "name": "Salto Veloso"
+        },
+        {
+          "ibgeCode": "4215455",
+          "name": "Sangão"
+        },
+        {
+          "ibgeCode": "4215505",
+          "name": "Santa Cecília"
+        },
+        {
+          "ibgeCode": "4215554",
+          "name": "Santa Helena"
+        },
+        {
+          "ibgeCode": "4215604",
+          "name": "Santa Rosa de Lima"
+        },
+        {
+          "ibgeCode": "4215653",
+          "name": "Santa Rosa do Sul"
+        },
+        {
+          "ibgeCode": "4215679",
+          "name": "Santa Terezinha"
+        },
+        {
+          "ibgeCode": "4215687",
+          "name": "Santa Terezinha do Progresso"
+        },
+        {
+          "ibgeCode": "4215695",
+          "name": "Santiago do Sul"
+        },
+        {
+          "ibgeCode": "4215703",
+          "name": "Santo Amaro da Imperatriz"
+        },
+        {
+          "ibgeCode": "4215752",
+          "name": "São Bernardino"
+        },
+        {
+          "ibgeCode": "4215802",
+          "name": "São Bento do Sul"
+        },
+        {
+          "ibgeCode": "4215901",
+          "name": "São Bonifácio"
+        },
+        {
+          "ibgeCode": "4216008",
+          "name": "São Carlos"
+        },
+        {
+          "ibgeCode": "4216057",
+          "name": "São Cristóvão do Sul"
+        },
+        {
+          "ibgeCode": "4216107",
+          "name": "São Domingos"
+        },
+        {
+          "ibgeCode": "4216206",
+          "name": "São Francisco do Sul"
+        },
+        {
+          "ibgeCode": "4216255",
+          "name": "São João do Oeste"
+        },
+        {
+          "ibgeCode": "4216305",
+          "name": "São João Batista"
+        },
+        {
+          "ibgeCode": "4216354",
+          "name": "São João do Itaperiú"
+        },
+        {
+          "ibgeCode": "4216404",
+          "name": "São João do Sul"
+        },
+        {
+          "ibgeCode": "4216503",
+          "name": "São Joaquim"
+        },
+        {
+          "ibgeCode": "4216602",
+          "name": "São José"
+        },
+        {
+          "ibgeCode": "4216701",
+          "name": "São José do Cedro"
+        },
+        {
+          "ibgeCode": "4216800",
+          "name": "São José do Cerrito"
+        },
+        {
+          "ibgeCode": "4216909",
+          "name": "São Lourenço do Oeste"
+        },
+        {
+          "ibgeCode": "4217006",
+          "name": "São Ludgero"
+        },
+        {
+          "ibgeCode": "4217105",
+          "name": "São Martinho"
+        },
+        {
+          "ibgeCode": "4217154",
+          "name": "São Miguel da Boa Vista"
+        },
+        {
+          "ibgeCode": "4217204",
+          "name": "São Miguel do Oeste"
+        },
+        {
+          "ibgeCode": "4217253",
+          "name": "São Pedro de Alcântara"
+        },
+        {
+          "ibgeCode": "4217303",
+          "name": "Saudades"
+        },
+        {
+          "ibgeCode": "4217402",
+          "name": "Schroeder"
+        },
+        {
+          "ibgeCode": "4217501",
+          "name": "Seara"
+        },
+        {
+          "ibgeCode": "4217550",
+          "name": "Serra Alta"
+        },
+        {
+          "ibgeCode": "4217600",
+          "name": "Siderópolis"
+        },
+        {
+          "ibgeCode": "4217709",
+          "name": "Sombrio"
+        },
+        {
+          "ibgeCode": "4217758",
+          "name": "Sul Brasil"
+        },
+        {
+          "ibgeCode": "4217808",
+          "name": "Taió"
+        },
+        {
+          "ibgeCode": "4217907",
+          "name": "Tangará"
+        },
+        {
+          "ibgeCode": "4217956",
+          "name": "Tigrinhos"
+        },
+        {
+          "ibgeCode": "4218004",
+          "name": "Tijucas"
+        },
+        {
+          "ibgeCode": "4218103",
+          "name": "Timbé do Sul"
+        },
+        {
+          "ibgeCode": "4218202",
+          "name": "Timbó"
+        },
+        {
+          "ibgeCode": "4218251",
+          "name": "Timbó Grande"
+        },
+        {
+          "ibgeCode": "4218301",
+          "name": "Três Barras"
+        },
+        {
+          "ibgeCode": "4218350",
+          "name": "Treviso"
+        },
+        {
+          "ibgeCode": "4218400",
+          "name": "Treze de Maio"
+        },
+        {
+          "ibgeCode": "4218509",
+          "name": "Treze Tílias"
+        },
+        {
+          "ibgeCode": "4218608",
+          "name": "Trombudo Central"
+        },
+        {
+          "ibgeCode": "4218707",
+          "name": "Tubarão"
+        },
+        {
+          "ibgeCode": "4218756",
+          "name": "Tunápolis"
+        },
+        {
+          "ibgeCode": "4218806",
+          "name": "Turvo"
+        },
+        {
+          "ibgeCode": "4218855",
+          "name": "União do Oeste"
+        },
+        {
+          "ibgeCode": "4218905",
+          "name": "Urubici"
+        },
+        {
+          "ibgeCode": "4218954",
+          "name": "Urupema"
+        },
+        {
+          "ibgeCode": "4219002",
+          "name": "Urussanga"
+        },
+        {
+          "ibgeCode": "4219101",
+          "name": "Vargeão"
+        },
+        {
+          "ibgeCode": "4219150",
+          "name": "Vargem"
+        },
+        {
+          "ibgeCode": "4219176",
+          "name": "Vargem Bonita"
+        },
+        {
+          "ibgeCode": "4219200",
+          "name": "Vidal Ramos"
+        },
+        {
+          "ibgeCode": "4219309",
+          "name": "Videira"
+        },
+        {
+          "ibgeCode": "4219358",
+          "name": "Vitor Meireles"
+        },
+        {
+          "ibgeCode": "4219408",
+          "name": "Witmarsum"
+        },
+        {
+          "ibgeCode": "4219507",
+          "name": "Xanxerê"
+        },
+        {
+          "ibgeCode": "4219606",
+          "name": "Xavantina"
+        },
+        {
+          "ibgeCode": "4219705",
+          "name": "Xaxim"
+        },
+        {
+          "ibgeCode": "4219853",
+          "name": "Zortéa"
+        },
+        {
+          "ibgeCode": "4220000",
+          "name": "Balneário Rincão"
+        }
+      ]
+    },
+    {
+      "uf": "RS",
+      "name": "Rio Grande do Sul",
+      "ibgeCode": "43",
+      "municipalities": [
+        {
+          "ibgeCode": "4300034",
+          "name": "Aceguá"
+        },
+        {
+          "ibgeCode": "4300059",
+          "name": "Água Santa"
+        },
+        {
+          "ibgeCode": "4300109",
+          "name": "Agudo"
+        },
+        {
+          "ibgeCode": "4300208",
+          "name": "Ajuricaba"
+        },
+        {
+          "ibgeCode": "4300307",
+          "name": "Alecrim"
+        },
+        {
+          "ibgeCode": "4300406",
+          "name": "Alegrete"
+        },
+        {
+          "ibgeCode": "4300455",
+          "name": "Alegria"
+        },
+        {
+          "ibgeCode": "4300471",
+          "name": "Almirante Tamandaré do Sul"
+        },
+        {
+          "ibgeCode": "4300505",
+          "name": "Alpestre"
+        },
+        {
+          "ibgeCode": "4300554",
+          "name": "Alto Alegre"
+        },
+        {
+          "ibgeCode": "4300570",
+          "name": "Alto Feliz"
+        },
+        {
+          "ibgeCode": "4300604",
+          "name": "Alvorada"
+        },
+        {
+          "ibgeCode": "4300638",
+          "name": "Amaral Ferrador"
+        },
+        {
+          "ibgeCode": "4300646",
+          "name": "Ametista do Sul"
+        },
+        {
+          "ibgeCode": "4300661",
+          "name": "André da Rocha"
+        },
+        {
+          "ibgeCode": "4300703",
+          "name": "Anta Gorda"
+        },
+        {
+          "ibgeCode": "4300802",
+          "name": "Antônio Prado"
+        },
+        {
+          "ibgeCode": "4300851",
+          "name": "Arambaré"
+        },
+        {
+          "ibgeCode": "4300877",
+          "name": "Araricá"
+        },
+        {
+          "ibgeCode": "4300901",
+          "name": "Aratiba"
+        },
+        {
+          "ibgeCode": "4301008",
+          "name": "Arroio do Meio"
+        },
+        {
+          "ibgeCode": "4301057",
+          "name": "Arroio do Sal"
+        },
+        {
+          "ibgeCode": "4301073",
+          "name": "Arroio do Padre"
+        },
+        {
+          "ibgeCode": "4301107",
+          "name": "Arroio dos Ratos"
+        },
+        {
+          "ibgeCode": "4301206",
+          "name": "Arroio do Tigre"
+        },
+        {
+          "ibgeCode": "4301305",
+          "name": "Arroio Grande"
+        },
+        {
+          "ibgeCode": "4301404",
+          "name": "Arvorezinha"
+        },
+        {
+          "ibgeCode": "4301503",
+          "name": "Augusto Pestana"
+        },
+        {
+          "ibgeCode": "4301552",
+          "name": "Áurea"
+        },
+        {
+          "ibgeCode": "4301602",
+          "name": "Bagé"
+        },
+        {
+          "ibgeCode": "4301636",
+          "name": "Balneário Pinhal"
+        },
+        {
+          "ibgeCode": "4301651",
+          "name": "Barão"
+        },
+        {
+          "ibgeCode": "4301701",
+          "name": "Barão de Cotegipe"
+        },
+        {
+          "ibgeCode": "4301750",
+          "name": "Barão do Triunfo"
+        },
+        {
+          "ibgeCode": "4301800",
+          "name": "Barracão"
+        },
+        {
+          "ibgeCode": "4301859",
+          "name": "Barra do Guarita"
+        },
+        {
+          "ibgeCode": "4301875",
+          "name": "Barra do Quaraí"
+        },
+        {
+          "ibgeCode": "4301909",
+          "name": "Barra do Ribeiro"
+        },
+        {
+          "ibgeCode": "4301925",
+          "name": "Barra do Rio Azul"
+        },
+        {
+          "ibgeCode": "4301958",
+          "name": "Barra Funda"
+        },
+        {
+          "ibgeCode": "4302006",
+          "name": "Barros Cassal"
+        },
+        {
+          "ibgeCode": "4302055",
+          "name": "Benjamin Constant do Sul"
+        },
+        {
+          "ibgeCode": "4302105",
+          "name": "Bento Gonçalves"
+        },
+        {
+          "ibgeCode": "4302154",
+          "name": "Boa Vista das Missões"
+        },
+        {
+          "ibgeCode": "4302204",
+          "name": "Boa Vista do Buricá"
+        },
+        {
+          "ibgeCode": "4302220",
+          "name": "Boa Vista do Cadeado"
+        },
+        {
+          "ibgeCode": "4302238",
+          "name": "Boa Vista do Incra"
+        },
+        {
+          "ibgeCode": "4302253",
+          "name": "Boa Vista do Sul"
+        },
+        {
+          "ibgeCode": "4302303",
+          "name": "Bom Jesus"
+        },
+        {
+          "ibgeCode": "4302352",
+          "name": "Bom Princípio"
+        },
+        {
+          "ibgeCode": "4302378",
+          "name": "Bom Progresso"
+        },
+        {
+          "ibgeCode": "4302402",
+          "name": "Bom Retiro do Sul"
+        },
+        {
+          "ibgeCode": "4302451",
+          "name": "Boqueirão do Leão"
+        },
+        {
+          "ibgeCode": "4302501",
+          "name": "Bossoroca"
+        },
+        {
+          "ibgeCode": "4302584",
+          "name": "Bozano"
+        },
+        {
+          "ibgeCode": "4302600",
+          "name": "Braga"
+        },
+        {
+          "ibgeCode": "4302659",
+          "name": "Brochier"
+        },
+        {
+          "ibgeCode": "4302709",
+          "name": "Butiá"
+        },
+        {
+          "ibgeCode": "4302808",
+          "name": "Caçapava do Sul"
+        },
+        {
+          "ibgeCode": "4302907",
+          "name": "Cacequi"
+        },
+        {
+          "ibgeCode": "4303004",
+          "name": "Cachoeira do Sul"
+        },
+        {
+          "ibgeCode": "4303103",
+          "name": "Cachoeirinha"
+        },
+        {
+          "ibgeCode": "4303202",
+          "name": "Cacique Doble"
+        },
+        {
+          "ibgeCode": "4303301",
+          "name": "Caibaté"
+        },
+        {
+          "ibgeCode": "4303400",
+          "name": "Caiçara"
+        },
+        {
+          "ibgeCode": "4303509",
+          "name": "Camaquã"
+        },
+        {
+          "ibgeCode": "4303558",
+          "name": "Camargo"
+        },
+        {
+          "ibgeCode": "4303608",
+          "name": "Cambará do Sul"
+        },
+        {
+          "ibgeCode": "4303673",
+          "name": "Campestre da Serra"
+        },
+        {
+          "ibgeCode": "4303707",
+          "name": "Campina das Missões"
+        },
+        {
+          "ibgeCode": "4303806",
+          "name": "Campinas do Sul"
+        },
+        {
+          "ibgeCode": "4303905",
+          "name": "Campo Bom"
+        },
+        {
+          "ibgeCode": "4304002",
+          "name": "Campo Novo"
+        },
+        {
+          "ibgeCode": "4304101",
+          "name": "Campos Borges"
+        },
+        {
+          "ibgeCode": "4304200",
+          "name": "Candelária"
+        },
+        {
+          "ibgeCode": "4304309",
+          "name": "Cândido Godói"
+        },
+        {
+          "ibgeCode": "4304358",
+          "name": "Candiota"
+        },
+        {
+          "ibgeCode": "4304408",
+          "name": "Canela"
+        },
+        {
+          "ibgeCode": "4304507",
+          "name": "Canguçu"
+        },
+        {
+          "ibgeCode": "4304606",
+          "name": "Canoas"
+        },
+        {
+          "ibgeCode": "4304614",
+          "name": "Canudos do Vale"
+        },
+        {
+          "ibgeCode": "4304622",
+          "name": "Capão Bonito do Sul"
+        },
+        {
+          "ibgeCode": "4304630",
+          "name": "Capão da Canoa"
+        },
+        {
+          "ibgeCode": "4304655",
+          "name": "Capão do Cipó"
+        },
+        {
+          "ibgeCode": "4304663",
+          "name": "Capão do Leão"
+        },
+        {
+          "ibgeCode": "4304671",
+          "name": "Capivari do Sul"
+        },
+        {
+          "ibgeCode": "4304689",
+          "name": "Capela de Santana"
+        },
+        {
+          "ibgeCode": "4304697",
+          "name": "Capitão"
+        },
+        {
+          "ibgeCode": "4304705",
+          "name": "Carazinho"
+        },
+        {
+          "ibgeCode": "4304713",
+          "name": "Caraá"
+        },
+        {
+          "ibgeCode": "4304804",
+          "name": "Carlos Barbosa"
+        },
+        {
+          "ibgeCode": "4304853",
+          "name": "Carlos Gomes"
+        },
+        {
+          "ibgeCode": "4304903",
+          "name": "Casca"
+        },
+        {
+          "ibgeCode": "4304952",
+          "name": "Caseiros"
+        },
+        {
+          "ibgeCode": "4305009",
+          "name": "Catuípe"
+        },
+        {
+          "ibgeCode": "4305108",
+          "name": "Caxias do Sul"
+        },
+        {
+          "ibgeCode": "4305116",
+          "name": "Centenário"
+        },
+        {
+          "ibgeCode": "4305124",
+          "name": "Cerrito"
+        },
+        {
+          "ibgeCode": "4305132",
+          "name": "Cerro Branco"
+        },
+        {
+          "ibgeCode": "4305157",
+          "name": "Cerro Grande"
+        },
+        {
+          "ibgeCode": "4305173",
+          "name": "Cerro Grande do Sul"
+        },
+        {
+          "ibgeCode": "4305207",
+          "name": "Cerro Largo"
+        },
+        {
+          "ibgeCode": "4305306",
+          "name": "Chapada"
+        },
+        {
+          "ibgeCode": "4305355",
+          "name": "Charqueadas"
+        },
+        {
+          "ibgeCode": "4305371",
+          "name": "Charrua"
+        },
+        {
+          "ibgeCode": "4305405",
+          "name": "Chiapetta"
+        },
+        {
+          "ibgeCode": "4305439",
+          "name": "Chuí"
+        },
+        {
+          "ibgeCode": "4305447",
+          "name": "Chuvisca"
+        },
+        {
+          "ibgeCode": "4305454",
+          "name": "Cidreira"
+        },
+        {
+          "ibgeCode": "4305504",
+          "name": "Ciríaco"
+        },
+        {
+          "ibgeCode": "4305587",
+          "name": "Colinas"
+        },
+        {
+          "ibgeCode": "4305603",
+          "name": "Colorado"
+        },
+        {
+          "ibgeCode": "4305702",
+          "name": "Condor"
+        },
+        {
+          "ibgeCode": "4305801",
+          "name": "Constantina"
+        },
+        {
+          "ibgeCode": "4305835",
+          "name": "Coqueiro Baixo"
+        },
+        {
+          "ibgeCode": "4305850",
+          "name": "Coqueiros do Sul"
+        },
+        {
+          "ibgeCode": "4305871",
+          "name": "Coronel Barros"
+        },
+        {
+          "ibgeCode": "4305900",
+          "name": "Coronel Bicaco"
+        },
+        {
+          "ibgeCode": "4305934",
+          "name": "Coronel Pilar"
+        },
+        {
+          "ibgeCode": "4305959",
+          "name": "Cotiporã"
+        },
+        {
+          "ibgeCode": "4305975",
+          "name": "Coxilha"
+        },
+        {
+          "ibgeCode": "4306007",
+          "name": "Crissiumal"
+        },
+        {
+          "ibgeCode": "4306056",
+          "name": "Cristal"
+        },
+        {
+          "ibgeCode": "4306072",
+          "name": "Cristal do Sul"
+        },
+        {
+          "ibgeCode": "4306106",
+          "name": "Cruz Alta"
+        },
+        {
+          "ibgeCode": "4306130",
+          "name": "Cruzaltense"
+        },
+        {
+          "ibgeCode": "4306205",
+          "name": "Cruzeiro do Sul"
+        },
+        {
+          "ibgeCode": "4306304",
+          "name": "David Canabarro"
+        },
+        {
+          "ibgeCode": "4306320",
+          "name": "Derrubadas"
+        },
+        {
+          "ibgeCode": "4306353",
+          "name": "Dezesseis de Novembro"
+        },
+        {
+          "ibgeCode": "4306379",
+          "name": "Dilermando de Aguiar"
+        },
+        {
+          "ibgeCode": "4306403",
+          "name": "Dois Irmãos"
+        },
+        {
+          "ibgeCode": "4306429",
+          "name": "Dois Irmãos das Missões"
+        },
+        {
+          "ibgeCode": "4306452",
+          "name": "Dois Lajeados"
+        },
+        {
+          "ibgeCode": "4306502",
+          "name": "Dom Feliciano"
+        },
+        {
+          "ibgeCode": "4306551",
+          "name": "Dom Pedro de Alcântara"
+        },
+        {
+          "ibgeCode": "4306601",
+          "name": "Dom Pedrito"
+        },
+        {
+          "ibgeCode": "4306700",
+          "name": "Dona Francisca"
+        },
+        {
+          "ibgeCode": "4306734",
+          "name": "Doutor Maurício Cardoso"
+        },
+        {
+          "ibgeCode": "4306759",
+          "name": "Doutor Ricardo"
+        },
+        {
+          "ibgeCode": "4306767",
+          "name": "Eldorado do Sul"
+        },
+        {
+          "ibgeCode": "4306809",
+          "name": "Encantado"
+        },
+        {
+          "ibgeCode": "4306908",
+          "name": "Encruzilhada do Sul"
+        },
+        {
+          "ibgeCode": "4306924",
+          "name": "Engenho Velho"
+        },
+        {
+          "ibgeCode": "4306932",
+          "name": "Entre-Ijuís"
+        },
+        {
+          "ibgeCode": "4306957",
+          "name": "Entre Rios do Sul"
+        },
+        {
+          "ibgeCode": "4306973",
+          "name": "Erebango"
+        },
+        {
+          "ibgeCode": "4307005",
+          "name": "Erechim"
+        },
+        {
+          "ibgeCode": "4307054",
+          "name": "Ernestina"
+        },
+        {
+          "ibgeCode": "4307104",
+          "name": "Herval"
+        },
+        {
+          "ibgeCode": "4307203",
+          "name": "Erval Grande"
+        },
+        {
+          "ibgeCode": "4307302",
+          "name": "Erval Seco"
+        },
+        {
+          "ibgeCode": "4307401",
+          "name": "Esmeralda"
+        },
+        {
+          "ibgeCode": "4307450",
+          "name": "Esperança do Sul"
+        },
+        {
+          "ibgeCode": "4307500",
+          "name": "Espumoso"
+        },
+        {
+          "ibgeCode": "4307559",
+          "name": "Estação"
+        },
+        {
+          "ibgeCode": "4307609",
+          "name": "Estância Velha"
+        },
+        {
+          "ibgeCode": "4307708",
+          "name": "Esteio"
+        },
+        {
+          "ibgeCode": "4307807",
+          "name": "Estrela"
+        },
+        {
+          "ibgeCode": "4307815",
+          "name": "Estrela Velha"
+        },
+        {
+          "ibgeCode": "4307831",
+          "name": "Eugênio de Castro"
+        },
+        {
+          "ibgeCode": "4307864",
+          "name": "Fagundes Varela"
+        },
+        {
+          "ibgeCode": "4307906",
+          "name": "Farroupilha"
+        },
+        {
+          "ibgeCode": "4308003",
+          "name": "Faxinal do Soturno"
+        },
+        {
+          "ibgeCode": "4308052",
+          "name": "Faxinalzinho"
+        },
+        {
+          "ibgeCode": "4308078",
+          "name": "Fazenda Vilanova"
+        },
+        {
+          "ibgeCode": "4308102",
+          "name": "Feliz"
+        },
+        {
+          "ibgeCode": "4308201",
+          "name": "Flores da Cunha"
+        },
+        {
+          "ibgeCode": "4308250",
+          "name": "Floriano Peixoto"
+        },
+        {
+          "ibgeCode": "4308300",
+          "name": "Fontoura Xavier"
+        },
+        {
+          "ibgeCode": "4308409",
+          "name": "Formigueiro"
+        },
+        {
+          "ibgeCode": "4308433",
+          "name": "Forquetinha"
+        },
+        {
+          "ibgeCode": "4308458",
+          "name": "Fortaleza dos Valos"
+        },
+        {
+          "ibgeCode": "4308508",
+          "name": "Frederico Westphalen"
+        },
+        {
+          "ibgeCode": "4308607",
+          "name": "Garibaldi"
+        },
+        {
+          "ibgeCode": "4308656",
+          "name": "Garruchos"
+        },
+        {
+          "ibgeCode": "4308706",
+          "name": "Gaurama"
+        },
+        {
+          "ibgeCode": "4308805",
+          "name": "General Câmara"
+        },
+        {
+          "ibgeCode": "4308854",
+          "name": "Gentil"
+        },
+        {
+          "ibgeCode": "4308904",
+          "name": "Getúlio Vargas"
+        },
+        {
+          "ibgeCode": "4309001",
+          "name": "Giruá"
+        },
+        {
+          "ibgeCode": "4309050",
+          "name": "Glorinha"
+        },
+        {
+          "ibgeCode": "4309100",
+          "name": "Gramado"
+        },
+        {
+          "ibgeCode": "4309126",
+          "name": "Gramado dos Loureiros"
+        },
+        {
+          "ibgeCode": "4309159",
+          "name": "Gramado Xavier"
+        },
+        {
+          "ibgeCode": "4309209",
+          "name": "Gravataí"
+        },
+        {
+          "ibgeCode": "4309258",
+          "name": "Guabiju"
+        },
+        {
+          "ibgeCode": "4309308",
+          "name": "Guaíba"
+        },
+        {
+          "ibgeCode": "4309407",
+          "name": "Guaporé"
+        },
+        {
+          "ibgeCode": "4309506",
+          "name": "Guarani das Missões"
+        },
+        {
+          "ibgeCode": "4309555",
+          "name": "Harmonia"
+        },
+        {
+          "ibgeCode": "4309571",
+          "name": "Herveiras"
+        },
+        {
+          "ibgeCode": "4309605",
+          "name": "Horizontina"
+        },
+        {
+          "ibgeCode": "4309654",
+          "name": "Hulha Negra"
+        },
+        {
+          "ibgeCode": "4309704",
+          "name": "Humaitá"
+        },
+        {
+          "ibgeCode": "4309753",
+          "name": "Ibarama"
+        },
+        {
+          "ibgeCode": "4309803",
+          "name": "Ibiaçá"
+        },
+        {
+          "ibgeCode": "4309902",
+          "name": "Ibiraiaras"
+        },
+        {
+          "ibgeCode": "4309951",
+          "name": "Ibirapuitã"
+        },
+        {
+          "ibgeCode": "4310009",
+          "name": "Ibirubá"
+        },
+        {
+          "ibgeCode": "4310108",
+          "name": "Igrejinha"
+        },
+        {
+          "ibgeCode": "4310207",
+          "name": "Ijuí"
+        },
+        {
+          "ibgeCode": "4310306",
+          "name": "Ilópolis"
+        },
+        {
+          "ibgeCode": "4310330",
+          "name": "Imbé"
+        },
+        {
+          "ibgeCode": "4310363",
+          "name": "Imigrante"
+        },
+        {
+          "ibgeCode": "4310405",
+          "name": "Independência"
+        },
+        {
+          "ibgeCode": "4310413",
+          "name": "Inhacorá"
+        },
+        {
+          "ibgeCode": "4310439",
+          "name": "Ipê"
+        },
+        {
+          "ibgeCode": "4310462",
+          "name": "Ipiranga do Sul"
+        },
+        {
+          "ibgeCode": "4310504",
+          "name": "Iraí"
+        },
+        {
+          "ibgeCode": "4310538",
+          "name": "Itaara"
+        },
+        {
+          "ibgeCode": "4310553",
+          "name": "Itacurubi"
+        },
+        {
+          "ibgeCode": "4310579",
+          "name": "Itapuca"
+        },
+        {
+          "ibgeCode": "4310603",
+          "name": "Itaqui"
+        },
+        {
+          "ibgeCode": "4310652",
+          "name": "Itati"
+        },
+        {
+          "ibgeCode": "4310702",
+          "name": "Itatiba do Sul"
+        },
+        {
+          "ibgeCode": "4310751",
+          "name": "Ivorá"
+        },
+        {
+          "ibgeCode": "4310801",
+          "name": "Ivoti"
+        },
+        {
+          "ibgeCode": "4310850",
+          "name": "Jaboticaba"
+        },
+        {
+          "ibgeCode": "4310876",
+          "name": "Jacuizinho"
+        },
+        {
+          "ibgeCode": "4310900",
+          "name": "Jacutinga"
+        },
+        {
+          "ibgeCode": "4311007",
+          "name": "Jaguarão"
+        },
+        {
+          "ibgeCode": "4311106",
+          "name": "Jaguari"
+        },
+        {
+          "ibgeCode": "4311122",
+          "name": "Jaquirana"
+        },
+        {
+          "ibgeCode": "4311130",
+          "name": "Jari"
+        },
+        {
+          "ibgeCode": "4311155",
+          "name": "Jóia"
+        },
+        {
+          "ibgeCode": "4311205",
+          "name": "Júlio de Castilhos"
+        },
+        {
+          "ibgeCode": "4311239",
+          "name": "Lagoa Bonita do Sul"
+        },
+        {
+          "ibgeCode": "4311254",
+          "name": "Lagoão"
+        },
+        {
+          "ibgeCode": "4311270",
+          "name": "Lagoa dos Três Cantos"
+        },
+        {
+          "ibgeCode": "4311304",
+          "name": "Lagoa Vermelha"
+        },
+        {
+          "ibgeCode": "4311403",
+          "name": "Lajeado"
+        },
+        {
+          "ibgeCode": "4311429",
+          "name": "Lajeado do Bugre"
+        },
+        {
+          "ibgeCode": "4311502",
+          "name": "Lavras do Sul"
+        },
+        {
+          "ibgeCode": "4311601",
+          "name": "Liberato Salzano"
+        },
+        {
+          "ibgeCode": "4311627",
+          "name": "Lindolfo Collor"
+        },
+        {
+          "ibgeCode": "4311643",
+          "name": "Linha Nova"
+        },
+        {
+          "ibgeCode": "4311700",
+          "name": "Machadinho"
+        },
+        {
+          "ibgeCode": "4311718",
+          "name": "Maçambará"
+        },
+        {
+          "ibgeCode": "4311734",
+          "name": "Mampituba"
+        },
+        {
+          "ibgeCode": "4311759",
+          "name": "Manoel Viana"
+        },
+        {
+          "ibgeCode": "4311775",
+          "name": "Maquiné"
+        },
+        {
+          "ibgeCode": "4311791",
+          "name": "Maratá"
+        },
+        {
+          "ibgeCode": "4311809",
+          "name": "Marau"
+        },
+        {
+          "ibgeCode": "4311908",
+          "name": "Marcelino Ramos"
+        },
+        {
+          "ibgeCode": "4311981",
+          "name": "Mariana Pimentel"
+        },
+        {
+          "ibgeCode": "4312005",
+          "name": "Mariano Moro"
+        },
+        {
+          "ibgeCode": "4312054",
+          "name": "Marques de Souza"
+        },
+        {
+          "ibgeCode": "4312104",
+          "name": "Mata"
+        },
+        {
+          "ibgeCode": "4312138",
+          "name": "Mato Castelhano"
+        },
+        {
+          "ibgeCode": "4312153",
+          "name": "Mato Leitão"
+        },
+        {
+          "ibgeCode": "4312179",
+          "name": "Mato Queimado"
+        },
+        {
+          "ibgeCode": "4312203",
+          "name": "Maximiliano de Almeida"
+        },
+        {
+          "ibgeCode": "4312252",
+          "name": "Minas do Leão"
+        },
+        {
+          "ibgeCode": "4312302",
+          "name": "Miraguaí"
+        },
+        {
+          "ibgeCode": "4312351",
+          "name": "Montauri"
+        },
+        {
+          "ibgeCode": "4312377",
+          "name": "Monte Alegre dos Campos"
+        },
+        {
+          "ibgeCode": "4312385",
+          "name": "Monte Belo do Sul"
+        },
+        {
+          "ibgeCode": "4312401",
+          "name": "Montenegro"
+        },
+        {
+          "ibgeCode": "4312427",
+          "name": "Mormaço"
+        },
+        {
+          "ibgeCode": "4312443",
+          "name": "Morrinhos do Sul"
+        },
+        {
+          "ibgeCode": "4312450",
+          "name": "Morro Redondo"
+        },
+        {
+          "ibgeCode": "4312476",
+          "name": "Morro Reuter"
+        },
+        {
+          "ibgeCode": "4312500",
+          "name": "Mostardas"
+        },
+        {
+          "ibgeCode": "4312609",
+          "name": "Muçum"
+        },
+        {
+          "ibgeCode": "4312617",
+          "name": "Muitos Capões"
+        },
+        {
+          "ibgeCode": "4312625",
+          "name": "Muliterno"
+        },
+        {
+          "ibgeCode": "4312658",
+          "name": "Não-Me-Toque"
+        },
+        {
+          "ibgeCode": "4312674",
+          "name": "Nicolau Vergueiro"
+        },
+        {
+          "ibgeCode": "4312708",
+          "name": "Nonoai"
+        },
+        {
+          "ibgeCode": "4312757",
+          "name": "Nova Alvorada"
+        },
+        {
+          "ibgeCode": "4312807",
+          "name": "Nova Araçá"
+        },
+        {
+          "ibgeCode": "4312906",
+          "name": "Nova Bassano"
+        },
+        {
+          "ibgeCode": "4312955",
+          "name": "Nova Boa Vista"
+        },
+        {
+          "ibgeCode": "4313003",
+          "name": "Nova Bréscia"
+        },
+        {
+          "ibgeCode": "4313011",
+          "name": "Nova Candelária"
+        },
+        {
+          "ibgeCode": "4313037",
+          "name": "Nova Esperança do Sul"
+        },
+        {
+          "ibgeCode": "4313060",
+          "name": "Nova Hartz"
+        },
+        {
+          "ibgeCode": "4313086",
+          "name": "Nova Pádua"
+        },
+        {
+          "ibgeCode": "4313102",
+          "name": "Nova Palma"
+        },
+        {
+          "ibgeCode": "4313201",
+          "name": "Nova Petrópolis"
+        },
+        {
+          "ibgeCode": "4313300",
+          "name": "Nova Prata"
+        },
+        {
+          "ibgeCode": "4313334",
+          "name": "Nova Ramada"
+        },
+        {
+          "ibgeCode": "4313359",
+          "name": "Nova Roma do Sul"
+        },
+        {
+          "ibgeCode": "4313375",
+          "name": "Nova Santa Rita"
+        },
+        {
+          "ibgeCode": "4313391",
+          "name": "Novo Cabrais"
+        },
+        {
+          "ibgeCode": "4313409",
+          "name": "Novo Hamburgo"
+        },
+        {
+          "ibgeCode": "4313425",
+          "name": "Novo Machado"
+        },
+        {
+          "ibgeCode": "4313441",
+          "name": "Novo Tiradentes"
+        },
+        {
+          "ibgeCode": "4313466",
+          "name": "Novo Xingu"
+        },
+        {
+          "ibgeCode": "4313490",
+          "name": "Novo Barreiro"
+        },
+        {
+          "ibgeCode": "4313508",
+          "name": "Osório"
+        },
+        {
+          "ibgeCode": "4313607",
+          "name": "Paim Filho"
+        },
+        {
+          "ibgeCode": "4313656",
+          "name": "Palmares do Sul"
+        },
+        {
+          "ibgeCode": "4313706",
+          "name": "Palmeira das Missões"
+        },
+        {
+          "ibgeCode": "4313805",
+          "name": "Palmitinho"
+        },
+        {
+          "ibgeCode": "4313904",
+          "name": "Panambi"
+        },
+        {
+          "ibgeCode": "4313953",
+          "name": "Pantano Grande"
+        },
+        {
+          "ibgeCode": "4314001",
+          "name": "Paraí"
+        },
+        {
+          "ibgeCode": "4314027",
+          "name": "Paraíso do Sul"
+        },
+        {
+          "ibgeCode": "4314035",
+          "name": "Pareci Novo"
+        },
+        {
+          "ibgeCode": "4314050",
+          "name": "Parobé"
+        },
+        {
+          "ibgeCode": "4314068",
+          "name": "Passa Sete"
+        },
+        {
+          "ibgeCode": "4314076",
+          "name": "Passo do Sobrado"
+        },
+        {
+          "ibgeCode": "4314100",
+          "name": "Passo Fundo"
+        },
+        {
+          "ibgeCode": "4314134",
+          "name": "Paulo Bento"
+        },
+        {
+          "ibgeCode": "4314159",
+          "name": "Paverama"
+        },
+        {
+          "ibgeCode": "4314175",
+          "name": "Pedras Altas"
+        },
+        {
+          "ibgeCode": "4314209",
+          "name": "Pedro Osório"
+        },
+        {
+          "ibgeCode": "4314308",
+          "name": "Pejuçara"
+        },
+        {
+          "ibgeCode": "4314407",
+          "name": "Pelotas"
+        },
+        {
+          "ibgeCode": "4314423",
+          "name": "Picada Café"
+        },
+        {
+          "ibgeCode": "4314456",
+          "name": "Pinhal"
+        },
+        {
+          "ibgeCode": "4314464",
+          "name": "Pinhal da Serra"
+        },
+        {
+          "ibgeCode": "4314472",
+          "name": "Pinhal Grande"
+        },
+        {
+          "ibgeCode": "4314498",
+          "name": "Pinheirinho do Vale"
+        },
+        {
+          "ibgeCode": "4314506",
+          "name": "Pinheiro Machado"
+        },
+        {
+          "ibgeCode": "4314548",
+          "name": "Pinto Bandeira"
+        },
+        {
+          "ibgeCode": "4314555",
+          "name": "Pirapó"
+        },
+        {
+          "ibgeCode": "4314605",
+          "name": "Piratini"
+        },
+        {
+          "ibgeCode": "4314704",
+          "name": "Planalto"
+        },
+        {
+          "ibgeCode": "4314753",
+          "name": "Poço das Antas"
+        },
+        {
+          "ibgeCode": "4314779",
+          "name": "Pontão"
+        },
+        {
+          "ibgeCode": "4314787",
+          "name": "Ponte Preta"
+        },
+        {
+          "ibgeCode": "4314803",
+          "name": "Portão"
+        },
+        {
+          "ibgeCode": "4314902",
+          "name": "Porto Alegre"
+        },
+        {
+          "ibgeCode": "4315008",
+          "name": "Porto Lucena"
+        },
+        {
+          "ibgeCode": "4315057",
+          "name": "Porto Mauá"
+        },
+        {
+          "ibgeCode": "4315073",
+          "name": "Porto Vera Cruz"
+        },
+        {
+          "ibgeCode": "4315107",
+          "name": "Porto Xavier"
+        },
+        {
+          "ibgeCode": "4315131",
+          "name": "Pouso Novo"
+        },
+        {
+          "ibgeCode": "4315149",
+          "name": "Presidente Lucena"
+        },
+        {
+          "ibgeCode": "4315156",
+          "name": "Progresso"
+        },
+        {
+          "ibgeCode": "4315172",
+          "name": "Protásio Alves"
+        },
+        {
+          "ibgeCode": "4315206",
+          "name": "Putinga"
+        },
+        {
+          "ibgeCode": "4315305",
+          "name": "Quaraí"
+        },
+        {
+          "ibgeCode": "4315313",
+          "name": "Quatro Irmãos"
+        },
+        {
+          "ibgeCode": "4315321",
+          "name": "Quevedos"
+        },
+        {
+          "ibgeCode": "4315354",
+          "name": "Quinze de Novembro"
+        },
+        {
+          "ibgeCode": "4315404",
+          "name": "Redentora"
+        },
+        {
+          "ibgeCode": "4315453",
+          "name": "Relvado"
+        },
+        {
+          "ibgeCode": "4315503",
+          "name": "Restinga Sêca"
+        },
+        {
+          "ibgeCode": "4315552",
+          "name": "Rio dos Índios"
+        },
+        {
+          "ibgeCode": "4315602",
+          "name": "Rio Grande"
+        },
+        {
+          "ibgeCode": "4315701",
+          "name": "Rio Pardo"
+        },
+        {
+          "ibgeCode": "4315750",
+          "name": "Riozinho"
+        },
+        {
+          "ibgeCode": "4315800",
+          "name": "Roca Sales"
+        },
+        {
+          "ibgeCode": "4315909",
+          "name": "Rodeio Bonito"
+        },
+        {
+          "ibgeCode": "4315958",
+          "name": "Rolador"
+        },
+        {
+          "ibgeCode": "4316006",
+          "name": "Rolante"
+        },
+        {
+          "ibgeCode": "4316105",
+          "name": "Ronda Alta"
+        },
+        {
+          "ibgeCode": "4316204",
+          "name": "Rondinha"
+        },
+        {
+          "ibgeCode": "4316303",
+          "name": "Roque Gonzales"
+        },
+        {
+          "ibgeCode": "4316402",
+          "name": "Rosário do Sul"
+        },
+        {
+          "ibgeCode": "4316428",
+          "name": "Sagrada Família"
+        },
+        {
+          "ibgeCode": "4316436",
+          "name": "Saldanha Marinho"
+        },
+        {
+          "ibgeCode": "4316451",
+          "name": "Salto do Jacuí"
+        },
+        {
+          "ibgeCode": "4316477",
+          "name": "Salvador das Missões"
+        },
+        {
+          "ibgeCode": "4316501",
+          "name": "Salvador do Sul"
+        },
+        {
+          "ibgeCode": "4316600",
+          "name": "Sananduva"
+        },
+        {
+          "ibgeCode": "4316709",
+          "name": "Santa Bárbara do Sul"
+        },
+        {
+          "ibgeCode": "4316733",
+          "name": "Santa Cecília do Sul"
+        },
+        {
+          "ibgeCode": "4316758",
+          "name": "Santa Clara do Sul"
+        },
+        {
+          "ibgeCode": "4316808",
+          "name": "Santa Cruz do Sul"
+        },
+        {
+          "ibgeCode": "4316907",
+          "name": "Santa Maria"
+        },
+        {
+          "ibgeCode": "4316956",
+          "name": "Santa Maria do Herval"
+        },
+        {
+          "ibgeCode": "4316972",
+          "name": "Santa Margarida do Sul"
+        },
+        {
+          "ibgeCode": "4317004",
+          "name": "Santana da Boa Vista"
+        },
+        {
+          "ibgeCode": "4317103",
+          "name": "Sant'Ana do Livramento"
+        },
+        {
+          "ibgeCode": "4317202",
+          "name": "Santa Rosa"
+        },
+        {
+          "ibgeCode": "4317251",
+          "name": "Santa Tereza"
+        },
+        {
+          "ibgeCode": "4317301",
+          "name": "Santa Vitória do Palmar"
+        },
+        {
+          "ibgeCode": "4317400",
+          "name": "Santiago"
+        },
+        {
+          "ibgeCode": "4317509",
+          "name": "Santo Ângelo"
+        },
+        {
+          "ibgeCode": "4317558",
+          "name": "Santo Antônio do Palma"
+        },
+        {
+          "ibgeCode": "4317608",
+          "name": "Santo Antônio da Patrulha"
+        },
+        {
+          "ibgeCode": "4317707",
+          "name": "Santo Antônio das Missões"
+        },
+        {
+          "ibgeCode": "4317756",
+          "name": "Santo Antônio do Planalto"
+        },
+        {
+          "ibgeCode": "4317806",
+          "name": "Santo Augusto"
+        },
+        {
+          "ibgeCode": "4317905",
+          "name": "Santo Cristo"
+        },
+        {
+          "ibgeCode": "4317954",
+          "name": "Santo Expedito do Sul"
+        },
+        {
+          "ibgeCode": "4318002",
+          "name": "São Borja"
+        },
+        {
+          "ibgeCode": "4318051",
+          "name": "São Domingos do Sul"
+        },
+        {
+          "ibgeCode": "4318101",
+          "name": "São Francisco de Assis"
+        },
+        {
+          "ibgeCode": "4318200",
+          "name": "São Francisco de Paula"
+        },
+        {
+          "ibgeCode": "4318309",
+          "name": "São Gabriel"
+        },
+        {
+          "ibgeCode": "4318408",
+          "name": "São Jerônimo"
+        },
+        {
+          "ibgeCode": "4318424",
+          "name": "São João da Urtiga"
+        },
+        {
+          "ibgeCode": "4318432",
+          "name": "São João do Polêsine"
+        },
+        {
+          "ibgeCode": "4318440",
+          "name": "São Jorge"
+        },
+        {
+          "ibgeCode": "4318457",
+          "name": "São José das Missões"
+        },
+        {
+          "ibgeCode": "4318465",
+          "name": "São José do Herval"
+        },
+        {
+          "ibgeCode": "4318481",
+          "name": "São José do Hortêncio"
+        },
+        {
+          "ibgeCode": "4318499",
+          "name": "São José do Inhacorá"
+        },
+        {
+          "ibgeCode": "4318507",
+          "name": "São José do Norte"
+        },
+        {
+          "ibgeCode": "4318606",
+          "name": "São José do Ouro"
+        },
+        {
+          "ibgeCode": "4318614",
+          "name": "São José do Sul"
+        },
+        {
+          "ibgeCode": "4318622",
+          "name": "São José dos Ausentes"
+        },
+        {
+          "ibgeCode": "4318705",
+          "name": "São Leopoldo"
+        },
+        {
+          "ibgeCode": "4318804",
+          "name": "São Lourenço do Sul"
+        },
+        {
+          "ibgeCode": "4318903",
+          "name": "São Luiz Gonzaga"
+        },
+        {
+          "ibgeCode": "4319000",
+          "name": "São Marcos"
+        },
+        {
+          "ibgeCode": "4319109",
+          "name": "São Martinho"
+        },
+        {
+          "ibgeCode": "4319125",
+          "name": "São Martinho da Serra"
+        },
+        {
+          "ibgeCode": "4319158",
+          "name": "São Miguel das Missões"
+        },
+        {
+          "ibgeCode": "4319208",
+          "name": "São Nicolau"
+        },
+        {
+          "ibgeCode": "4319307",
+          "name": "São Paulo das Missões"
+        },
+        {
+          "ibgeCode": "4319356",
+          "name": "São Pedro da Serra"
+        },
+        {
+          "ibgeCode": "4319364",
+          "name": "São Pedro das Missões"
+        },
+        {
+          "ibgeCode": "4319372",
+          "name": "São Pedro do Butiá"
+        },
+        {
+          "ibgeCode": "4319406",
+          "name": "São Pedro do Sul"
+        },
+        {
+          "ibgeCode": "4319505",
+          "name": "São Sebastião do Caí"
+        },
+        {
+          "ibgeCode": "4319604",
+          "name": "São Sepé"
+        },
+        {
+          "ibgeCode": "4319703",
+          "name": "São Valentim"
+        },
+        {
+          "ibgeCode": "4319711",
+          "name": "São Valentim do Sul"
+        },
+        {
+          "ibgeCode": "4319737",
+          "name": "São Valério do Sul"
+        },
+        {
+          "ibgeCode": "4319752",
+          "name": "São Vendelino"
+        },
+        {
+          "ibgeCode": "4319802",
+          "name": "São Vicente do Sul"
+        },
+        {
+          "ibgeCode": "4319901",
+          "name": "Sapiranga"
+        },
+        {
+          "ibgeCode": "4320008",
+          "name": "Sapucaia do Sul"
+        },
+        {
+          "ibgeCode": "4320107",
+          "name": "Sarandi"
+        },
+        {
+          "ibgeCode": "4320206",
+          "name": "Seberi"
+        },
+        {
+          "ibgeCode": "4320230",
+          "name": "Sede Nova"
+        },
+        {
+          "ibgeCode": "4320263",
+          "name": "Segredo"
+        },
+        {
+          "ibgeCode": "4320305",
+          "name": "Selbach"
+        },
+        {
+          "ibgeCode": "4320321",
+          "name": "Senador Salgado Filho"
+        },
+        {
+          "ibgeCode": "4320354",
+          "name": "Sentinela do Sul"
+        },
+        {
+          "ibgeCode": "4320404",
+          "name": "Serafina Corrêa"
+        },
+        {
+          "ibgeCode": "4320453",
+          "name": "Sério"
+        },
+        {
+          "ibgeCode": "4320503",
+          "name": "Sertão"
+        },
+        {
+          "ibgeCode": "4320552",
+          "name": "Sertão Santana"
+        },
+        {
+          "ibgeCode": "4320578",
+          "name": "Sete de Setembro"
+        },
+        {
+          "ibgeCode": "4320602",
+          "name": "Severiano de Almeida"
+        },
+        {
+          "ibgeCode": "4320651",
+          "name": "Silveira Martins"
+        },
+        {
+          "ibgeCode": "4320677",
+          "name": "Sinimbu"
+        },
+        {
+          "ibgeCode": "4320701",
+          "name": "Sobradinho"
+        },
+        {
+          "ibgeCode": "4320800",
+          "name": "Soledade"
+        },
+        {
+          "ibgeCode": "4320859",
+          "name": "Tabaí"
+        },
+        {
+          "ibgeCode": "4320909",
+          "name": "Tapejara"
+        },
+        {
+          "ibgeCode": "4321006",
+          "name": "Tapera"
+        },
+        {
+          "ibgeCode": "4321105",
+          "name": "Tapes"
+        },
+        {
+          "ibgeCode": "4321204",
+          "name": "Taquara"
+        },
+        {
+          "ibgeCode": "4321303",
+          "name": "Taquari"
+        },
+        {
+          "ibgeCode": "4321329",
+          "name": "Taquaruçu do Sul"
+        },
+        {
+          "ibgeCode": "4321352",
+          "name": "Tavares"
+        },
+        {
+          "ibgeCode": "4321402",
+          "name": "Tenente Portela"
+        },
+        {
+          "ibgeCode": "4321436",
+          "name": "Terra de Areia"
+        },
+        {
+          "ibgeCode": "4321451",
+          "name": "Teutônia"
+        },
+        {
+          "ibgeCode": "4321469",
+          "name": "Tio Hugo"
+        },
+        {
+          "ibgeCode": "4321477",
+          "name": "Tiradentes do Sul"
+        },
+        {
+          "ibgeCode": "4321493",
+          "name": "Toropi"
+        },
+        {
+          "ibgeCode": "4321501",
+          "name": "Torres"
+        },
+        {
+          "ibgeCode": "4321600",
+          "name": "Tramandaí"
+        },
+        {
+          "ibgeCode": "4321626",
+          "name": "Travesseiro"
+        },
+        {
+          "ibgeCode": "4321634",
+          "name": "Três Arroios"
+        },
+        {
+          "ibgeCode": "4321667",
+          "name": "Três Cachoeiras"
+        },
+        {
+          "ibgeCode": "4321709",
+          "name": "Três Coroas"
+        },
+        {
+          "ibgeCode": "4321808",
+          "name": "Três de Maio"
+        },
+        {
+          "ibgeCode": "4321832",
+          "name": "Três Forquilhas"
+        },
+        {
+          "ibgeCode": "4321857",
+          "name": "Três Palmeiras"
+        },
+        {
+          "ibgeCode": "4321907",
+          "name": "Três Passos"
+        },
+        {
+          "ibgeCode": "4321956",
+          "name": "Trindade do Sul"
+        },
+        {
+          "ibgeCode": "4322004",
+          "name": "Triunfo"
+        },
+        {
+          "ibgeCode": "4322103",
+          "name": "Tucunduva"
+        },
+        {
+          "ibgeCode": "4322152",
+          "name": "Tunas"
+        },
+        {
+          "ibgeCode": "4322186",
+          "name": "Tupanci do Sul"
+        },
+        {
+          "ibgeCode": "4322202",
+          "name": "Tupanciretã"
+        },
+        {
+          "ibgeCode": "4322251",
+          "name": "Tupandi"
+        },
+        {
+          "ibgeCode": "4322301",
+          "name": "Tuparendi"
+        },
+        {
+          "ibgeCode": "4322327",
+          "name": "Turuçu"
+        },
+        {
+          "ibgeCode": "4322343",
+          "name": "Ubiretama"
+        },
+        {
+          "ibgeCode": "4322350",
+          "name": "União da Serra"
+        },
+        {
+          "ibgeCode": "4322376",
+          "name": "Unistalda"
+        },
+        {
+          "ibgeCode": "4322400",
+          "name": "Uruguaiana"
+        },
+        {
+          "ibgeCode": "4322509",
+          "name": "Vacaria"
+        },
+        {
+          "ibgeCode": "4322525",
+          "name": "Vale Verde"
+        },
+        {
+          "ibgeCode": "4322533",
+          "name": "Vale do Sol"
+        },
+        {
+          "ibgeCode": "4322541",
+          "name": "Vale Real"
+        },
+        {
+          "ibgeCode": "4322558",
+          "name": "Vanini"
+        },
+        {
+          "ibgeCode": "4322608",
+          "name": "Venâncio Aires"
+        },
+        {
+          "ibgeCode": "4322707",
+          "name": "Vera Cruz"
+        },
+        {
+          "ibgeCode": "4322806",
+          "name": "Veranópolis"
+        },
+        {
+          "ibgeCode": "4322855",
+          "name": "Vespasiano Corrêa"
+        },
+        {
+          "ibgeCode": "4322905",
+          "name": "Viadutos"
+        },
+        {
+          "ibgeCode": "4323002",
+          "name": "Viamão"
+        },
+        {
+          "ibgeCode": "4323101",
+          "name": "Vicente Dutra"
+        },
+        {
+          "ibgeCode": "4323200",
+          "name": "Victor Graeff"
+        },
+        {
+          "ibgeCode": "4323309",
+          "name": "Vila Flores"
+        },
+        {
+          "ibgeCode": "4323358",
+          "name": "Vila Lângaro"
+        },
+        {
+          "ibgeCode": "4323408",
+          "name": "Vila Maria"
+        },
+        {
+          "ibgeCode": "4323457",
+          "name": "Vila Nova do Sul"
+        },
+        {
+          "ibgeCode": "4323507",
+          "name": "Vista Alegre"
+        },
+        {
+          "ibgeCode": "4323606",
+          "name": "Vista Alegre do Prata"
+        },
+        {
+          "ibgeCode": "4323705",
+          "name": "Vista Gaúcha"
+        },
+        {
+          "ibgeCode": "4323754",
+          "name": "Vitória das Missões"
+        },
+        {
+          "ibgeCode": "4323770",
+          "name": "Westfália"
+        },
+        {
+          "ibgeCode": "4323804",
+          "name": "Xangri-lá"
+        }
+      ]
+    }
+  ]
+}

@@ -195,6 +195,7 @@ model Partner {
   socialLinks     Json?                   @map("social_links")
   websiteUrl      String?                 @map("website_url")
   logoUrl         String?                 @map("logo_url")
+  logoKey         String?                 @map("logo_key")
   active          Boolean                 @default(false)
   approximateLat  Float?                  @map("approximate_lat")
   approximateLng  Float?                  @map("approximate_lng")
@@ -320,6 +321,7 @@ enum AuditEntityType {
   ADMIN_USER
   INSTITUTIONAL_SETTINGS
   BANNER
+  COMMERCIAL_AREA
 }
 
 model Banner {
