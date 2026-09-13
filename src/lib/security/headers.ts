@@ -20,30 +20,8 @@ function originOf(url: string | undefined): string | null {
 }
 
 /**
- * CSP com nonce por requisição — só pode ser montada no middleware (onde o
- * nonce é gerado a cada requisição), nunca em `next.config.ts` (headers()
- * ali são estáticos, calculados uma vez no build). Substituiu uma versão
- * anterior com `'unsafe-inline'` em `script-src` (achado de segurança do
- * Jose, 12/09/2026: XSS/CSP) — com nonce, um `<script>` injetado por um
- * ataque de XSS não tem como adivinhar o nonce da requisição e é bloqueado
- * pelo navegador, mesmo que a injeção em si não seja evitada por outra
- * camada.
- *
- * `'strict-dynamic'` é o que permite os chunks JS que o Next.js injeta
- * dinamicamente em tempo de execução (code splitting) funcionarem: browsers
- * que suportam essa diretiva confiam em qualquer script carregado por um
- * script já autorizado pelo nonce, sem precisar de um nonce individual por
- * chunk; navegadores mais antigos, que ignoram `strict-dynamic`, caem de
- * volta no allowlist de `'self'` também presente na diretiva.
- *
- * `style-src` mantém `'unsafe-inline'`, de propósito: nonce/hash em CSP só
- * vale para elementos `<style>`, nunca para o atributo HTML `style="..."`
- * — e o app usa esse atributo o tempo todo (o próprio React, `LeafletMap`,
- * etc.), então trocar por nonce quebraria a estilização legítima em todo o
- * site (confirmado em teste manual: só a home já gerava ~36 violações de
- * CSP). Isso é uma limitação conhecida do CSP, não um descuido — o risco
- * real de XSS está em `script-src` (execução de JS arbitrário), que o nonce
- * já cobre; injeção via CSS não executa JS em navegadores modernos.
+ * Política única para todas as respostas HTTP do aplicativo.
+ * `includeHsts` só deve ser verdadeiro em ambiente já servido por HTTPS.
  *
  * `imageStorageOrigins` inclui a origem do provedor de storage de imagens
  * configurado (Supabase Storage, R2, etc.) em `img-src`, para que a capa e a
@@ -51,20 +29,17 @@ function originOf(url: string | undefined): string | null {
  * Passar as origens explicitamente (em vez de ler `process.env` aqui) mantém
  * esta função pura e testável.
  */
-export function buildContentSecurityPolicy(
-  nonce: string,
+export function securityHeaders(
+  includeHsts: boolean,
   isDevelopment = process.env.NODE_ENV === 'development',
   imageStorageOrigins: (string | null | undefined)[] = [
     originOf(process.env.SUPABASE_STORAGE_URL),
     originOf(process.env.R2_PUBLIC_BASE_URL),
   ],
-): string {
-  // O Turbopack/webpack de desenvolvimento precisa de `unsafe-eval` para
-  // Fast Refresh — não há alternativa com nonce para isso, então continua
-  // restrito ao servidor de desenvolvimento, nunca em produção.
+): SecurityHeader[] {
   const scriptSource = isDevelopment
-    ? `'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-eval'`
-    : `'self' 'nonce-${nonce}' 'strict-dynamic'`
+    ? "'self' 'unsafe-inline' 'unsafe-eval'"
+    : "'self' 'unsafe-inline'"
   // Ladrilhos do mapa de representantes (Fase 5, `LeafletMap`) vêm dos
   // subdomínios a/b/c do OpenStreetMap — precisam estar sempre liberados,
   // independente do storage de imagens configurado no ambiente.
@@ -75,19 +50,15 @@ export function buildContentSecurityPolicy(
     'https://*.tile.openstreetmap.org',
     ...imageStorageOrigins.filter((origin): origin is string => Boolean(origin)),
   ].join(' ')
-  return `default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self' data:; form-action 'self'; frame-ancestors 'none'; img-src ${imgSource}; object-src 'none'; script-src ${scriptSource}; style-src 'self' 'unsafe-inline'`
-}
-
-/**
- * Cabeçalhos estáticos, iguais em toda requisição — aplicados via
- * `next.config.ts` (`headers()`, calculado uma vez no build). A
- * Content-Security-Policy fica fora daqui de propósito: precisa de um nonce
- * novo a cada requisição, então é montada no middleware
- * (`buildContentSecurityPolicy`, acima) e aplicada em `src/middleware.ts`.
- * `includeHsts` só deve ser verdadeiro em ambiente já servido por HTTPS.
- */
-export function securityHeaders(includeHsts: boolean): SecurityHeader[] {
   const headers: SecurityHeader[] = [
+    {
+      key: 'Content-Security-Policy',
+      // O Next.js precisa de scripts e estilos inline para a renderização atual.
+      // Não permitimos domínios externos nem plugins/objetos executáveis,
+      // exceto o storage de imagens configurado e os ladrilhos do mapa (ver
+      // imgSource acima).
+      value: `default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self' data:; form-action 'self'; frame-ancestors 'none'; img-src ${imgSource}; object-src 'none'; script-src ${scriptSource}; style-src 'self' 'unsafe-inline'`,
+    },
     // `geolocation=(self)`: o mapa de representantes (Fase 5) pede a
     // localização do visitante para centralizar o mapa — precisa estar
     // liberada para a própria origem, senão o navegador bloqueia a API antes
