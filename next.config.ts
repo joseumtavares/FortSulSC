@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
     return [{
       source: '/:path*',
       // HSTS só é ativado quando o ambiente HTTPS de produção o declara.
+      // Content-Security-Policy não está aqui: precisa de um nonce novo a
+      // cada requisição, e headers() é estático (calculado uma vez no
+      // build) — ver `src/middleware.ts`.
       headers: securityHeaders(process.env.SECURITY_HEADERS_HSTS === 'true'),
     }]
   },
