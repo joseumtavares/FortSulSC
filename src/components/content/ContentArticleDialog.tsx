@@ -37,7 +37,7 @@ function ArticleGalleryRotator({ gallery }: { gallery: ContentGalleryImage[] }) 
       <div className="content-article-gallery-media">
         {/* Mesmo motivo do ContentCard: imagem vem de storage externo (local://
             em dev, R2 em produção), fora do domínio configurável em next/image. */}
-        <img src={gallery[index].src} alt={gallery[index].alt} />
+        <img src={gallery[index].src} alt={gallery[index].alt} width={1600} height={900} />
       </div>
 
       {gallery.length > 1 && (

@@ -34,7 +34,7 @@ function RepresentativeCard({ partner, open }: { partner: PublicPartner; open: b
   return (
     <div className="rep-card">
       <div className="rep-card-header">
-        {partner.logoUrl && <img src={partner.logoUrl} alt={`Logo de ${partner.name}`} className="rep-card-logo" />}
+        {partner.logoUrl && <img src={partner.logoUrl} alt={`Logo de ${partner.name}`} width={512} height={512} className="rep-card-logo" />}
         <div>
           <h3>{partner.name}</h3>
           <p>{partnerTypeLabel(partner.type)}</p>

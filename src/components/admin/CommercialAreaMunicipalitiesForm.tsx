@@ -78,7 +78,7 @@ export function CommercialAreaMunicipalitiesForm({
         body: JSON.stringify({ municipalityIds: selectedIds }),
       })
       const data = (await response.json()) as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar os municípios.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar os municípios. Tente novamente em instantes.'); return }
       setSaved(true)
       router.refresh()
     } catch {

@@ -32,7 +32,7 @@ export function InstitutionalSettingsForm({ initial }: { initial?: Settings }) {
     try {
       const response = await fetch('/api/admin/institutional-settings', { method: 'PUT', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...contact, socialLinks }) })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar as configurações.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar as configurações. Tente novamente em instantes.'); return }
       setSaved(true)
       router.refresh()
     } catch { setError('Não foi possível salvar. Confira sua conexão e tente novamente.') } finally { setSaving(false) }

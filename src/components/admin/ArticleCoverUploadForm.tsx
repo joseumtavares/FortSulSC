@@ -41,7 +41,7 @@ export function ArticleCoverUploadForm({ articleId, currentUrl, currentAlt }: Ar
       const data = (await response.json().catch(() => null)) as { error?: string } | null
 
       if (!response.ok) {
-        setError(data?.error ?? 'Não foi possível enviar a imagem.')
+        setError(data?.error ?? 'Não foi possível enviar a imagem. Tente novamente em instantes.')
         return
       }
 
@@ -56,7 +56,7 @@ export function ArticleCoverUploadForm({ articleId, currentUrl, currentAlt }: Ar
       <h2 className="text-base font-semibold text-brand-blue-950">Imagem de capa</h2>
 
       {currentUrl && (
-        <img src={currentUrl} alt={currentAlt ?? ''} className="h-32 w-full rounded-lg object-cover" />
+        <img src={currentUrl} alt={currentAlt ?? ''} width={1600} height={900} className="h-32 w-full rounded-lg object-cover" />
       )}
 
       {error && (

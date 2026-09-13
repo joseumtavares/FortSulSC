@@ -14,7 +14,7 @@ export function PartnerDeleteButton({ partnerId }: { partnerId: string }) {
     try {
       const response = await fetch(`/api/admin/partners/${partnerId}`, { method: 'DELETE', credentials: 'same-origin' })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível excluir o parceiro.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível excluir o parceiro. Tente novamente em instantes.'); return }
       router.push('/admin/partners')
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setDeleting(false) }

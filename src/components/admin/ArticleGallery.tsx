@@ -55,7 +55,7 @@ export function ArticleGallery({ articleId, images, maxImages }: ArticleGalleryP
     try {
       const failure = await uploadImage(file)
       if (failure) {
-        setError(failure.error ?? 'Não foi possível enviar a imagem.')
+        setError(failure.error ?? 'Não foi possível enviar a imagem. Tente novamente em instantes.')
         return
       }
 
@@ -79,7 +79,7 @@ export function ArticleGallery({ articleId, images, maxImages }: ArticleGalleryP
       const data = (await response.json().catch(() => null)) as { error?: string } | null
 
       if (!response.ok) {
-        setError(data?.error ?? 'Não foi possível remover a imagem.')
+        setError(data?.error ?? 'Não foi possível remover a imagem. Tente novamente em instantes.')
         return
       }
 
@@ -103,6 +103,8 @@ export function ArticleGallery({ articleId, images, maxImages }: ArticleGalleryP
               <img
                 src={image.imageUrl}
                 alt={image.altText}
+                width={1600}
+                height={900}
                 className="h-24 w-full rounded-lg object-cover"
               />
               <p className="truncate text-xs text-brand-muted" title={image.altText}>

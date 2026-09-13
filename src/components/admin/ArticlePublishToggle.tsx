@@ -28,7 +28,7 @@ export function ArticlePublishToggle({ articleId, initialPublished }: ArticlePub
       const data = (await response.json().catch(() => null)) as { error?: string } | null
 
       if (!response.ok) {
-        setError(data?.error ?? 'Não foi possível atualizar a publicação.')
+        setError(data?.error ?? 'Não foi possível atualizar a publicação. Tente novamente em instantes.')
         return
       }
 

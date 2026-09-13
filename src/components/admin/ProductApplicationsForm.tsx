@@ -34,7 +34,7 @@ export function ProductApplicationsForm({ productId, initialLabels }: { productI
         body: JSON.stringify({ applications }),
       })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar as aplicações.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar as aplicações. Tente novamente em instantes.'); return }
       setSaved(true)
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setSaving(false) }

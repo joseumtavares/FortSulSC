@@ -9,7 +9,7 @@ function BannerImage({ item }: { item: BannerStripItem }) {
   // Imagem vem de storage externo (local:// em dev, R2/Supabase em produção) —
   // next/image exige domínio conhecido em remotePatterns, então usa <img>
   // puro, mesmo padrão já usado em ContentCard/ArticleCoverUploadForm.
-  const image = <img src={item.imageUrl} alt={item.altText} loading="lazy" />
+  const image = <img src={item.imageUrl} alt={item.altText} width={1600} height={400} loading="lazy" />
 
   if (!item.linkUrl) return image
 

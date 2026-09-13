@@ -20,7 +20,7 @@ export default async function BannersPage() {
             <caption className="p-4 text-left text-brand-muted">Banners ativos e inativos. Agendamento no horário de Brasília.</caption>
             <thead className="border-b border-brand-line text-brand-blue-950"><tr><th scope="col" className="p-4">Imagem</th><th scope="col" className="p-4">Título</th><th scope="col" className="p-4">Status</th><th scope="col" className="p-4">Agendamento</th><th scope="col" className="p-4">Ação</th></tr></thead>
             <tbody>{banners.map((banner) => <tr key={banner.id} className="border-b border-brand-line">
-              <td className="p-4"><img src={banner.imageUrl} alt={banner.altText} className="h-14 w-24 rounded object-contain" /></td>
+              <td className="p-4"><img src={banner.imageUrl} alt={banner.altText} width={1600} height={400} className="h-14 w-24 rounded object-contain" /></td>
               <th scope="row" className="p-4 font-medium text-brand-blue-950">{banner.title}</th>
               <td className="p-4"><span className={`rounded-full px-3 py-1 text-xs font-medium ${banner.active ? 'bg-green-100 text-green-800' : 'bg-brand-surface text-brand-muted'}`}>{banner.active ? 'Ativo' : 'Inativo'}</span></td>
               <td className="p-4">{banner.startAt ? dateFormat.format(banner.startAt) : 'Sem início'}<br />{banner.endAt ? dateFormat.format(banner.endAt) : 'Sem fim'}</td>

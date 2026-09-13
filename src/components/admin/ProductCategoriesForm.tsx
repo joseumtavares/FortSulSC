@@ -26,7 +26,7 @@ export function ProductCategoriesForm({ productId, categories, initialSelectedId
         body: JSON.stringify({ categoryIds }),
       })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar as categorias.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar as categorias. Tente novamente em instantes.'); return }
       setSaved(true)
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setSaving(false) }

@@ -79,7 +79,7 @@ export function ProductForm({ productId, initial }: Props) {
     setSaved(false)
     try {
       const { ok, data } = await saveProduct(productId, body)
-      if (!ok) { setError(data.error ?? 'Não foi possível salvar o produto.'); return }
+      if (!ok) { setError(data.error ?? 'Não foi possível salvar o produto. Tente novamente em instantes.'); return }
       if (!productId && data.id) router.push(`/admin/products/${data.id}`)
       setSaved(true)
       router.refresh()

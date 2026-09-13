@@ -38,7 +38,7 @@ export function ProductTestimonialsForm({ productId, testimonials }: { productId
         body: JSON.stringify(body),
       })
       const result = await response.json() as { error?: string }
-      if (!response.ok) { setError(result.error ?? 'Não foi possível salvar o depoimento.'); return }
+      if (!response.ok) { setError(result.error ?? 'Não foi possível salvar o depoimento. Tente novamente em instantes.'); return }
       form.reset()
       setAuthorNameLength(0)
       router.refresh()
@@ -51,7 +51,7 @@ export function ProductTestimonialsForm({ productId, testimonials }: { productId
     try {
       const response = await fetch(`/api/admin/products/${productId}/testimonials/${id}`, { method: 'DELETE', credentials: 'same-origin' })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível remover o depoimento.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível remover o depoimento. Tente novamente em instantes.'); return }
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setRemovingId(null) }
   }

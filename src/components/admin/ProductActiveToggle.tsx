@@ -13,7 +13,7 @@ export function ProductActiveToggle({ productId, initialActive }: { productId: s
     try {
       const response = await fetch(`/api/admin/products/${productId}/${checked ? 'activate' : 'deactivate'}`, { method: 'POST', credentials: 'same-origin' })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível alterar o produto.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível alterar o produto. Tente novamente em instantes.'); return }
       setActive(checked)
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setSaving(false) }

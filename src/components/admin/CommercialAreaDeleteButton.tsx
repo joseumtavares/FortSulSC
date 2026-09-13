@@ -14,7 +14,7 @@ export function CommercialAreaDeleteButton({ commercialAreaId }: { commercialAre
     try {
       const response = await fetch(`/api/admin/commercial-areas/${commercialAreaId}`, { method: 'DELETE', credentials: 'same-origin' })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível excluir a área comercial.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível excluir a área comercial. Tente novamente em instantes.'); return }
       router.push('/admin/commercial-areas')
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setDeleting(false) }

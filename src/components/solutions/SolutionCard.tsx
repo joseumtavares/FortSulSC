@@ -8,7 +8,7 @@ export function SolutionCard({ solution, onSelect }: { solution: SolutionCardDat
         {/* Imagem vem de storage externo (local:// em dev, R2/Supabase em
             produção) — next/image exige domínio conhecido em remotePatterns,
             então usa <img> puro, mesmo padrão já usado em ContentCard. */}
-        {solution.heroImage && <img src={solution.heroImage.src} alt={solution.heroImage.alt} />}
+        {solution.heroImage && <img src={solution.heroImage.src} alt={solution.heroImage.alt} width={1600} height={900} />}
       </div>
       <div className="card-body">
         <div>

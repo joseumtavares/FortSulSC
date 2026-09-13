@@ -98,12 +98,12 @@ async function savePartnerAndPrivate(partnerId: string | undefined, form: FormDa
   const lgpdAuthorized = form.get('lgpdAuthorized') === 'on'
 
   const { ok, data } = await savePartner(partnerId, buildPartnerBody(form))
-  if (!ok) return { ok: false, error: data.error ?? 'Não foi possível salvar o parceiro.' }
+  if (!ok) return { ok: false, error: data.error ?? 'Não foi possível salvar o parceiro. Tente novamente em instantes.' }
 
   const id = partnerId ?? data.id
   if (id && (documentSigned || lgpdAuthorized || hasExistingPrivate)) {
     const privateResult = await savePartnerPrivate(id, documentSigned, lgpdAuthorized)
-    if (!privateResult.ok) return { ok: false, error: privateResult.data.error ?? 'Não foi possível salvar os dados privados.' }
+    if (!privateResult.ok) return { ok: false, error: privateResult.data.error ?? 'Não foi possível salvar os dados privados. Tente novamente em instantes.' }
   }
 
   return { ok: true, id: data.id }
@@ -124,7 +124,7 @@ export function PartnerForm({ partnerId, initial, defaultType }: Props) {
     setSaved(false)
     try {
       const result = await savePartnerAndPrivate(partnerId, form, Boolean(initial?.private))
-      if (!result.ok) { setError(result.error ?? 'Não foi possível salvar o parceiro.'); return }
+      if (!result.ok) { setError(result.error ?? 'Não foi possível salvar o parceiro. Tente novamente em instantes.'); return }
       if (!partnerId && result.id) router.push(`/admin/partners/${result.id}`)
       setSaved(true)
       router.refresh()

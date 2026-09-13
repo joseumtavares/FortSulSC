@@ -17,7 +17,7 @@ export function BannerImageForm({ bannerId, imageUrl, altText }: { bannerId: str
     try {
       const response = await fetch(`/api/admin/banners/${bannerId}/image`, { method: 'POST', credentials: 'same-origin', body })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível substituir a imagem.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível substituir a imagem. Tente novamente em instantes.'); return }
       form.reset()
       setSaved(true)
       router.refresh()
@@ -25,7 +25,7 @@ export function BannerImageForm({ bannerId, imageUrl, altText }: { bannerId: str
   }
   return <form onSubmit={submit} className="min-w-0 space-y-4 rounded-brand border border-brand-line bg-white p-6 shadow-sm">
     <h2 className="text-lg font-semibold text-brand-blue-950">Imagem do banner</h2>
-    <img src={imageUrl} alt={altText} className="max-h-64 w-full rounded-lg object-contain" />
+    <img src={imageUrl} alt={altText} width={1600} height={400} className="max-h-64 w-full rounded-lg object-contain" />
     {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
     {saved && <p role="status" className="text-sm text-green-800">Imagem substituída.</p>}
     <label className="block text-sm font-medium text-brand-blue-950">Nova imagem

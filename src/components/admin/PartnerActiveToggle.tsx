@@ -13,7 +13,7 @@ export function PartnerActiveToggle({ partnerId, initialActive }: { partnerId: s
     try {
       const response = await fetch(`/api/admin/partners/${partnerId}/${checked ? 'activate' : 'deactivate'}`, { method: 'POST', credentials: 'same-origin' })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível alterar o parceiro.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível alterar o parceiro. Tente novamente em instantes.'); return }
       setActive(checked)
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setSaving(false) }

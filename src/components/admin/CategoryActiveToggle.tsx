@@ -13,7 +13,7 @@ export function CategoryActiveToggle({ categoryId, initialActive }: { categoryId
     try {
       const response = await fetch(`/api/admin/categories/${categoryId}/${checked ? 'activate' : 'deactivate'}`, { method: 'POST', credentials: 'same-origin' })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível alterar a categoria.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível alterar a categoria. Tente novamente em instantes.'); return }
       setActive(checked)
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setSaving(false) }

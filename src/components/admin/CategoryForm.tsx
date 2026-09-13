@@ -35,7 +35,7 @@ export function CategoryForm({ categoryId, initial }: Props) {
         body: JSON.stringify(body),
       })
       const data = await response.json() as { id?: string; error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar a categoria.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar a categoria. Tente novamente em instantes.'); return }
       if (!categoryId && data.id) router.push(`/admin/categories/${data.id}`)
       setSaved(true)
       router.refresh()

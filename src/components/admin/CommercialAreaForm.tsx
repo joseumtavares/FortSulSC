@@ -34,7 +34,7 @@ export function CommercialAreaForm({ commercialAreaId, initial }: Props) {
         body: JSON.stringify(body),
       })
       const data = await response.json() as { id?: string; error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar a área comercial.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar a área comercial. Tente novamente em instantes.'); return }
       if (!commercialAreaId && data.id) router.push(`/admin/commercial-areas/${data.id}`)
       setSaved(true)
       router.refresh()

@@ -48,7 +48,7 @@ export function ProductImagesForm({ productId, images }: { productId: string; im
     try {
       const failure = await uploadImage(file)
       if (failure) {
-        setError(failure.error ?? 'Não foi possível enviar a imagem.')
+        setError(failure.error ?? 'Não foi possível enviar a imagem. Tente novamente em instantes.')
         return
       }
 
@@ -72,7 +72,7 @@ export function ProductImagesForm({ productId, images }: { productId: string; im
       const data = (await response.json().catch(() => null)) as { error?: string } | null
 
       if (!response.ok) {
-        setError(data?.error ?? 'Não foi possível remover a imagem.')
+        setError(data?.error ?? 'Não foi possível remover a imagem. Tente novamente em instantes.')
         return
       }
 
@@ -94,7 +94,7 @@ export function ProductImagesForm({ productId, images }: { productId: string; im
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {images.map((image) => (
             <li key={image.id} className="space-y-2">
-              <img src={image.imageUrl} alt={image.altText} className="h-24 w-full rounded-lg object-cover" />
+              <img src={image.imageUrl} alt={image.altText} width={1600} height={900} className="h-24 w-full rounded-lg object-cover" />
               <p className="truncate text-xs text-brand-muted" title={image.altText}>{image.altText}</p>
               <p className="text-xs text-brand-muted">{image.role === 'HERO' ? 'Principal' : 'Galeria'}</p>
               <button

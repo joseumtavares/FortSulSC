@@ -21,7 +21,7 @@ export function PartnerLogoForm({ partnerId, partnerName, logoUrl }: { partnerId
       formData.set('file', file)
       const response = await fetch(`/api/admin/partners/${partnerId}/logo`, { method: 'POST', credentials: 'same-origin', body: formData })
       const data = (await response.json().catch(() => null)) as { error?: string } | null
-      if (!response.ok) { setError(data?.error ?? 'Não foi possível enviar a logo.'); return }
+      if (!response.ok) { setError(data?.error ?? 'Não foi possível enviar a logo. Tente novamente em instantes.'); return }
       fileInput.value = ''
       router.refresh()
     } finally {
@@ -32,7 +32,7 @@ export function PartnerLogoForm({ partnerId, partnerName, logoUrl }: { partnerId
   return (
     <section className="space-y-4 rounded-brand border border-brand-line bg-white p-6 shadow-sm">
       <h2 className="text-base font-semibold text-brand-blue-950">Logo</h2>
-      {logoUrl && <img src={logoUrl} alt={`Logo de ${partnerName}`} className="h-24 w-24 rounded-lg border border-brand-line object-contain" />}
+      {logoUrl && <img src={logoUrl} alt={`Logo de ${partnerName}`} width={512} height={512} className="h-24 w-24 rounded-lg border border-brand-line object-contain" />}
       {error && <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>

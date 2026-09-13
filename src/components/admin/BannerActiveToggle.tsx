@@ -13,7 +13,7 @@ export function BannerActiveToggle({ bannerId, initialActive }: { bannerId: stri
     try {
       const response = await fetch(`/api/admin/banners/${bannerId}/${checked ? 'activate' : 'deactivate'}`, { method: 'POST', credentials: 'same-origin' })
       const data = await response.json() as { error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível alterar o banner.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível alterar o banner. Tente novamente em instantes.'); return }
       setActive(checked)
       router.refresh()
     } catch { setError('Falha de conexão. Tente novamente.') } finally { setSaving(false) }

@@ -10,7 +10,7 @@ export function ContentCard({ item, onSelect }: { item: ContentCardData; onSelec
                 next/image exige domínio conhecido em remotePatterns, então usa <img>
                 puro, mesmo padrão já usado em ArticleCoverUploadForm/ArticleGallery
                 no painel. */}
-            <img src={item.image.src} alt={item.image.alt} loading="lazy" />
+            <img src={item.image.src} alt={item.image.alt} width={1600} height={900} loading="lazy" />
           </div>
           <div className="content-card-body">
             <h3>{item.title}</h3>

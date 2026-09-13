@@ -129,7 +129,8 @@ docs: dividir documentação do projeto FortSulSC
 - evitar carrosséis pesados sem necessidade;
 - carregar mapas interativos apenas onde forem usados;
 - evitar bibliotecas grandes para interações simples;
-- medir antes de otimizar agressivamente.
+- medir antes de otimizar agressivamente;
+- toda `<img>` (incluindo `<img>` puro, quando `next/image` não se aplica por exigir domínio conhecido em `remotePatterns`) declara `width` e `height` explícitos — evita mudança de layout (CLS) ao carregar, mesmo quando uma classe CSS já controla o tamanho renderizado; achado do skill `web-design-guidelines` (12/09/2026, Plano Mestre) que afetava ~12 arquivos.
 
 ## 8. Regras de acessibilidade
 
@@ -140,6 +141,13 @@ docs: dividir documentação do projeto FortSulSC
 - menu mobile deve informar estado aberto/fechado;
 - respeitar `prefers-reduced-motion`;
 - contraste deve ser verificado em textos sobre imagens.
+
+## 8.1. Regras de mensagens de erro e estados assíncronos
+
+- toda mensagem de erro nomeia o problema **e** o que fazer a seguir — nunca só o problema; ex.: "Não foi possível salvar a categoria. Tente novamente em instantes." em vez de só "Não foi possível salvar a categoria.";
+- atualização assíncrona de estado (toast, validação, resultado de busca) usa `aria-live="polite"` quando não está já dentro de uma região anunciada;
+- placeholder de campo mostra um exemplo de preenchimento terminado em `…`, nunca uma instrução ("Digite o nome...");
+- achado do skill `web-design-guidelines` (12/09/2026, Plano Mestre) que afetava ~30 componentes do painel — ver `docs/Web_Interface_Guidelines_Achados_12-09-2026.md` para o levantamento completo e o que ainda falta corrigir.
 
 ## 9. Regras de SEO
 
@@ -178,7 +186,8 @@ Quando backend for aprovado:
 - apresentar modernizações visuais antes de implementar;
 - consultar o planejamento antes de expandir escopo;
 - em decisões estruturais ou integrações, consultar e respeitar `ABSTRACTION_POLICY.md`; ela não autoriza implementação por si só;
-- registrar decisões relevantes no SecondBrain quando houver entrega significativa.
+- registrar decisões relevantes no SecondBrain quando houver entrega significativa;
+- após criar ou alterar componente visual (`.tsx` em `src/app/**`/`src/components/**`), rodar a skill `web-design-guidelines` (`.claude/skills/web-design-guidelines/`, instalada em 12/09/2026) nos arquivos tocados, além do `ui-reviewer` já exigido na seção 3.1 do `CLAUDE.md` — cobre acessibilidade, foco, formulários, tipografia, imagem/CLS e outros itens do checklist da Vercel que o `ui-reviewer` não cobre ponto a ponto.
 
 ### 11.1. Gates de qualidade obrigatórios
 

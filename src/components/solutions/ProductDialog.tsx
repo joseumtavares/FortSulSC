@@ -54,7 +54,7 @@ function ProductGalleryRotator({ gallery }: { gallery: SolutionGalleryImage[] })
   return (
     <div className="content-article-gallery">
       <div className="content-article-gallery-media">
-        <img src={gallery[index].src} alt={gallery[index].alt} />
+        <img src={gallery[index].src} alt={gallery[index].alt} width={1600} height={900} />
       </div>
 
       {gallery.length > 1 && (

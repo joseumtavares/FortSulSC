@@ -40,7 +40,7 @@ export function BannerForm({ bannerId, initial }: Props) {
         body: bannerId ? JSON.stringify(Object.fromEntries(form)) : form,
       })
       const data = await response.json() as { id?: string; error?: string }
-      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar o banner.'); return }
+      if (!response.ok) { setError(data.error ?? 'Não foi possível salvar o banner. Tente novamente em instantes.'); return }
       if (!bannerId && data.id) router.push(`/admin/banners/${data.id}`)
       setSaved(true)
       router.refresh()

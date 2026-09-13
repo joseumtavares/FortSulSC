@@ -41,7 +41,7 @@ export function ArticleTextForm({
       const data = (await response.json().catch(() => null)) as { id?: string; error?: string } | null
 
       if (!response.ok) {
-        setError(data?.error ?? 'Não foi possível salvar o artigo.')
+        setError(data?.error ?? 'Não foi possível salvar o artigo. Tente novamente em instantes.')
         return
       }
 
