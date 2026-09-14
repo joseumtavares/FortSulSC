@@ -16,6 +16,10 @@ export function NavWrap({ children }: { children: ReactNode }) {
       const wasSticky = navWrap.classList.contains('is-sticky')
       if (wasSticky) navWrap.classList.remove('is-sticky')
       headerThreshold = navWrap.offsetTop + navWrap.offsetHeight
+      // Exposto como variável CSS para outros elementos fixos/sticky (ex.
+      // `.solution-tablist-wrap`) se ancorarem logo abaixo do nav, sem
+      // precisar duplicar essa medição.
+      document.documentElement.style.setProperty('--nav-height', `${navWrap.offsetHeight}px`)
       if (wasSticky) navWrap.classList.add('is-sticky')
     }
 

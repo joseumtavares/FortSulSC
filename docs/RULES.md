@@ -149,6 +149,12 @@ docs: dividir documentação do projeto FortSulSC
 - placeholder de campo mostra um exemplo de preenchimento terminado em `…`, nunca uma instrução ("Digite o nome...");
 - achado do skill `web-design-guidelines` (12/09/2026, Plano Mestre) que afetava ~30 componentes do painel — ver `docs/Web_Interface_Guidelines_Achados_12-09-2026.md` para o levantamento completo e o que ainda falta corrigir.
 
+## 8.2. Regras de animação/motion (`Reveal` e afins)
+
+- nunca envolver item de carrossel de rolagem horizontal (`overflow-x` + `scroll-snap`) com `Reveal` ou qualquer fade baseado em `IntersectionObserver`: no WebKit/Safari o observer pode nunca disparar para um item revelado por rolagem horizontal de um ancestral, deixando o elemento preso em `opacity:0` (card "vazio", indistinguível de um bug de dado ausente); renderizar o item sempre visível, como já faz `ContentCard`;
+- nunca combinar `transform` (de uma animação de entrada) com `position: sticky`/`fixed` no mesmo elemento — combinação historicamente instável no mesmo motor WebKit/Safari; se o elemento precisa ficar fixo na tela, ele não deve também ter uma animação de entrada baseada em `transform`;
+- achado ao corrigir relato do Jose em iPhone real (14/09/2026, Plano Mestre): `SolutionCard` (dentro de `.solution-carousel-track`) e `.solution-tablist-wrap` (que virou `position: sticky`) tiveram o `Reveal` removido por esses dois motivos — ver `docs/DESIGN-SYSTEM.md` §15 para o detalhe de quando usar cada variante do `Reveal`.
+
 ## 9. Regras de SEO
 
 - cada página deve ter título único;

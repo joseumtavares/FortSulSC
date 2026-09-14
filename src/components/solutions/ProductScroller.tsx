@@ -71,7 +71,11 @@ export function ProductScroller({ products, activeFilter }: ProductScrollerProps
     if (!section) return
 
     const headerOffset = document.querySelector('.nav-wrap.is-sticky')?.getBoundingClientRect().height ?? 0
-    const top = section.getBoundingClientRect().top + window.scrollY - headerOffset
+    // `.solution-tablist-wrap` é sticky (ver globals.css) e permanece na tela
+    // logo abaixo do nav; subtrai a altura dele também para não posicionar o
+    // painel de resultados por baixo do menu de filtro, escondendo-o.
+    const tablistOffset = document.querySelector('.solution-tablist-wrap')?.getBoundingClientRect().height ?? 0
+    const top = section.getBoundingClientRect().top + window.scrollY - headerOffset - tablistOffset
     try {
       window.scrollTo({ top, behavior: shouldReduceMotion ? 'auto' : 'smooth' })
     } catch {

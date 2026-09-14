@@ -161,7 +161,14 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 50px; }
 .section-heading h2 { max-width: 720px; }
 .section-heading > p { width: 320px; margin: 0 0 6px; color: rgba(255,255,255,.62); font-size: 15px; }
-.solution-tablist-wrap { max-width: 1100px; margin: 47px auto 12px; padding: 7px; border-radius: 13px; background: rgba(1, 18, 34, .42); }
+.solution-tablist-wrap {
+  max-width: 1100px; margin: 47px auto 12px; padding: 7px; border-radius: 13px;
+  /* Fixo logo abaixo do nav enquanto o visitante rola pelos resultados
+     filtrados — antes o menu de filtro saía de tela e exigia rolar para
+     cima de novo para trocar de categoria. */
+  position: sticky; top: var(--nav-height, 82px); z-index: 40;
+  background: rgba(1, 18, 34, .94); backdrop-filter: blur(8px);
+}
 .solution-tablist { display: flex; flex-wrap: nowrap; gap: 5px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
 .solution-tablist::-webkit-scrollbar { display: none; }
 .solution-tab { position: relative; flex: 0 0 auto; padding: 11px 17px; border: 0; border-radius: 8px; background: transparent; color: rgba(255,255,255,.72); font-size: 12px; font-weight: 800; white-space: nowrap; cursor: pointer; transition: color .2s, background .2s; }
@@ -175,11 +182,17 @@ h2 { font-size: clamp(38px, 4.3vw, 58px); }
 .solution-carousel-item { flex: 0 0 clamp(300px, 38vw, 440px); scroll-snap-align: start; }
 .solution-carousel-control { position: absolute; z-index: 2; top: 50%; display: grid; width: 42px; aspect-ratio: 1; place-items: center; border: 1px solid rgba(8,40,94,.12); border-radius: 50%; background: rgba(255,255,255,.94); color: var(--blue-900); box-shadow: 0 8px 22px rgba(0,0,0,.18); cursor: pointer; opacity: 0; transform: translateY(-50%); transition: opacity .2s, background .2s, color .2s; }
 .solution-carousel:hover .solution-carousel-control, .solution-carousel:focus-within .solution-carousel-control { opacity: 1; }
+/* Em ponteiros sem hover (celular/tablet), a seta nunca ficaria visível —
+   :hover nunca dispara no toque. Mantém opacidade parcial em repouso,
+   plena ao tocar/focar. */
+@media (hover: none) {
+  .solution-carousel-control { opacity: .85; }
+}
 .solution-carousel-control:hover { background: var(--orange); color: var(--white); }
 .solution-carousel-control svg { width: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
 .solution-carousel-control.is-previous { left: 12px; }
 .solution-carousel-control.is-next { right: 12px; }
-.solution-card { overflow: hidden; border-radius: var(--radius); background: var(--white); color: var(--ink); transition: transform .25s, opacity .25s; }
+.solution-card { overflow: hidden; border-radius: var(--radius); background: var(--white); color: var(--ink); transition: transform .25s; }
 .solution-card:hover { transform: translateY(-7px); }
 .card-trigger { all: unset; display: block; width: 100%; cursor: pointer; }
 .card-trigger:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: var(--radius); }

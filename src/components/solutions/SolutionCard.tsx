@@ -1,8 +1,13 @@
-import { Reveal } from '@/components/ui/Reveal'
 import type { SolutionCardData } from './solutions-data'
 
 export function SolutionCard({ solution, onSelect }: { solution: SolutionCardData; onSelect: () => void }) {
-  return <Reveal as="article" variant="card" className="solution-card" dataCategory={solution.categorySlugs.join(' ')}>
+  // Sem <Reveal>: este card vive dentro de um carrossel de rolagem
+  // horizontal (.solution-carousel-track). No Safari/iOS, o
+  // IntersectionObserver do Reveal às vezes nunca dispara para itens que
+  // entram na tela por rolagem horizontal (scroll-snap), deixando o card
+  // preso em opacity:0 (card "vazio"). O carrossel de artigos (ContentCard)
+  // já evita isso pelo mesmo motivo — mantém consistência entre os dois.
+  return <article className="solution-card" data-category={solution.categorySlugs.join(' ')}>
     <button type="button" className="card-trigger" onClick={onSelect} aria-haspopup="dialog">
       <div className="card-media">
         {/* Imagem vem de storage externo (local:// em dev, R2/Supabase em
@@ -18,7 +23,7 @@ export function SolutionCard({ solution, onSelect }: { solution: SolutionCardDat
         <span className="card-arrow" aria-hidden="true"><Arrow /></span>
       </div>
     </button>
-  </Reveal>
+  </article>
 }
 
 function Arrow() {

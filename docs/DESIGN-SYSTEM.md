@@ -256,10 +256,16 @@ Estados atuais:
 - card oculto;
 - reveal animation: `Reveal` (`src/components/ui/Reveal.tsx`) tem duas variantes — `section`
   (padrão, blocos únicos de seção/hero: 600ms, `cubic-bezier(.16,1,.3,1)`, `translateY(26px)`) e
-  `card` (itens repetidos em grade, ex. cards de solução e passos de suporte: 220ms, mesma curva,
-  `translateY(14px)`). Usar `card` sempre que o mesmo efeito se repetir várias vezes na mesma tela;
-  `section` para blocos que aparecem uma única vez por seção. Sempre respeita
-  `prefers-reduced-motion` (ver `src/app/globals.css`).
+  `card` (itens repetidos em grade, ex. passos de suporte: 220ms, mesma curva, `translateY(14px)`).
+  Usar `card` sempre que o mesmo efeito se repetir várias vezes na mesma tela; `section` para blocos
+  que aparecem uma única vez por seção. Sempre respeita `prefers-reduced-motion` (ver
+  `src/app/globals.css`). **Nunca usar `Reveal` (nenhuma variante) em item de carrossel de rolagem
+  horizontal** (`overflow-x` + `scroll-snap`) nem em elemento `position: sticky`/`fixed`: o
+  `IntersectionObserver` pode nunca disparar para itens revelados por rolagem horizontal no
+  WebKit/Safari, e `transform` combinado com `position: sticky` no mesmo elemento é uma combinação
+  historicamente instável no mesmo motor. `SolutionCard` (cards do carrossel de soluções) e
+  `.solution-tablist-wrap` (menu de filtro, sticky) não usam `Reveal` por esse motivo — renderizam
+  sempre visíveis, no mesmo padrão já usado por `ContentCard`.
 
 Estados obrigatórios futuros:
 
