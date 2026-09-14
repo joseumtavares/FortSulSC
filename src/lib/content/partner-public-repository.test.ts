@@ -1,11 +1,11 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const partnerMock = vi.hoisted(() => ({ findMany: vi.fn() }))
 const rateLimitMock = vi.hoisted(() => vi.fn())
 vi.mock('@/lib/db/client', () => ({ prisma: { partner: partnerMock } }))
 vi.mock('@/lib/auth/rate-limit', () => ({ checkAndIncrementRateLimit: rateLimitMock }))
 
-import { checkPublicPartnersRateLimit, listPublicPartners } from './partner-public-repository'
+import { checkPublicPartnersRateLimit, listPublicPartners, resetPublicPartnersCacheForTests } from './partner-public-repository'
 
 const rawPartner = {
   id: 'p1',
@@ -33,6 +33,10 @@ const rawPartner = {
 }
 
 describe('listPublicPartners', () => {
+  beforeEach(() => {
+    resetPublicPartnersCacheForTests()
+  })
+
   it('selects only public fields and only active partners', async () => {
     partnerMock.findMany.mockResolvedValue([rawPartner])
     await listPublicPartners()
@@ -71,6 +75,38 @@ describe('listPublicPartners', () => {
     partnerMock.findMany.mockResolvedValue([{ ...rawPartner, socialLinks: null }])
     const [result] = await listPublicPartners()
     expect(result.socialLinks).toBeNull()
+  })
+
+  describe('cache de 2 minutos', () => {
+    beforeEach(() => {
+      partnerMock.findMany.mockClear()
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-09-14T12:00:00.000Z'))
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it('não consulta o banco de novo enquanto o cache estiver dentro do TTL', async () => {
+      partnerMock.findMany.mockResolvedValue([rawPartner])
+
+      await listPublicPartners()
+      vi.setSystemTime(new Date('2026-09-14T12:01:59.000Z')) // 1min59s depois
+      await listPublicPartners()
+
+      expect(partnerMock.findMany).toHaveBeenCalledTimes(1)
+    })
+
+    it('consulta o banco de novo depois do TTL de 2 minutos expirar', async () => {
+      partnerMock.findMany.mockResolvedValue([rawPartner])
+
+      await listPublicPartners()
+      vi.setSystemTime(new Date('2026-09-14T12:02:00.001Z')) // 2min00s001ms depois
+      await listPublicPartners()
+
+      expect(partnerMock.findMany).toHaveBeenCalledTimes(2)
+    })
   })
 })
 
