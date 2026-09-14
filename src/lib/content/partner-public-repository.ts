@@ -16,13 +16,38 @@ export type PublicPartner = {
   municipalities: string[]
 }
 
+let cache: { data: PublicPartner[]; expiresAt: number } | null = null
+
+/**
+ * TTL de 2 minutos, sem invalidação nas rotas administrativas — decisão
+ * explícita de Jose em 14/09/2026 (`docs/Proposta_Fase5_Cache_Partners_Publicos.md`):
+ * consistência eventual de até 2 minutos é aceitável para o mapa público, e
+ * manter o escopo pequeno (nenhuma rota de admin precisa saber deste cache)
+ * pesa mais do que refletir uma edição instantaneamente.
+ */
+const CACHE_TTL_MS = 120_000
+
+/** Só para teste: força a próxima chamada a ignorar o cache em memória. */
+export function resetPublicPartnersCacheForTests(): void {
+  cache = null
+}
+
+export async function listPublicPartners(): Promise<PublicPartner[]> {
+  const now = Date.now()
+  if (cache && cache.expiresAt > now) return cache.data
+
+  const data = await fetchPublicPartners()
+  cache = { data, expiresAt: now + CACHE_TTL_MS }
+  return data
+}
+
 /**
  * Seleção explícita de campos (CLAUDE.md §14): nunca inclui `PartnerPrivate`
  * (documento/consentimento LGPD nunca são consultados aqui, nem por engano
  * via `include`) nem `logoKey`/timestamps internos. Lista de campos públicos
  * aprovada por Jose em 12/09/2026 (Plano Mestre).
  */
-export async function listPublicPartners(): Promise<PublicPartner[]> {
+async function fetchPublicPartners(): Promise<PublicPartner[]> {
   const partners = await prisma.partner.findMany({
     where: { active: true },
     select: {
