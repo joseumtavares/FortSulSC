@@ -39,6 +39,28 @@ describe('Reveal', () => {
     })
   })
 
+  it('aplica a classe reveal--card quando variant="card"', () => {
+    globalThis.IntersectionObserver = class {
+      disconnect = vi.fn()
+      observe = vi.fn()
+      unobserve = vi.fn()
+    } as unknown as typeof IntersectionObserver
+    render(<Reveal variant="card">Conteúdo</Reveal>)
+
+    expect(screen.getByText('Conteúdo').classList.contains('reveal--card')).toBe(true)
+  })
+
+  it('não aplica reveal--card na variante padrão', () => {
+    globalThis.IntersectionObserver = class {
+      disconnect = vi.fn()
+      observe = vi.fn()
+      unobserve = vi.fn()
+    } as unknown as typeof IntersectionObserver
+    render(<Reveal>Conteúdo</Reveal>)
+
+    expect(screen.getByText('Conteúdo').classList.contains('reveal--card')).toBe(false)
+  })
+
   it('aplica o atraso opcional', () => {
     globalThis.IntersectionObserver = class {
       disconnect = vi.fn()

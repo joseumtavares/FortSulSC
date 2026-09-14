@@ -2,7 +2,7 @@ import { Reveal } from '@/components/ui/Reveal'
 import type { SolutionCardData } from './solutions-data'
 
 export function SolutionCard({ solution, onSelect }: { solution: SolutionCardData; onSelect: () => void }) {
-  return <Reveal as="article" className="solution-card" dataCategory={solution.categorySlugs.join(' ')}>
+  return <Reveal as="article" variant="card" className="solution-card" dataCategory={solution.categorySlugs.join(' ')}>
     <button type="button" className="card-trigger" onClick={onSelect} aria-haspopup="dialog">
       <div className="card-media">
         {/* Imagem vem de storage externo (local:// em dev, R2/Supabase em

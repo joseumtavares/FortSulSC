@@ -3,7 +3,7 @@ import type { SupportStepData } from './support-data'
 
 export function SupportStep({ step, delay = false }: { step: SupportStepData; delay?: boolean }) {
   return (
-    <Reveal as="article" delay={delay}>
+    <Reveal as="article" variant="card" delay={delay}>
       <span>{step.number}</span>
       <div className="step-icon">
         <svg aria-hidden="true" viewBox="0 0 24 24">

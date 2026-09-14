@@ -9,9 +9,16 @@ type RevealProps = {
   as?: 'article' | 'div' | 'li'
   dataCategory?: string
   ariaLabel?: string
+  /**
+   * `section` (padrão) é o passe mais lento e cinematográfico, para blocos
+   * únicos de seção/hero. `card` é para itens repetidos em grade (cards de
+   * solução, passos de suporte) — mais rápido, já que o mesmo efeito se
+   * repete várias vezes na mesma tela conforme o visitante rola a página.
+   */
+  variant?: 'section' | 'card'
 }
 
-export function Reveal({ children, className, delay = false, as = 'div', dataCategory, ariaLabel }: RevealProps) {
+export function Reveal({ children, className, delay = false, as = 'div', dataCategory, ariaLabel, variant = 'section' }: RevealProps) {
   const ref = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -42,6 +49,6 @@ export function Reveal({ children, className, delay = false, as = 'div', dataCat
     ref,
     'aria-label': ariaLabel,
     'data-category': dataCategory,
-    className: ['reveal', delay && 'reveal-delay', isVisible && 'is-visible', className].filter(Boolean).join(' '),
+    className: ['reveal', variant === 'card' && 'reveal--card', delay && 'reveal-delay', isVisible && 'is-visible', className].filter(Boolean).join(' '),
   }, children)
 }

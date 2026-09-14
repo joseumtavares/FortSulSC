@@ -254,7 +254,12 @@ Estados atuais:
 - menu aberto;
 - filtro ativo;
 - card oculto;
-- reveal animation.
+- reveal animation: `Reveal` (`src/components/ui/Reveal.tsx`) tem duas variantes — `section`
+  (padrão, blocos únicos de seção/hero: 600ms, `cubic-bezier(.16,1,.3,1)`, `translateY(26px)`) e
+  `card` (itens repetidos em grade, ex. cards de solução e passos de suporte: 220ms, mesma curva,
+  `translateY(14px)`). Usar `card` sempre que o mesmo efeito se repetir várias vezes na mesma tela;
+  `section` para blocos que aparecem uma única vez por seção. Sempre respeita
+  `prefers-reduced-motion` (ver `src/app/globals.css`).
 
 Estados obrigatórios futuros:
 
