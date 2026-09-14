@@ -6,13 +6,13 @@ total_tokens: 149769
 
 # Codebase Map
 
-> Maintained technical map. Last reviewed: 2026-09-07
+> Maintained technical map. Last full mapping: 2026-09-07. Manually refreshed 2026-09-14 (Fase 4 admin panel, Prisma/Postgres, and the Fase 5 public API — none of which existed at the last full mapping) — `total_files`/`total_tokens` above still reflect the 09/07 run, not this partial refresh; a full re-run of the mapping tool would be needed to update those two numbers accurately.
 >
 > Scope note: this map covers the FortSulSC project itself (root config/legacy site, `docs/`, `src/`, `tasks/`, static assets). It excludes `.agents/skills/**`, a vendored third-party `addyosmani/agent-skills` package (pinned by `skills-lock.json`) that is tooling, not project code.
 
 ## System Overview
 
-FortSulSC is **mid-migration**: a legacy static HTML/CSS/JS site (the current production baseline) is being ported, slice by slice, into a Next.js/React/TypeScript app. Both stacks currently run side by side in the same repo.
+FortSulSC is **mid-migration**: a legacy static HTML/CSS/JS site (still the production baseline for most of the public page) sits alongside a Next.js/React/TypeScript app that has grown well past the original WhatsApp-widget slice. The Next.js app now includes a **full administrative panel with CRUD** (Fase 4, formally closed 12/09/2026) backed by **Prisma + PostgreSQL**, plus the project's **first public dynamic API route** (Fase 5, in progress) serving a Leaflet-based representative map. Both the legacy static pages and the Next.js app still run side by side in the same repo.
 
 ```mermaid
 graph TB
@@ -28,26 +28,42 @@ graph TB
         HTML --> IMG
     end
 
-    subgraph Next.js app [Fase 2 — in progress]
+    subgraph Next.js public site
         LAYOUT[src/app/layout.tsx]
-        PAGE[src/app/page.tsx placeholder]
-        GLOBALS[src/app/globals.css Fatia 1]
-        WAPROVIDER[WhatsAppProvider]
-        WATRIGGER[WhatsAppTrigger]
-        WADIALOG[WhatsAppDialog]
-        WAFLOAT[FloatingWhatsApp]
-        WALIB[lib/whatsapp.ts constants]
+        PAGE[src/app/page.tsx real home, ported slice by slice]
+        GLOBALS[src/app/globals.css]
+        WAPROVIDER[WhatsAppProvider / Dialog / Trigger]
+        MAPPANEL[RepresentativeMapPanel Leaflet, Fase 5]
+        PUBAPI["GET /api/public/partners (only public API route)"]
         PUBIMG[public/image/ curated subset]
 
         LAYOUT --> PAGE
         PAGE --> WAPROVIDER
-        WAPROVIDER --> WADIALOG
-        WATRIGGER --> WAPROVIDER
-        WAFLOAT --> WATRIGGER
-        WADIALOG --> WALIB
+        PAGE --> MAPPANEL
+        MAPPANEL --> PUBAPI
         PAGE --> GLOBALS
         PAGE -.serves.-> PUBIMG
     end
+
+    subgraph Next.js admin panel [Fase 4 — closed, CRUD complete]
+        ADMINLOGIN["/admin/login — password + e-mail code (MFA)"]
+        ADMINSHELL[AdminShell / AdminSidebar]
+        ADMINROUTES["39 rotas /api/admin/** — products, categories, articles, banners, institutional-settings, partners, commercial-areas"]
+        AUTHGUARD["requireAdminRequest — session + RBAC ADMIN/EDITOR + same-origin"]
+
+        ADMINLOGIN --> AUTHGUARD
+        ADMINSHELL --> ADMINROUTES
+        ADMINROUTES --> AUTHGUARD
+    end
+
+    subgraph Data layer
+        PRISMA[Prisma Client]
+        PG[("PostgreSQL — Supabase today, VPS migration planned (docs/Proposta_Migracao_VPS.md)")]
+        PRISMA --> PG
+    end
+
+    PUBAPI --> PRISMA
+    ADMINROUTES --> PRISMA
 
     subgraph Governance
         MASTER[docs/PLANO_MESTRE_FORTSULSC.md]
@@ -57,11 +73,11 @@ graph TB
         CLAUDEMD -.defers to.-> MASTER
     end
 
-    JS -. behavioral spec ported to .-> WADIALOG
+    JS -. behavioral spec ported to .-> WAPROVIDER
     IMG -. curated subset copied to .-> PUBIMG
 ```
 
-Behind both stacks sits a strict documentation/governance layer (`docs/`) that gates anything beyond frontend work — no backend, database, auth, or CRUD may be implemented without Jose's explicit approval.
+Behind everything sits a strict documentation/governance layer (`docs/`) that gates anything beyond the approved scope — no new backend, database, auth, or business rule may be implemented without Jose's explicit approval, even now that the admin panel and Prisma/Postgres are real and in use. `docs/API.md` documents the real contract of all 40 routes.
 
 ## Directory Structure
 
@@ -76,11 +92,26 @@ FortSulSC/
 ├── CLAUDE.md, README.md                              # fast-entry agent/dev instructions (defer to Plano Mestre)
 ├── skills-lock.json                                  # lockfile for vendored agent-skills package
 ├── docs/                                              # governance, architecture, design-system, planning docs
+├── prisma/                                            # schema.prisma, migrations/, seed.ts, data/ (IBGE geography seed)
 ├── src/
-│   ├── app/                                           # Next.js App Router (layout, page, globals.css)
-│   ├── components/whatsapp/                           # React WhatsApp widget (provider/trigger/dialog/float)
-│   └── lib/                                           # shared constants (whatsapp.ts)
-├── tasks/                                             # plan.md / todo.md — Fase 2 execution tracking
+│   ├── app/
+│   │   ├── (public routes)                            # layout.tsx, page.tsx, globals.css — home + WhatsApp + map
+│   │   ├── admin/                                     # admin panel pages: login, dashboard, products/categories/
+│   │   │                                               # articles/banners/partners/commercial-areas/settings
+│   │   └── api/
+│   │       ├── admin/**                                # 39 rotas — CRUD administrativo, requireAdminRequest
+│   │       └── public/partners/                        # única rota pública dinâmica (Fase 5)
+│   ├── components/                                    # whatsapp/, admin/, representatives/, content/, sections/,
+│   │                                                   # solutions/, support/, about/, layout/, ui/
+│   └── lib/
+│       ├── auth/                                       # next-auth config, RBAC guard, rate-limit, e-mail sender
+│       ├── content/                                    # repositórios de domínio (products, partners, articles…)
+│       ├── db/                                         # Prisma client singleton
+│       ├── storage/                                    # ImageStorage trocável (local/r2/supabase)
+│       ├── security/                                   # security headers / CSP
+│       ├── audit/ e rbac/                               # AuditLog, checagem de papel
+│       └── logger.ts                                    # logger aprovado do projeto
+├── tasks/                                             # plan.md / todo.md — Fase 2 execution tracking (stale, see Gotchas)
 ├── image/                                             # full legacy asset library (source for static site)
 ├── public/image/                                      # curated WebP subset served by Next.js
 └── .agents/skills/                                    # vendored addyosmani/agent-skills package (not project code)
@@ -110,16 +141,16 @@ FortSulSC/
 
 **Known open item**: `index.html`'s "Novidades e dicas" section holds explicit test/placeholder content (flagged inline with `<!-- TESTE -->`, spec in `docs/PROMPT_CODEX_SECAO_NOVIDADES_E_DICAS.md`) — must be replaced before launch. Its solution-filter categories (`biomassa|fumageiro|equipamentos`) are also documented as **outdated**; the corrected set is `aviario|equipamentos|fumageiro|piscicultura|secadores` per `docs/PLANEJAMENTO_PROJETO.md`.
 
-### Next.js app (Fase 2 — in progress)
+### Next.js public site (home page, WhatsApp, representative map)
 
-**Purpose**: The new frontend. Currently only foundational plumbing plus the WhatsApp widget have been migrated; everything else (header, hero, solutions, etc.) still only exists in the legacy site.
+**Purpose**: The real public frontend. Unlike the state at the last full mapping (07/09/2026), the home page is no longer a placeholder — the legacy sections (hero, category strip, about, solutions, support, presence, "Novidades e dicas", footer) have all been ported, slice by slice (see `docs/COMPONENTS.md`, the canonical source for the current component inventory — not duplicated here to avoid drift). The two biggest additions since the last mapping are the **representative map** (`RepresentativeMapPanel`, Leaflet + `/api/public/partners`, Fase 5) and the underlying **admin panel + Prisma/Postgres** that now powers most of this content (see next subsection).
 **Entry point**: `src/app/layout.tsx` → `src/app/page.tsx`, served via `next dev`/`next build`/`next start`.
 
 | File | Purpose | Tokens |
 |------|---------|--------|
 | `src/app/layout.tsx` | Root layout (Server Component): metadata/viewport ported from `index.html`'s `<title>`/meta description | 151 |
-| `src/app/page.tsx` | Home route — explicit placeholder ("Fatia 1 da Tarefa 3"), not the real design yet | 199 |
-| `src/app/globals.css` | Design tokens + base reset + WhatsApp component styles only ("Fatia 1"); more slices land incrementally | 1,322 |
+| `src/app/page.tsx` | Real home route — composes the ported sections (Server Components fetching real data where applicable, e.g. `ContentSection`/articles, `BannerStrip`) | — |
+| `src/app/globals.css` | Design tokens + base reset; grows one "Fatia N" slice at a time as sections are ported | 1,322+ |
 | `src/lib/whatsapp.ts` | `WHATSAPP_PHONE_DISPLAY`, `WHATSAPP_PHONE_TEL`, `WHATSAPP_CHAT_URL` constants | 52 |
 | `src/components/whatsapp/WhatsAppProvider.tsx` | Context provider: `isOpen` state, `triggerRef`, `useWhatsApp()` hook, renders one shared dialog | 253 |
 | `src/components/whatsapp/WhatsAppTrigger.tsx` | Reusable button that calls `openDialog(event.currentTarget)` | 123 |
@@ -132,9 +163,28 @@ FortSulSC/
 | `vitest.config.ts` | jsdom env, `tsconfigPaths()` + `@vitejs/plugin-react`, setup file `vitest.setup.ts` | 73 |
 | `vitest.setup.ts` | RTL `afterEach(cleanup)` + `HTMLDialogElement.showModal/close` polyfill for jsdom | 206 |
 
-**Exports**: `WhatsAppProvider`, `useWhatsApp()`, `WhatsAppTrigger`, `WhatsAppDialog`, `FloatingWhatsApp`, WhatsApp constants.
-**Dependencies**: `next@^16.2.9`, `react`/`react-dom@^19.2.7`, Testing Library + Vitest (dev only). No ESLint configured yet (deliberately deferred).
-**Dependents**: `src/app/page.tsx` is the only current consumer of the WhatsApp components.
+**Exports**: `WhatsAppProvider`, `useWhatsApp()`, `WhatsAppTrigger`, `WhatsAppDialog`, `FloatingWhatsApp`, WhatsApp constants, plus every section component under `src/components/**` listed in `docs/COMPONENTS.md`.
+**Dependencies**: `next@^16.2.9`, `react`/`react-dom@^19.2.7`, `leaflet`/`react-leaflet` (representative map), Testing Library + Vitest, ESLint (`npm run lint`/`lint:types`) — configured and enforced, not deferred anymore.
+**Dependents**: `src/app/page.tsx` composes most of these; `RepresentativeMapPanel` additionally depends on `/api/public/partners`.
+
+### Next.js admin panel (Fase 4 — closed, CRUD complete) + data layer
+
+**Purpose**: `/admin/**` — authenticated, RBAC-protected panel for managing every piece of public content: products, categories, articles ("Novidades e dicas"), banners, institutional settings, partners/representantes/revendas, commercial areas and their linked municipalities. Backed by Prisma + PostgreSQL (Supabase today; VPS migration planned, `docs/Proposta_Migracao_VPS.md`).
+**Entry point**: `/admin/login` (password, then an e-mail code for MFA) → `src/app/admin/(dashboard)/layout.tsx` (redirects to login if `auth()` finds no session) → per-resource pages under `src/app/admin/**`.
+
+| Area | Where | Notes |
+|---|---|---|
+| Auth / session | `src/lib/auth/**` | `next-auth` config, `requireAdminRequest` (session + RBAC + same-origin guard for every mutating admin route), rate limiting (login attempts and `/api/public/partners`), e-mail sender for the MFA code (provider swappable via `EMAIL_PROVIDER`, `src/lib/auth/email-config.ts`) |
+| RBAC | `src/lib/rbac/` | Two roles: `ADMIN` (full access, including destructive actions and institutional settings) and `EDITOR` (everything else) |
+| Domain repositories | `src/lib/content/**` | One file per resource (`product-repository.ts`, `partner-repository.ts`, `partner-public-repository.ts`, `article-repository.ts`, `banner-repository.ts`, `commercial-area-repository.ts`, …); public-facing ones use explicit Prisma `select`, never `include` or a raw model |
+| Audit | `src/lib/audit/` | `AuditLog` — every sensitive admin mutation is recorded (`recordAuditEvent`) |
+| Storage | `src/lib/storage/` | `ImageStorage` — swappable adapter (`local`/`r2`/`supabase`) behind one contract, used for product/article/banner images and partner logos |
+| Admin routes | `src/app/api/admin/**` (39 routes) | See `docs/API.md` for the full grouped inventory (resource, methods, auth) |
+| Admin UI | `src/app/admin/**`, `src/components/admin/**` | `AdminShell`/`AdminSidebar` shell; one page per resource, following the CRUD pattern established in Fase 4 |
+| Database | `prisma/schema.prisma`, `prisma/migrations/`, `prisma/seed.ts` | Includes the IBGE Região Sul geography seed (`prisma/data/`) used by commercial areas/municipalities |
+
+**Dependencies**: `@prisma/client`, `next-auth@5.0.0-beta.32`, `bcryptjs`, `resend` (+ optionally `nodemailer` once the SMTP provider slice is merged — see `docs/PLANO_MESTRE_FORTSULSC.md` decision log), `aws4fetch` (R2 storage signing).
+**Dependents**: the public site consumes admin-authored content indirectly, always through a `*Public()`/public-repository function with an explicit field selection — never the admin repository directly.
 
 ### `public/image/` and `image/` (static assets)
 
@@ -152,7 +202,7 @@ FortSulSC/
 | `docs/PROMPT_COMUNICACAO_AGENTES.md` | Condensed, stable-rules-only handoff prompt for onboarding an agent mid-task. |
 | `docs/RULES.md` | Cross-phase technical/security/Git/naming/accessibility/SEO rules; the recovery-codes incident record (§12.1). |
 | `docs/ARCHITECTURE.md` | Current + fully-planned-future architecture and folder structure (aspirational, not an implementation mandate). |
-| `docs/API.md` | Preventive documentation standard for future APIs (none exist yet; explicitly does not authorize implementation). |
+| `docs/API.md` | Real contract of the 40 existing routes (grouped by resource), plus the documentation template for any **new** endpoint. Does not by itself authorize new routes or contract changes. |
 | `docs/COMPONENTS.md` | Current visual blocks → future React component map; the `WhatsAppDialog` a11y contract lives here. |
 | `docs/DESIGN-SYSTEM.md` | Design tokens/visual rules mirroring `styles.css`; visual changes need Jose's sign-off. |
 | `docs/CHECKLIST.md` | Cross-cutting quality checklist — includes the real, open Lighthouse performance gap (29 vs. target ≥90). |
@@ -252,16 +302,17 @@ From Fase 3 onward, step 1 must additionally ship a **code-based test contract**
 - **`preview.mjs` is security-sensitive hand-rolled code**: hardened against path traversal (iterative percent-decode, `..`-rejection, absolute-path rejection, realpath-based symlink-escape prevention) — `test-preview.mjs` exercises several encoded/double-encoded traversal payloads. Any edit to `preview.mjs` needs the same scrutiny.
 - **New worktrees require the recurrence playbook**: run `node scripts/bootstrap-preview-worktree.mjs` (plain Node, cross-platform) before Docker, Prisma, authentication, or visual tests. It validates that `next-env.d.ts` and the other build inputs are files, not directories, and `docs/WORKTREE_PREVIEW.md` records proven fixes for recurring clean-worktree, Prisma, database, and Windows/WSL failures.
 - **Prisma seed is explicit in the current worktree flow**: `prisma db seed` previously returned success without populating this stack in a clean isolated worktree. Use `npx tsx prisma/seed.ts` with an isolated `COMPOSE_PROJECT_NAME`, confirm the six categories, and run `npm run test:db` in that same Compose project. Treat older proposal snippets using `prisma db seed` as historical until revalidated.
-- **Never open** `recovery-codes-vercel-fortsul.txt` or any `.env`/token/credential/secret file — confirmed absent from published Git history but Vercel-side revocation confirmation from Jose is still pending (`docs/RULES.md` §12.1).
+- **Never open** `recovery-codes-vercel-fortsul.txt` or any `.env`/token/credential/secret file. Confirmed absent from published Git history; Jose confirmed on 30/08/2026 that the exposed codes are no longer valid — item closed (`PLANO_MESTRE_FORTSULSC.md` §0.2), the restriction on opening these file types stays permanent regardless (`CLAUDE.md` §13).
 - **Representative vs. Reseller are distinct concepts**, never used interchangeably, even in placeholder UI/copy (`docs/PLANEJAMENTO_PROJETO.md`).
 - **`image/` vs. `public/image/` are not full mirrors**: `public/image/` only contains the 15 WebP files actually referenced by the HTML (SHA-256-verified copies); legacy PNG originals and orphaned WebPs stay only in `image/`.
-- **Local branch is ahead of `origin/main`** (11 unpushed commits as of this mapping) — pushing requires the same dual-approval discipline as commits.
+- **Public API responses have no envelope**: unlike the `{ data, meta }` shape `docs/API.md` used to recommend, every real route returns the payload directly (an array/object on success, `{ error: "message" }` on failure) — see `docs/API.md` §5.3 for the corrected, verified-against-code convention.
+- **Each new slice/fatia works in its own git worktree**, never directly on `main` — `docs/WORKTREE_PREVIEW.md` has the bootstrap steps and a table of proven fixes for recurring worktree/Prisma/Docker/Git failures; consult it (and update it) before assuming a new failure needs a novel fix.
 
 ## Navigation Guide
 
 **To understand current project phase/what's authorized**: read `docs/PLANO_MESTRE_FORTSULSC.md` first — never infer phase/status from `CLAUDE.md` or any other doc.
 
-**To propose a new Fase 2 increment (e.g. next home-page slice)**: follow the pattern in `docs/Proposta_Tarefa_1A.md`/`1B.md`/`2.md` — technical proposal → Jose approval → Claude review → implementation + smoke tests → manual test list → dual approval → commit.
+**To propose a new increment (admin CRUD slice, public API change, or home-page slice)**: follow the two-layer approval workflow above — technical proposal (`docs/Proposta_Fase4_*.md`/`Proposta_Fase5_*.md` are the current, representative examples; `docs/Proposta_Tarefa_1A.md`/`1B.md`/`2.md` are the older Fase 2 precedents, same pattern) → Jose approval → Claude review → implementation + smoke tests → manual test list → dual approval → commit.
 
 **To modify the WhatsApp widget**: `src/components/whatsapp/` (`WhatsAppProvider.tsx` for state/focus logic, `WhatsAppDialog.tsx` for the modal itself, `WhatsAppTrigger.tsx`/`FloatingWhatsApp.tsx` for entry points, `src/lib/whatsapp.ts` for the phone/URL constants). Update both `WhatsAppDialog.test.tsx` and `whatsapp-flow.test.tsx` to match. Keep behavior in sync with the legacy spec in `script.js` until the legacy dialog is retired.
 

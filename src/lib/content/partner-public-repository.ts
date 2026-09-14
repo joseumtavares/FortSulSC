@@ -1,6 +1,17 @@
 import { prisma } from '@/lib/db/client'
 import { checkAndIncrementRateLimit, type RateLimitRule } from '@/lib/auth/rate-limit'
+import { logger } from '@/lib/logger'
 import type { SocialLinks } from './social-links'
+
+/**
+ * Rede de segurança, não paginação: nunca deveria ser atingido no uso real
+ * (rede de representantes regionais), só impede a resposta de crescer sem
+ * teto se o volume de dados um dia sair do esperado. Decisão de Jose em
+ * 14/09/2026 (`docs/Proposta_Fase5_Limite_Partners_Publicos.md`) — se o teto
+ * for atingido de verdade, é sinal para desenhar paginação/busca
+ * server-side de verdade, não para aumentar o número.
+ */
+const MAX_PUBLIC_PARTNERS = 500
 
 export type PublicPartner = {
   id: string
@@ -50,6 +61,7 @@ export async function listPublicPartners(): Promise<PublicPartner[]> {
 async function fetchPublicPartners(): Promise<PublicPartner[]> {
   const partners = await prisma.partner.findMany({
     where: { active: true },
+    take: MAX_PUBLIC_PARTNERS,
     select: {
       id: true,
       type: true,
@@ -71,6 +83,10 @@ async function fetchPublicPartners(): Promise<PublicPartner[]> {
     },
     orderBy: { name: 'asc' },
   })
+
+  if (partners.length === MAX_PUBLIC_PARTNERS) {
+    logger.error('public.partners_list_truncated', { limit: MAX_PUBLIC_PARTNERS })
+  }
 
   return partners.map(({ commercialAreas, socialLinks, ...partner }) => ({
     ...partner,

@@ -2,8 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const partnerMock = vi.hoisted(() => ({ findMany: vi.fn() }))
 const rateLimitMock = vi.hoisted(() => vi.fn())
+const loggerMock = vi.hoisted(() => ({ info: vi.fn(), error: vi.fn() }))
 vi.mock('@/lib/db/client', () => ({ prisma: { partner: partnerMock } }))
 vi.mock('@/lib/auth/rate-limit', () => ({ checkAndIncrementRateLimit: rateLimitMock }))
+vi.mock('@/lib/logger', () => ({ logger: loggerMock }))
 
 import { checkPublicPartnersRateLimit, listPublicPartners, resetPublicPartnersCacheForTests } from './partner-public-repository'
 
@@ -35,6 +37,7 @@ const rawPartner = {
 describe('listPublicPartners', () => {
   beforeEach(() => {
     resetPublicPartnersCacheForTests()
+    loggerMock.error.mockClear()
   })
 
   it('selects only public fields and only active partners', async () => {
@@ -75,6 +78,26 @@ describe('listPublicPartners', () => {
     partnerMock.findMany.mockResolvedValue([{ ...rawPartner, socialLinks: null }])
     const [result] = await listPublicPartners()
     expect(result.socialLinks).toBeNull()
+  })
+
+  it('limits the query to 500 partners (rede de segurança, não paginação)', async () => {
+    partnerMock.findMany.mockResolvedValue([rawPartner])
+    await listPublicPartners()
+    const call = partnerMock.findMany.mock.calls[0]?.[0]
+    expect(call.take).toBe(500)
+  })
+
+  it('logs a warning when the result hits the cap exactly, without truncating the response itself', async () => {
+    partnerMock.findMany.mockResolvedValue(Array.from({ length: 500 }, (_, i) => ({ ...rawPartner, id: `p${i}` })))
+    const result = await listPublicPartners()
+    expect(result).toHaveLength(500)
+    expect(loggerMock.error).toHaveBeenCalledWith('public.partners_list_truncated', { limit: 500 })
+  })
+
+  it('does not log when the result is below the cap', async () => {
+    partnerMock.findMany.mockResolvedValue([rawPartner])
+    await listPublicPartners()
+    expect(loggerMock.error).not.toHaveBeenCalled()
   })
 
   describe('cache de 2 minutos', () => {
