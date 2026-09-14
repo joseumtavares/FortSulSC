@@ -544,6 +544,14 @@ body.dialog-open { overflow: hidden; }
   .content-card-body { min-height: 0; padding: 19px; }
   .content-card-body h3 { font-size: 18px; }
   .content-article-dialog-content { padding: 32px 22px 26px; }
+  /* Um card por vez, centralizado — em vez de espiar o vizinho, evita
+     também o passo de rolagem "errar" o alinhamento e sobrar espaço vazio
+     no fim do carrossel. Padding lateral mantém os mesmos 54px do desktop
+     (globals.css, `.solution-carousel-track` base) — é exatamente o offset
+     (12px) + diâmetro (42px) de `.solution-carousel-control`; um valor
+     menor deixa a seta sobrepondo a borda do card. */
+  .solution-carousel-track { padding: 16px 54px; }
+  .solution-carousel-item { flex: 0 0 100%; scroll-snap-align: center; }
   .cta-section { padding-block: 70px; }
   .button-light { width: 100%; }
   .not-found { min-height: 520px; padding-block: 80px; }

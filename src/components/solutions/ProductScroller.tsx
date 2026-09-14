@@ -47,8 +47,17 @@ export function ProductScroller({ products, activeFilter }: ProductScrollerProps
     const track = trackRef.current
     if (!track) return
 
+    // Passo = largura real de um card + o gap do flex, não uma fração do
+    // contêiner: um passo aproximado podia "errar" o alinhamento do
+    // scroll-snap a cada clique e, depois de vários cliques, sobrar
+    // espaço vazio no fim do carrossel (nenhum card ali, só o final do
+    // scroll). Com o passo exato, cada clique sempre pousa em um card.
+    const item = track.querySelector<HTMLElement>('.solution-carousel-item')
+    const gap = parseFloat(getComputedStyle(track).columnGap || '0') || 0
+    const step = item ? item.offsetWidth + gap : track.clientWidth * .8
+
     track.scrollBy({
-      left: (direction === 'left' ? -1 : 1) * track.clientWidth * .8,
+      left: (direction === 'left' ? -1 : 1) * step,
       behavior: shouldReduceMotion ? 'auto' : 'smooth',
     })
   }
