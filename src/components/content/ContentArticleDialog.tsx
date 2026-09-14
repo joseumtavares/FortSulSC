@@ -77,6 +77,12 @@ export function ContentArticleDialog({
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const lastItemRef = useRef<ContentCardData | null>(null)
+  if (item) lastItemRef.current = item
+  // Mantém o último artigo renderizado enquanto o diálogo anima a saída (ver
+  // src/app/globals.css `.content-article-dialog`): `item` já virou null no
+  // clique de fechar, mas a caixa ainda leva ~220ms para sumir visualmente.
+  const displayItem = item ?? lastItemRef.current
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -150,7 +156,7 @@ export function ContentArticleDialog({
       onKeyDown={handleKeyDown}
       onClick={handleOverlayClick}
     >
-      {item && (
+      {displayItem && (
         <div className="content-article-dialog-content">
           <button
             ref={closeButtonRef}
@@ -163,10 +169,10 @@ export function ContentArticleDialog({
           </button>
 
           <div className="content-article-dialog-scroll">
-            <h2 id="content-article-dialog-title">{item.title}</h2>
-            <p className="content-article-dialog-body">{item.body}</p>
+            <h2 id="content-article-dialog-title">{displayItem.title}</h2>
+            <p className="content-article-dialog-body">{displayItem.body}</p>
 
-            <ArticleGalleryRotator key={item.id} gallery={item.gallery} />
+            <ArticleGalleryRotator key={displayItem.id} gallery={displayItem.gallery} />
           </div>
         </div>
       )}

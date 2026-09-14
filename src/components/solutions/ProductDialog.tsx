@@ -84,6 +84,12 @@ function ProductGalleryRotator({ gallery }: { gallery: SolutionGalleryImage[] })
 export function ProductDialog({ item, onClose }: { item: SolutionCardData | null; onClose: () => void }) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const lastItemRef = useRef<SolutionCardData | null>(null)
+  if (item) lastItemRef.current = item
+  // Mantém o último produto renderizado enquanto o diálogo anima a saída (ver
+  // src/app/globals.css `.content-article-dialog`): `item` já virou null no
+  // clique de fechar, mas a caixa ainda leva ~220ms para sumir visualmente.
+  const displayItem = item ?? lastItemRef.current
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -146,9 +152,9 @@ export function ProductDialog({ item, onClose }: { item: SolutionCardData | null
     }
   }
 
-  const gallery = item ? (item.heroImage ? [item.heroImage, ...item.gallery] : item.gallery) : []
-  const whatsappHref = item
-    ? appendProductUrlToWhatsAppLink(item.whatsappLink, `${window.location.origin}${window.location.pathname}?produto=${item.slug}`)
+  const gallery = displayItem ? (displayItem.heroImage ? [displayItem.heroImage, ...displayItem.gallery] : displayItem.gallery) : []
+  const whatsappHref = displayItem
+    ? appendProductUrlToWhatsAppLink(displayItem.whatsappLink, `${window.location.origin}${window.location.pathname}?produto=${displayItem.slug}`)
     : ''
 
   return (
@@ -160,31 +166,31 @@ export function ProductDialog({ item, onClose }: { item: SolutionCardData | null
       onKeyDown={handleKeyDown}
       onClick={handleOverlayClick}
     >
-      {item && (
+      {displayItem && (
         <div className="content-article-dialog-content">
           <button ref={closeButtonRef} type="button" className="content-article-dialog-close" aria-label="Fechar produto" onClick={() => dialogRef.current?.close()}>×</button>
 
           <div className="content-article-dialog-scroll">
-            {item.eyebrow && <span className="eyebrow">{item.eyebrow}</span>}
-            <h2 id="product-dialog-title">{item.name}</h2>
-            {item.shortDescription && <p className="content-article-dialog-body">{item.shortDescription}</p>}
-            {item.description && <p className="content-article-dialog-body">{item.description}</p>}
+            {displayItem.eyebrow && <span className="eyebrow">{displayItem.eyebrow}</span>}
+            <h2 id="product-dialog-title">{displayItem.name}</h2>
+            {displayItem.shortDescription && <p className="content-article-dialog-body">{displayItem.shortDescription}</p>}
+            {displayItem.description && <p className="content-article-dialog-body">{displayItem.description}</p>}
 
-            <ProductGalleryRotator key={item.id} gallery={gallery} />
+            <ProductGalleryRotator key={displayItem.id} gallery={gallery} />
 
-            {item.applications.length > 0 && (
+            {displayItem.applications.length > 0 && (
               <div className="product-dialog-section">
                 <h3>Aplicações</h3>
-                <ul>{item.applications.map((application) => <li key={application}>{application}</li>)}</ul>
+                <ul>{displayItem.applications.map((application) => <li key={application}>{application}</li>)}</ul>
               </div>
             )}
 
-            {item.specifications.length > 0 && (
+            {displayItem.specifications.length > 0 && (
               <div className="product-dialog-section">
                 <h3>Especificações</h3>
                 <table className="product-dialog-specs">
                   <tbody>
-                    {item.specifications.map((specification) => (
+                    {displayItem.specifications.map((specification) => (
                       <tr key={specification.label}><th scope="row">{specification.label}</th><td>{specification.value}</td></tr>
                     ))}
                   </tbody>
@@ -192,11 +198,11 @@ export function ProductDialog({ item, onClose }: { item: SolutionCardData | null
               </div>
             )}
 
-            {item.testimonials.length > 0 && (
+            {displayItem.testimonials.length > 0 && (
               <div className="product-dialog-section">
                 <h3>Depoimentos</h3>
                 <ul className="product-dialog-testimonials">
-                  {item.testimonials.map((testimonial) => (
+                  {displayItem.testimonials.map((testimonial) => (
                     <li key={testimonial.url}>
                       <a href={testimonial.url} target="_blank" rel="noopener noreferrer">
                         <PlatformIcon platform={testimonial.platform} />
@@ -209,7 +215,7 @@ export function ProductDialog({ item, onClose }: { item: SolutionCardData | null
             )}
 
             <div className="product-dialog-actions">
-              {item.catalogUrl && <a href={item.catalogUrl} target="_blank" rel="noopener noreferrer" className="button button-light">Baixar catálogo</a>}
+              {displayItem.catalogUrl && <a href={displayItem.catalogUrl} target="_blank" rel="noopener noreferrer" className="button button-light">Baixar catálogo</a>}
               <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="button button-dark">Saiba mais</a>
             </div>
           </div>
